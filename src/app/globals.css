@@ -3,31 +3,74 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --main-foreground: #f1faf0;
+  --main-color: #00bd72;
+  --secondary-color: #000000;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: var(--main-foreground);
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+.nav-item {
+  position: relative;
+}
+
+.nav-item:hover::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 50%;
+  height: 3px;
+  transform: translateX(-50%);
+  border-radius: 3px;
+  background-color: var(--main-color);
+}
+
+.nav-active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 50%;
+  height: 3px;
+  transform: translateX(-50%);
+  border-radius: 3px;
+  background-color: var(--main-color);
+}
+
+.animate-slide-right-looping {
+  animation: slide-right 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes slide-right {
+  0% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(10px);
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-screen-xl px-6 md:px-10 xl:px-6 mx-auto;
+  }
+
+  .bg-gradient-main {
+    @apply bg-gradient-to-tr from-myGreen1 to-myGreen2;
+  }
+
+  .bg-gradient-primary {
+    @apply bg-gradient-to-tr from-primary to-myGreen2;
   }
 }
