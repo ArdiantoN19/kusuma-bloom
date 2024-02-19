@@ -57,7 +57,7 @@ const Navbar: FunctionComponent = () => {
               Login <Heart size={16} fill="#FF0000" weight="fill" />
             </Link>
             <Link
-              href={"/signin"}
+              href={"/register"}
               className=" px-4 py-1.5 rounded-full bg-gradient-primary text-white shadow-sm border border-black btn-shadow flex items-center gap-x-1"
             >
               Register <FireSimple size={16} fill="orange" weight="fill" />
@@ -95,7 +95,7 @@ const Navbar: FunctionComponent = () => {
                     Login <Heart size={16} fill="#FF0000" weight="fill" />
                   </Link>
                   <Link
-                    href={"/signin"}
+                    href={"/register"}
                     className=" px-4 py-1.5 rounded-full bg-primary text-white shadow-sm border border-black btn-shadow flex items-center gap-x-1"
                   >
                     Register{" "}
