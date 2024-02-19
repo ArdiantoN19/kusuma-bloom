@@ -16,8 +16,9 @@ const config: Config = {
       colors: {
         primary: "#00bd72",
         secondary: "#000000",
-        myGreen1: "#f1faf0",
+        myGreen1: "#f7fff6",
         myGreen2: "#009865",
+        myOrange: "#f7bd55",
         muted: "#aaa",
       },
     },

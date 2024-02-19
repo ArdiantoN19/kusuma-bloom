@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --main-foreground: #f1faf0;
+  --main-foreground: #f7fff6;
   --main-color: #00bd72;
   --secondary-color: #000000;
 }
@@ -52,12 +52,34 @@ body {
   animation: slide-right 0.5s ease-in-out infinite alternate;
 }
 
+.btn-shadow {
+  box-shadow: 2px 3px 0px rgba(0, 0, 0, 1);
+}
+
+.btn-shadow:active {
+  transform: translate(2px, 3px);
+  box-shadow: none;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-in-out forwards;
+}
+
 @keyframes slide-right {
   0% {
     transform: translateX(5px);
   }
   100% {
     transform: translateX(10px);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
@@ -72,5 +94,9 @@ body {
 
   .bg-gradient-primary {
     @apply bg-gradient-to-tr from-primary to-myGreen2;
+  }
+
+  .line {
+    @apply w-full h-1 rounded-full bg-primary;
   }
 }
