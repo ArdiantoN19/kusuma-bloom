@@ -24,7 +24,7 @@ const Navbar: FunctionComponent = () => {
         <div className="container flex items-center justify-between">
           <Link
             href={"/"}
-            className="text-xl rounded-full text-primary font-semibold flex items-center gap-2"
+            className="text-xl rounded-full text-primary font-semibold flex items-center gap-2 py-3"
           >
             <Image
               src={"/images/logo-telaga-kusuma.png"}

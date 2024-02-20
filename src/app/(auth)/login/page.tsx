@@ -1,11 +1,11 @@
 "use client";
 
-import { userRegisterAction } from "@/lib/actions/authAction";
+// import { userRegisterAction } from "@/lib/actions/authAction";
 import { At, Password } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { useFormState } from "react-dom";
+// import { useFormState } from "react-dom";
 
 const Page = () => {
   // const [state, formAction] = useFormState(userRegisterAction, null);
@@ -15,8 +15,8 @@ const Page = () => {
       <div className="max-w-screen-lg mx-auto md:border rounded-xl md:shadow-xl p-6 md:p-8 flex items-center md:bg-white gap-10">
         <div className="w-1/2 hidden md:block">
           <Image
-            src="/images/Journey-amico.svg"
-            alt="Journey-amico"
+            src="/images/travel selfie-bro.svg"
+            alt="travel selfie-bro"
             width={500}
             height={500}
             className="w-full h-full object-cover"
@@ -33,12 +33,10 @@ const Page = () => {
             />{" "}
             Kusuma Bloom
           </div>
-          <h1 className="text-3xl font-bold mb-1">
-            Selamat Datang Pengguna Baru
-          </h1>
+          <h1 className="text-3xl font-bold mb-1">Selamat Datang Kembali</h1>
           <p className="text-muted text-xs mb-5">
-            Isikan semua data yang diperlukan, data Anda akan disimpan dan
-            dijamin kerahasiaanya
+            Mohon berikan email dan kata sandi Anda yang sudah terdaftar di
+            sistem kami.
           </p>
           {/* {state?.message && (
             <div className="bg-red-100 border border-red-400 p-4 text-red-400 text-xs rounded mb-4">
@@ -90,12 +88,12 @@ const Page = () => {
               type="submit"
               className="w-full py-3 mb-5 bg-gradient-primary text-white btn-shadow rounded-xl border border-black flex items-center gap-x-2 justify-center text-lg"
             >
-              REGISTER 🔥
+              LOGIN ❤️
             </button>
             <div className="text-center text-sm text-muted">
-              <p className="inline">Atau kamu sudah punya akun? </p>
-              <Link href={"/login"} className="text-primary hover:underline">
-                Login
+              <p className="inline">Belum punya akun? </p>
+              <Link href={"/register"} className="text-primary hover:underline">
+                Register
               </Link>
             </div>
           </form>

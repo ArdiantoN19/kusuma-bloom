@@ -9,7 +9,7 @@ const Footer = () => {
     <footer className="py-12 bg-gradient-primary">
       <div className="container">
         <div className="lg:w-4/5 xl:w-2/3 mx-auto">
-          <div className="grid grid-cols-1 w-full md:grid-cols-3 gap-4 p-2 rounded md:rounded-full bg-white shadow-sm border lg:py-3 mb-10 lg:mb-16">
+          <div className="grid grid-cols-1 w-full md:grid-cols-3 gap-4 p-2 rounded md:rounded-full bg-white shadow-sm border lg:py-3 mb-10 lg:mb-12">
             <div className="md:border-r lg:px-0 xl:px-5 lg:py-3 flex items-center md:justify-center gap-x-2">
               <MapPin size={35} className="text-primary" />
               <div>
@@ -61,7 +61,18 @@ const Footer = () => {
           </div>
           <div className="h-1 border-b my-5"></div>
           <div className="text-center text-sm text-white">
-            &copy;{new Date().getFullYear()} Kusuma Bloom. Alright Reserved
+            &copy;{new Date().getFullYear()} Kusuma Bloom. All Rights Reserved
+            <p className="text-sm">
+              Made with ❤️ by{" "}
+              <Link
+                href={"https://github.com/ArdiantoN19"}
+                className="hover:text-myOrange"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Ardianto
+              </Link>
+            </p>
           </div>
         </div>
       </div>
