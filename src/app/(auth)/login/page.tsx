@@ -1,14 +1,67 @@
 "use client";
 
-// import { userRegisterAction } from "@/lib/actions/authAction";
+import Alert, { AlertType } from "@/components/Alert";
+import { AuthValidator } from "@/lib/actions/authAction/validator";
+import { Circle } from "@phosphor-icons/react";
 import { At, Password } from "@phosphor-icons/react/dist/ssr";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-// import { useFormState } from "react-dom";
+import { useSearchParams } from "next/navigation";
+import React, { FormEvent, useCallback, useState } from "react";
+
+interface CustomFormEvent extends FormEvent<HTMLFormElement> {
+  currentTarget: HTMLFormElement & {
+    email: {
+      [index: string]: string;
+    };
+    password: Record<string, any>;
+  };
+}
 
 const Page = () => {
-  // const [state, formAction] = useFormState(userRegisterAction, null);
+  const [error, setError] = useState<Record<string, any>>({
+    message: "",
+    Error: {},
+  });
+  const [isLoading, setisLoading] = useState<boolean>(false);
+  const params = useSearchParams();
+
+  const onSubmitHandler = useCallback(
+    async (e: CustomFormEvent) => {
+      e.preventDefault();
+      const email = e.currentTarget.email.value;
+      const password = e.currentTarget.password.value;
+
+      setisLoading(true);
+      const validation = AuthValidator.LoginValidator({ email, password });
+      if (!validation.success) {
+        setError({
+          Error: validation.error.flatten().fieldErrors,
+          message: "",
+        });
+        setisLoading(false);
+        return;
+      }
+
+      try {
+        const res = await signIn("credentials", {
+          email,
+          password,
+          callbackUrl: params.get("callbackUrl") as string,
+          redirect: false,
+        });
+        if (!res?.ok) {
+          setError({ message: res?.error, Error: {} });
+        }
+      } catch (error: any) {
+        console.log(error);
+      } finally {
+        setisLoading(false);
+      }
+    },
+    [params]
+  );
 
   return (
     <div className="h-screen w-full bg-[url(/images/wave.svg)] bg-top bg-no-repeat grid place-items-center md:px-6 lg:px-20">
@@ -23,7 +76,10 @@ const Page = () => {
           />
         </div>
         <div className="w-full md:w-1/2">
-          <div className="text-xl text-primary font-semibold flex items-center gap-2 mb-5 md:mb-8">
+          <Link
+            href={"/"}
+            className="text-xl text-primary font-semibold flex items-center gap-2 mb-5 md:mb-8"
+          >
             <Image
               src={"/images/logo-telaga-kusuma.png"}
               width={32}
@@ -32,18 +88,16 @@ const Page = () => {
               className="w-7 h-7 object-cover"
             />{" "}
             Kusuma Bloom
-          </div>
+          </Link>
           <h1 className="text-3xl font-bold mb-1">Selamat Datang Kembali</h1>
           <p className="text-muted text-xs mb-5">
             Mohon berikan email dan kata sandi Anda yang sudah terdaftar di
             sistem kami.
           </p>
-          {/* {state?.message && (
-            <div className="bg-red-100 border border-red-400 p-4 text-red-400 text-xs rounded mb-4">
-              {state?.message}
-            </div>
-          )} */}
-          <form action={"/"}>
+          {error.message && (
+            <Alert type={AlertType.ERROR}>{error.message}</Alert>
+          )}
+          <form onSubmit={onSubmitHandler}>
             <div className="mb-3">
               <div className="w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary">
                 <div className="relative w-8 h-full">
@@ -60,9 +114,9 @@ const Page = () => {
                   className="w-full px-3 py-4 outline-none border-0 block "
                 />
               </div>
-              {/* <span className="text-red-400 text-xs">
-                {state?.Error?.email}
-              </span> */}
+              <span className="text-red-400 text-xs">
+                {error?.Error?.email}
+              </span>
             </div>
             <div className="mb-8">
               <div className="w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary">
@@ -80,15 +134,21 @@ const Page = () => {
                   className="w-full px-3 py-4 outline-none border-0 block "
                 />
               </div>
-              {/* <span className="text-red-400 text-xs">
-                {state?.Error?.password}
-              </span> */}
+              <span className="text-red-400 text-xs">
+                {error?.Error?.password}
+              </span>
             </div>
             <button
               type="submit"
-              className="w-full py-3 mb-5 bg-gradient-primary text-white btn-shadow rounded-xl border border-black flex items-center gap-x-2 justify-center text-lg"
+              disabled={isLoading}
+              className="w-full py-3 mb-5 bg-gradient-primary text-white btn-shadow rounded-xl border border-black flex items-center gap-x-2 justify-center text-lg disabled:brightness-75"
             >
-              LOGIN ❤️
+              LOGIN{" "}
+              {isLoading ? (
+                <Circle size={20} className="animate-pulse" />
+              ) : (
+                "❤️"
+              )}
             </button>
             <div className="text-center text-sm text-muted">
               <p className="inline">Belum punya akun? </p>

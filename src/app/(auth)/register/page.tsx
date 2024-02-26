@@ -1,7 +1,9 @@
 "use client";
 
+import Alert, { AlertType } from "@/components/Alert";
 import { userRegisterAction } from "@/lib/actions/authAction";
 import { At, Password, User } from "@phosphor-icons/react/dist/ssr";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { FunctionComponent } from "react";
@@ -23,7 +25,10 @@ const Page: FunctionComponent = () => {
           />
         </div>
         <div className="w-full md:w-1/2">
-          <div className="text-xl text-primary font-semibold flex items-center gap-2 mb-5 md:mb-8">
+          <Link
+            href={"/"}
+            className="text-xl text-primary font-semibold flex items-center gap-2 mb-5 md:mb-8"
+          >
             <Image
               src={"/images/logo-telaga-kusuma.png"}
               width={32}
@@ -32,7 +37,7 @@ const Page: FunctionComponent = () => {
               className="w-7 h-7 object-cover"
             />{" "}
             Kusuma Bloom
-          </div>
+          </Link>
           <h1 className="text-3xl font-bold mb-1">
             Selamat Datang Pengguna Baru
           </h1>
@@ -41,9 +46,7 @@ const Page: FunctionComponent = () => {
             dijamin kerahasiaanya
           </p>
           {state?.message && (
-            <div className="bg-red-100 border border-red-400 p-4 text-red-400 text-xs rounded mb-4">
-              {state?.message}
-            </div>
+            <Alert type={AlertType.ERROR}>{state.message}</Alert>
           )}
           <form action={formAction}>
             <div className="mb-3">
@@ -114,9 +117,12 @@ const Page: FunctionComponent = () => {
             </button>
             <div className="text-center text-sm text-muted">
               <p className="inline">Atau kamu sudah punya akun? </p>
-              <Link href={"/login"} className="text-primary hover:underline">
+              <button
+                onClick={() => signIn("credentials")}
+                className="text-primary hover:underline"
+              >
                 Login
-              </Link>
+              </button>
             </div>
           </form>
         </div>

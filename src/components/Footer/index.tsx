@@ -1,5 +1,13 @@
 import { rupiahFormatter } from "@/utils";
-import { MapPin, Ticket, Watch } from "@phosphor-icons/react/dist/ssr";
+import {
+  FacebookLogo,
+  InstagramLogo,
+  MapPin,
+  Ticket,
+  TiktokLogo,
+  Watch,
+  YoutubeLogo,
+} from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -8,23 +16,25 @@ const Footer = () => {
   return (
     <footer className="py-12 bg-gradient-primary">
       <div className="container">
-        <div className="lg:w-4/5 xl:w-2/3 mx-auto">
-          <div className="grid grid-cols-1 w-full md:grid-cols-3 gap-4 p-2 rounded md:rounded-full bg-white shadow-sm border lg:py-3 mb-10 lg:mb-12">
-            <div className="md:border-r lg:px-0 xl:px-5 lg:py-3 flex items-center md:justify-center gap-x-2">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 w-full md:grid-cols-3 p-2 rounded md:rounded-full bg-white shadow-sm border lg:py-5 mb-10 lg:mb-12 divide-x">
+            <div className="flex items-center md:justify-center gap-x-2">
               <MapPin size={35} className="text-primary" />
               <div>
                 <h5 className="font-bold">Lokasi</h5>
-                <p className="text-sm text-muted">Tunggulrejo, Jumantono</p>
+                <p className="text-sm text-muted">
+                  Tawun, Tunggulrejo, Jumantono, Karanganyar (57782)
+                </p>
               </div>
             </div>
-            <div className="md:border-r lg:px-0 xl:px-5 lg:py-3 flex items-center md:justify-center gap-x-2">
+            <div className="flex items-center md:justify-center gap-x-2">
               <Ticket size={35} className="text-primary" />
               <div>
                 <h5 className="font-bold">Harga Tiket</h5>
                 <p className="text-sm text-muted">{rupiahFormatter(15000)}</p>
               </div>
             </div>
-            <div className="lg:px-0 xl:px-5 lg:py-3 flex items-center md:justify-center gap-x-2">
+            <div className="flex items-center md:justify-center gap-x-2">
               <Watch size={35} className="text-primary" />
               <div>
                 <h5 className="font-bold">Jam Buka</h5>
@@ -32,7 +42,7 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8 md:items-center justify-center">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8 md:items-center justify-center mb-5">
             <Link
               href={"/"}
               className="text-xl rounded-full text-primary bg-white px-2.5 py-1 font-semibold flex items-center gap-2"
@@ -57,6 +67,53 @@ const Footer = () => {
             </Link>
             <Link href={"/about"} className="text-white hover:text-myOrange">
               Tentang Kami
+            </Link>
+          </div>
+          <div className="flex items-center gap-x-4 md:justify-center">
+            <Link
+              href={"https://www.instagram.com/telagakusuma"}
+              target="_blank"
+              rel="noferrer"
+              className="size-10 flex items-center justify-center "
+            >
+              <InstagramLogo
+                size={32}
+                className="text-white hover:text-myOrange"
+              />
+            </Link>
+
+            <Link
+              href={"https://www.tiktok.com/@telagakusuma"}
+              target="_blank"
+              rel="noferrer"
+              className="size-10 flex items-center justify-center "
+            >
+              <TiktokLogo
+                size={32}
+                className="text-white hover:text-myOrange"
+              />
+            </Link>
+            <Link
+              href={"https://www.youtube.com/channel/UC8Qmz-PB_DeqsCJw6bXfNxA"}
+              target="_blank"
+              rel="noferrer"
+              className="size-10 flex items-center justify-center "
+            >
+              <YoutubeLogo
+                size={32}
+                className="text-white hover:text-myOrange"
+              />
+            </Link>
+            <Link
+              href={"https://www.facebook.com/profile.php?id=100087398000356"}
+              target="_blank"
+              rel="noferrer"
+              className="size-10 flex items-center justify-center "
+            >
+              <FacebookLogo
+                size={32}
+                className="text-white hover:text-myOrange"
+              />
             </Link>
           </div>
           <div className="h-1 border-b my-5"></div>

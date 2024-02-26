@@ -16,7 +16,7 @@ const VendorSection: FunctionComponent = () => {
   // };
 
   return (
-    <section className="pt-16 pb-24">
+    <section className="pb-24">
       <div className="container">
         <div className="mb-16">
           <p className="tracking-wider text-lg text-center md:text-xl text-myOrange mb-2">

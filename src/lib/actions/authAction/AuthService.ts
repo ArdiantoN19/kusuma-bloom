@@ -1,12 +1,17 @@
 import prisma from "@/lib/prisma";
-import { IAuthService, PayloadRegisterType, ROLE } from "@/types/authAction";
+import {
+  IAuthService,
+  PayloadRegisterType,
+  ROLE,
+  UserType,
+} from "@/types/authAction";
 import { PrismaClient } from "@prisma/client";
 
 class AuthService implements IAuthService {
   constructor(private readonly prismaUser: PrismaClient["user"]) {}
 
   async checkAvailableEmail(email: string): Promise<any> {
-    const userEmail = await this.prismaUser.findFirst({
+    const userEmail = await this.prismaUser.findUnique({
       where: {
         email,
       },
@@ -36,18 +41,18 @@ class AuthService implements IAuthService {
     });
   }
 
-  async login({ email }: { email: string }): Promise<any> {
-    return await this.prismaUser.findFirst({
+  async login(email: string): Promise<any> {
+    const user = await this.prismaUser.findUnique({
       where: {
         email,
       },
     });
+
+    if (!user) {
+      throw new Error("Email atau password tidak valid");
+    }
+    return user as UserType;
   }
 }
 
 export const authService = new AuthService(prisma.user);
-// export const authService = {
-//   checkAvailableEmail(email: string) {
-//     console.log({ email });
-//   },
-// };

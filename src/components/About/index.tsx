@@ -26,16 +26,16 @@ const AboutSection = () => {
             keamanan transaksi dan data Anda.
           </p>
         </div>
-        <div className="mb-10 flex items-center gap-x-2 md:px-2">
-          <div className="pr-4 lg:pr-8 border-r border-muted text-center">
+        <div className="mb-10 flex items-center md:px-2 divide-x">
+          <div className=" border-muted text-center px-3 lg:px-5">
             <h4 className="font-semibold text-xl text-myOrange">100+</h4>
             <p className="text-black text-sm">Pengguna</p>
           </div>
-          <div className="px-4 lg:px-8 border-r border-muted text-center">
+          <div className="border-muted text-center px-3 lg:px-5">
             <h4 className="font-semibold text-xl text-myOrange">15+</h4>
             <p className="text-black text-sm">Fasilitas</p>
           </div>
-          <div className="pl-4 lg:pl-8 border-muted text-center">
+          <div className="border-muted text-center px-3 lg:px-5">
             <h4 className="font-semibold text-xl text-myOrange">20+</h4>
             <p className="text-black text-sm">Team Profesional</p>
           </div>
