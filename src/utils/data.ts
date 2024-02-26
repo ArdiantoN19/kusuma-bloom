@@ -114,3 +114,50 @@ export const testimonials: TestimonialType[] = [
     createdAt: "2024-02-18T14:32:22.447Z",
   },
 ];
+
+export const teams: Record<string, any>[] = [
+  {
+    id: 1,
+    name: "Ardianto",
+    role: "CEO",
+    image: "https://api.dicebear.com/7.x/lorelei/png?seed=Ardianto",
+    social: {
+      instagram: "https://www.instagram.com/ardi_19n/",
+      facebook: "https://www.facebook.com/ardianto",
+      email: "https://mail.google.com/mail/?view=cm&fs=1&to=4XqYz@example.com",
+    },
+  },
+  {
+    id: 2,
+    name: "Farah Salsabila",
+    role: "Sekretaris",
+    image: "https://api.dicebear.com/7.x/lorelei/png?seed=Farah",
+    social: {
+      instagram: "https://www.instagram.com/ardi_19n/",
+      facebook: "https://www.facebook.com/ardianto",
+      email: "https://mail.google.com/mail/?view=cm&fs=1&to=4XqYz@example.com",
+    },
+  },
+  {
+    id: 3,
+    name: "Keyla Wardani",
+    role: "Bendahara",
+    image: "https://api.dicebear.com/7.x/lorelei/png?seed=Keyla",
+    social: {
+      instagram: "https://www.instagram.com/ardi_19n/",
+      facebook: "https://www.facebook.com/ardianto",
+      email: "https://mail.google.com/mail/?view=cm&fs=1&to=4XqYz@example.com",
+    },
+  },
+  {
+    id: 4,
+    name: "Yudha Pratama",
+    role: "Product Manager",
+    image: "https://api.dicebear.com/7.x/lorelei/png?seed=Yudha",
+    social: {
+      instagram: "https://www.instagram.com/ardi_19n/",
+      facebook: "https://www.facebook.com/ardianto",
+      email: "https://mail.google.com/mail/?view=cm&fs=1&to=4XqYz@example.com",
+    },
+  },
+];

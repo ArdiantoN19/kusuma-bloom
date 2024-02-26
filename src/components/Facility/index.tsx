@@ -4,12 +4,13 @@ import React, { FunctionComponent } from "react";
 import FacilityCarousel from "./FacilityCarousel";
 import { facilities } from "@/utils/data";
 import { FacilityType } from "@/types/utils-data";
+import Link from "next/link";
 
 const FacilitySection: FunctionComponent = () => {
   return (
     <section className="">
       <div className="bg-gradient-primary w-full lg:w-3/4 py-16 lg:px-5 xl:px-0 relative lg:rounded-r">
-        <div className="max-w-4xl mx-auto px-10 lg:px-5">
+        <div className="max-w-4xl mx-auto px-6 lg:px-5">
           <p className="tracking-wider text-lg md:text-xl text-white mb-2">
             LIHAT FASILITAS KAMI
           </p>
@@ -43,14 +44,19 @@ const FacilitySection: FunctionComponent = () => {
               Lainnya...
             </div>
           </div>
-          <button className="flex items-center gap-x-2 p-1 bg-white border border-black shadow rounded-full pr-3 py-1 btn-shadow">
-            <ArrowRight
-              size={28}
-              weight="bold"
-              className="p-2 w-8 h-8 bg-gradient-primary text-white rounded-full"
-            />
-            Lihat lebih
-          </button>
+          <div className="flex">
+            <Link
+              href={"/facility"}
+              className="flex items-center gap-x-2 p-1 bg-white border border-black shadow rounded-full pr-3 py-1 btn-shadow"
+            >
+              <ArrowRight
+                size={28}
+                weight="bold"
+                className="p-2 w-8 h-8 bg-gradient-primary text-white rounded-full"
+              />
+              Lihat lebih
+            </Link>
+          </div>
         </div>
         <div className="lg:w-[26rem] xl:w-[30rem] hidden lg:block h-auto object-cover absolute top-1/2 -translate-y-1/2 -right-60 rounded shadow overflow-hidden">
           <FacilityCarousel />

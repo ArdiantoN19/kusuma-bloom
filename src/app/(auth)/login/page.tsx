@@ -73,6 +73,7 @@ const Page = () => {
             width={500}
             height={500}
             className="w-full h-full object-cover"
+            priority
           />
         </div>
         <div className="w-full md:w-1/2">

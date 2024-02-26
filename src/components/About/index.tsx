@@ -1,10 +1,20 @@
-import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
+"use client";
+
+import { ArrowRight } from "@phosphor-icons/react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const AboutSection = () => {
+  const pathname = usePathname();
+
   return (
-    <section className="py-12 lg:py-20 container flex items-center flex-col md:flex-row gap-2 md:gap-x-8">
+    <section
+      className={` container flex items-center flex-col md:flex-row gap-2 md:gap-x-8 ${
+        pathname !== "/about" ? "py-12 lg:py-16" : "my-5"
+      }`}
+    >
       <div className="w-full md:w-1/2">
         <p className="tracking-wider text-lg md:text-xl text-myOrange mb-2">
           TENTANG KAMI
@@ -40,14 +50,21 @@ const AboutSection = () => {
             <p className="text-black text-sm">Team Profesional</p>
           </div>
         </div>
-        <button className="hidden md:flex items-center gap-x-2 p-1 bg-white border border-black shadow rounded-full pr-3 py-1 btn-shadow">
-          <ArrowRight
-            size={28}
-            weight="bold"
-            className="p-2 w-8 h-8 bg-gradient-primary text-white rounded-full"
-          />
-          Lihat lebih
-        </button>
+        {pathname !== "/about" && (
+          <div className="flex">
+            <Link
+              href={"/about"}
+              className="hidden md:flex items-center gap-x-2 p-1 bg-white border border-black shadow rounded-full pr-3 py-1 btn-shadow"
+            >
+              <ArrowRight
+                size={28}
+                weight="bold"
+                className="p-2 w-8 h-8 bg-gradient-primary text-white rounded-full"
+              />
+              Lihat lebih
+            </Link>
+          </div>
+        )}
       </div>
       <div className="w-full md:w-1/2 flex flex-col md:flex-row lg:pr-10 justify-end xl:pr-36">
         <div className="w-full md:w-80 h-[27rem] relative mb-10 md:mb-0">

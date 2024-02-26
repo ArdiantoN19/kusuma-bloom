@@ -10,7 +10,7 @@ const ServiceSection: FunctionComponent = () => {
   return (
     <section className="py-12">
       <div className="container flex items-start flex-col lg:flex-row gap-x-10">
-        <div className="mb-16 w-full lg:w-2/5">
+        <div className="mb-5 w-full lg:w-2/5">
           <p className="tracking-wider text-lg md:text-xl text-myOrange mb-2">
             LAYANAN KAMI
           </p>
@@ -27,14 +27,6 @@ const ServiceSection: FunctionComponent = () => {
             Terjangkau, Keamanan yang Terjamin, dan Kemudahan yang Tidak
             Tertandingi!
           </p>
-          <button className="flex items-center gap-x-2 p-1 bg-white border border-black shadow rounded-full pr-3 py-1 btn-shadow">
-            <ArrowRight
-              size={28}
-              weight="bold"
-              className="p-2 w-8 h-8 bg-gradient-primary text-white rounded-full"
-            />
-            Lihat lebih
-          </button>
         </div>
         <div className="w-full lg:w-3/5 grid grid-cols-2 md:grid-cols-3 gap-y-4 md:gap-y-0">
           <div className="p-2 xl:p-5 flex flex-col items-center text-center">

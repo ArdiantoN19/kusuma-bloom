@@ -6,6 +6,7 @@ import {
   Ticket,
   TiktokLogo,
   Watch,
+  WhatsappLogo,
   YoutubeLogo,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
@@ -17,7 +18,7 @@ const Footer = () => {
     <footer className="py-12 bg-gradient-primary">
       <div className="container">
         <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 w-full md:grid-cols-3 p-2 rounded md:rounded-full bg-white shadow-sm border lg:py-5 mb-10 lg:mb-12 divide-x">
+          <div className="grid grid-cols-1 w-full md:grid-cols-3 p-2 rounded md:rounded-full bg-white shadow-sm border lg:py-5 mb-10 lg:mb-12 md:divide-x">
             <div className="flex items-center md:justify-center gap-x-2">
               <MapPin size={35} className="text-primary" />
               <div>
@@ -74,7 +75,8 @@ const Footer = () => {
               href={"https://www.instagram.com/telagakusuma"}
               target="_blank"
               rel="noferrer"
-              className="size-10 flex items-center justify-center "
+              className="size-10 flex items-center justify-center"
+              title="Instagram"
             >
               <InstagramLogo
                 size={32}
@@ -87,6 +89,7 @@ const Footer = () => {
               target="_blank"
               rel="noferrer"
               className="size-10 flex items-center justify-center "
+              title="Tiktok"
             >
               <TiktokLogo
                 size={32}
@@ -98,6 +101,7 @@ const Footer = () => {
               target="_blank"
               rel="noferrer"
               className="size-10 flex items-center justify-center "
+              title="Youtube"
             >
               <YoutubeLogo
                 size={32}
@@ -108,9 +112,22 @@ const Footer = () => {
               href={"https://www.facebook.com/profile.php?id=100087398000356"}
               target="_blank"
               rel="noferrer"
-              className="size-10 flex items-center justify-center "
+              className="size-10 flex items-center justify-center"
+              title="Facebook"
             >
               <FacebookLogo
+                size={32}
+                className="text-white hover:text-myOrange"
+              />
+            </Link>
+            <Link
+              href={"https://wa.me/message/YVK2R3IRWEMPD1"}
+              target="_blank"
+              rel="noferrer"
+              className="size-10 flex items-center justify-center "
+              title="Whatsapp"
+            >
+              <WhatsappLogo
                 size={32}
                 className="text-white hover:text-myOrange"
               />
