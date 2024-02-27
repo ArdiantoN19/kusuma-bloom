@@ -40,7 +40,7 @@ const HeroSection: FunctionComponent = () => {
             <ArrowRight
               size={24}
               weight="bold"
-              className="animate-slide-right-looping w-8 h-8 p-2 rounded-full bg-white text-primary"
+              className="animate-slide-right w-8 h-8 p-2 rounded-full bg-white text-primary"
             />
           </button>
         </div>

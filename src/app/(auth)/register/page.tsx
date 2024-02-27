@@ -121,6 +121,7 @@ const Page: FunctionComponent = () => {
               <button
                 onClick={() => signIn("credentials")}
                 className="text-primary hover:underline"
+                type="button"
               >
                 Login
               </button>

@@ -7,7 +7,7 @@ import { At, Password } from "@phosphor-icons/react/dist/ssr";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { FormEvent, useCallback, useState } from "react";
 
 interface CustomFormEvent extends FormEvent<HTMLFormElement> {
@@ -26,6 +26,7 @@ const Page = () => {
   });
   const [isLoading, setisLoading] = useState<boolean>(false);
   const params = useSearchParams();
+  const router = useRouter();
 
   const onSubmitHandler = useCallback(
     async (e: CustomFormEvent) => {
@@ -53,14 +54,20 @@ const Page = () => {
         });
         if (!res?.ok) {
           setError({ message: res?.error, Error: {} });
+          return;
         }
+        if (params.get("callbackUrl")?.includes("register")) {
+          router.push("/user/dashboard");
+          return;
+        }
+        router.push(params.get("callbackUrl") as string);
       } catch (error: any) {
         console.log(error);
       } finally {
         setisLoading(false);
       }
     },
-    [params]
+    [params, router]
   );
 
   return (

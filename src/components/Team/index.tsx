@@ -4,7 +4,7 @@ import TeamItem from "./TeamItem";
 
 const TeamSection = () => {
   return (
-    <section className="mb-28 mt-5">
+    <section className="mb-28 mt-5 lg:mt-10">
       <div className="container">
         <div className="mb-16">
           <p className="tracking-wider text-lg text-center md:text-xl text-myOrange mb-2">

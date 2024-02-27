@@ -2,12 +2,30 @@
 
 import React, { FunctionComponent, useEffect, useRef } from "react";
 import Link from "next/link";
-import { FireSimple, Heart, List, X } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
-import { signIn } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { Button } from "../ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import {
+  SignOut,
+  User,
+  FireSimple,
+  Heart,
+  List,
+  X,
+} from "@phosphor-icons/react";
 
 const Navbar: FunctionComponent = () => {
+  const { data: session } = useSession();
   const pathname = usePathname();
   const [offsetY, setOffsetY] = React.useState(0);
   const handleScroll = () => setOffsetY(window.scrollY);
@@ -76,18 +94,86 @@ const Navbar: FunctionComponent = () => {
             </li>
           </ul>
           <div className="hidden lg:flex items-center gap-x-2">
-            <button
-              onClick={() => signIn("credentials")}
-              className="bg-transparent px-4 py-1.5 border border-primary rounded-full shadow-sm flex items-center gap-x-1"
-            >
-              Login <Heart size={16} fill="#FF0000" weight="fill" />
-            </button>
-            <Link
-              href={"/register"}
-              className=" px-4 py-1.5 rounded-full bg-gradient-primary text-white shadow-sm border border-black btn-shadow flex items-center gap-x-1"
-            >
-              Register <FireSimple size={16} fill="orange" weight="fill" />
-            </Link>
+            {session?.user ? (
+              <>
+                <Button
+                  asChild
+                  className="bg-gradient-primary rounded-full btn-shadow border border-black"
+                >
+                  <Link
+                    href={
+                      session.user.role === "ADMIN"
+                        ? "/admin/dashboard"
+                        : "/user/dashboard"
+                    }
+                  >
+                    Dashboard
+                  </Link>
+                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <Avatar>
+                      <AvatarImage src={session?.user.image as string} />
+                      <AvatarFallback>
+                        {session.user.name?.slice(2)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>
+                      Hello, {session.user.name}
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                      <Link
+                        href={"/user/profile"}
+                        className="flex items-center gap-1"
+                      >
+                        <User size={16} /> Profile
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <button
+                        onClick={() => signOut()}
+                        className="flex items-center gap-1"
+                      >
+                        <SignOut size={16} />
+                        Logout
+                      </button>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            ) : (
+              <>
+                <Button
+                  onClick={() => signIn("credentials")}
+                  className="bg-transparent text-base border border-primary rounded-full shadow-sm text-primary"
+                >
+                  Login{" "}
+                  <Heart
+                    size={16}
+                    fill="#FF0000"
+                    weight="fill"
+                    className="ml-1"
+                  />
+                </Button>
+                <Button
+                  asChild
+                  className="rounded-full text-base bg-gradient-primary text-white border border-black btn-shadow"
+                >
+                  <Link href={"/register"}>
+                    Register{" "}
+                    <FireSimple
+                      size={16}
+                      fill="orange"
+                      weight="fill"
+                      className="ml-1"
+                    />
+                  </Link>
+                </Button>
+              </>
+            )}
           </div>
           <div className="relative lg:hidden">
             <input
@@ -140,19 +226,78 @@ const Navbar: FunctionComponent = () => {
                   </li>
                 </ul>
                 <div className="flex items-center gap-x-2">
-                  <button
-                    onClick={() => signIn("credentials")}
-                    className="bg-transparent px-4 py-1.5 border border-primary rounded-full shadow-sm flex items-center gap-x-1"
-                  >
-                    Login <Heart size={16} fill="#FF0000" weight="fill" />
-                  </button>
-                  <Link
-                    href={"/register"}
-                    className=" px-4 py-1.5 rounded-full bg-primary text-white shadow-sm border border-black btn-shadow flex items-center gap-x-1"
-                  >
-                    Register{" "}
-                    <FireSimple size={16} fill="orange" weight="fill" />
-                  </Link>
+                  {session?.user ? (
+                    <>
+                      <Button
+                        asChild
+                        className="bg-gradient-primary rounded-full btn-shadow border border-black"
+                      >
+                        <Link href={"/user/dashboard"}>Dashboard</Link>
+                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger>
+                          <Avatar>
+                            <AvatarImage src={session?.user.image as string} />
+                            <AvatarFallback>
+                              {session.user.name?.slice(2)}
+                            </AvatarFallback>
+                          </Avatar>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <DropdownMenuLabel>
+                            Hello, {session.user.name}
+                          </DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem>
+                            <Link
+                              href={"/user/profile"}
+                              className="flex items-center gap-1"
+                            >
+                              <User size={16} /> Profile
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <button
+                              onClick={() => signOut()}
+                              className="flex items-center gap-1"
+                            >
+                              <SignOut size={16} />
+                              Logout
+                            </button>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        onClick={() => signIn("credentials")}
+                        className="bg-transparent text-base border border-primary rounded-full shadow-sm text-primary"
+                      >
+                        Login{" "}
+                        <Heart
+                          size={16}
+                          fill="#FF0000"
+                          weight="fill"
+                          className="ml-1"
+                        />
+                      </Button>
+                      <Button
+                        asChild
+                        className="rounded-full text-base bg-gradient-primary text-white border border-black btn-shadow"
+                      >
+                        <Link href={"/register"}>
+                          Register{" "}
+                          <FireSimple
+                            size={16}
+                            fill="orange"
+                            weight="fill"
+                            className="ml-1"
+                          />
+                        </Link>
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

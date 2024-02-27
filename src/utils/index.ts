@@ -14,3 +14,17 @@ export const dateFormatter = (dateString: string) => {
   });
   return formatter.format(date);
 };
+
+export const startWithRequirePath = (requirePaths: string[], path: string) => {
+  return requirePaths.some((pattern) => {
+    if (pattern.endsWith("**")) {
+      const prefix = pattern.slice(0, -2);
+      return path.startsWith(prefix);
+    } else {
+      return (
+        path === pattern ||
+        (path.startsWith(pattern) && path[pattern.length] === "/")
+      );
+    }
+  });
+};

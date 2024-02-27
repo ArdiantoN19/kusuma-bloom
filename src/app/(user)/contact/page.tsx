@@ -4,7 +4,7 @@ import React from "react";
 
 const Page = () => {
   return (
-    <section className="mb-28 mt-5">
+    <section className="mb-28 mt-5 lg:mt-10">
       <div className="container flex items-start flex-col-reverse lg:flex-row gap-x-10">
         <div className="mb-5 w-full lg:w-1/2">
           <p className="tracking-wider text-lg md:text-xl text-myOrange mb-2">

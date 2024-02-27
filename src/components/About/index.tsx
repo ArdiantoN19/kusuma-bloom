@@ -12,7 +12,7 @@ const AboutSection = () => {
   return (
     <section
       className={` container flex items-center flex-col md:flex-row gap-2 md:gap-x-8 ${
-        pathname !== "/about" ? "py-12 lg:py-16" : "my-5"
+        pathname !== "/about" ? "py-12 lg:py-16" : "my-5 lg:mt-10 lg:mb-20"
       }`}
     >
       <div className="w-full md:w-1/2">

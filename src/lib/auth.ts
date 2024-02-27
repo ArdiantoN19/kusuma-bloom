@@ -29,6 +29,7 @@ export const authOptions: NextAuthOptions = {
             password,
             user.password as string
           );
+
           if (!comparePassword) {
             throw new Error("Email atau password tidak valid");
           }
@@ -42,17 +43,29 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
   session: {
     strategy: "jwt",
-    maxAge: 24 * 60 * 60,
+    maxAge: Number(process.env.NEXTAUTH_MAX_AGE_TOKEN),
   },
   secret: process.env.NEXTAUTH_SECRET,
   jwt: {
-    maxAge: 24 * 60 * 60,
+    maxAge: Number(process.env.NEXTAUTH_MAX_AGE_TOKEN),
   },
   callbacks: {
-    async jwt({ token }) {
+    async jwt({ token, user }) {
+      if (user) {
+        token.userId = user.id;
+        token.role = user.role;
+      }
       return token;
     },
-    async session({ token, session, user }) {
+    async session({ token, session }) {
+      if (session.user) {
+        if ("role" in token) {
+          session.user.role = token.role;
+        }
+        if ("userId" in token) {
+          session.user.userId = token.userId;
+        }
+      }
       return session;
     },
   },
@@ -63,4 +76,6 @@ export const authOptions: NextAuthOptions = {
 
 export const nextAuth = NextAuth(authOptions);
 
-export const getAuthServerSession = () => getServerSession(authOptions);
+export const getAuthServerSession = async () => {
+  return await getServerSession(authOptions);
+};
