@@ -1,6 +1,12 @@
 import { At, MapPin, Phone } from "@phosphor-icons/react/dist/ssr";
+import { Metadata } from "next";
 import Image from "next/image";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Kontak Kami",
+  description: "contact us page of kusuma bloom",
+};
 
 const Page = () => {
   return (

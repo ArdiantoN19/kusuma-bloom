@@ -29,5 +29,11 @@ export const userRegisterAction = async (
     return { message: error.message };
   }
 
-  redirect("/login");
+  const url = new URL("/login", process.env.NEXT_PUBLIC_BASE_URL);
+  url.searchParams.set(
+    "callbackUrl",
+    encodeURI(`${process.env.NEXT_PUBLIC_BASE_URL}/user/dashboard`)
+  );
+
+  redirect(url.toString());
 };

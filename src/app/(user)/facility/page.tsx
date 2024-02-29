@@ -1,6 +1,12 @@
 import { ArrowUpRight, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import { Metadata } from "next";
 import Image from "next/image";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Fasilitas",
+  description: "facility page of kusuma bloom",
+};
 
 const Page = () => {
   return (
