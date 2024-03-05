@@ -54,6 +54,7 @@ model User {
   updated_at    DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
+  tickets       Ticket[]
 
 
   @@map("users")
@@ -66,4 +67,21 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Ticket {
+  id          String    @id @default(cuid())
+  name        String
+  quantity    Int
+  price       Int
+  status      Boolean   @default(false)
+  fromDate    DateTime
+  toDate      DateTime
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+
+  @@unique([fromDate, toDate])
+  @@map("tickets")
 }

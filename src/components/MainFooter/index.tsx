@@ -1,10 +1,4 @@
-import {
-  FacebookLogo,
-  InstagramLogo,
-  TiktokLogo,
-  WhatsappLogo,
-  YoutubeLogo,
-} from "@phosphor-icons/react/dist/ssr";
+import { socials } from "@/utils/data";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -32,51 +26,18 @@ const MainFooter = () => {
             </div>
           </div>
           <div className="flex gap-2 items-center p-0.5 text-muted-foreground">
-            <Link
-              href={"https://www.instagram.com/telagakusuma"}
-              target="_blank"
-              rel="noferrer"
-              className="hover:text-primary"
-              title="Instagram"
-            >
-              <InstagramLogo size={26} />
-            </Link>
-            <Link
-              href={"https://www.tiktok.com/@telagakusuma"}
-              target="_blank"
-              rel="noferrer"
-              className="hover:text-primary"
-              title="Tiktok"
-            >
-              <TiktokLogo size={26} />
-            </Link>
-            <Link
-              href={"https://www.youtube.com/channel/UC8Qmz-PB_DeqsCJw6bXfNxA"}
-              target="_blank"
-              rel="noferrer"
-              className="hover:text-primary"
-              title="Youtube"
-            >
-              <YoutubeLogo size={26} />
-            </Link>
-            <Link
-              href={"https://www.facebook.com/telaga.kusuma"}
-              target="_blank"
-              rel="noferrer"
-              className="hover:text-primary"
-              title="Facebook"
-            >
-              <FacebookLogo size={26} />
-            </Link>
-            <Link
-              href={"https://wa.me/message/YVK2R3IRWEMPD1"}
-              target="_blank"
-              rel="noferrer"
-              className="hover:text-primary"
-              title="Whatsapp"
-            >
-              <WhatsappLogo size={26} />
-            </Link>
+            {socials.map((social) => (
+              <Link
+                key={social.name}
+                href={social.url}
+                target="_blank"
+                rel="noferrer"
+                className="hover:text-primary"
+                title={social.name}
+              >
+                {<social.icon size={26} />}
+              </Link>
+            ))}
           </div>
         </div>
         <div className="text-sm text-end">

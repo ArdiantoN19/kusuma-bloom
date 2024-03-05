@@ -28,7 +28,7 @@ const AdminLayout: FunctionComponent<AdminLayoutProps> = ({
           </div>
         </header>
       </div>
-      <main className="container pb-10">
+      <main className="container pt-6 pb-10">
         {children}
         {modal}
       </main>

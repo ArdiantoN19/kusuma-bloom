@@ -1,4 +1,5 @@
 import { rupiahFormatter } from "@/utils";
+import { socials } from "@/utils/data";
 import {
   FacebookLogo,
   InstagramLogo,
@@ -71,67 +72,23 @@ const Footer = () => {
             </Link>
           </div>
           <div className="flex items-center gap-x-4 md:justify-center">
-            <Link
-              href={"https://www.instagram.com/telagakusuma"}
-              target="_blank"
-              rel="noferrer"
-              className="size-10 flex items-center justify-center"
-              title="Instagram"
-            >
-              <InstagramLogo
-                size={32}
-                className="text-white hover:text-myOrange"
-              />
-            </Link>
-
-            <Link
-              href={"https://www.tiktok.com/@telagakusuma"}
-              target="_blank"
-              rel="noferrer"
-              className="size-10 flex items-center justify-center "
-              title="Tiktok"
-            >
-              <TiktokLogo
-                size={32}
-                className="text-white hover:text-myOrange"
-              />
-            </Link>
-            <Link
-              href={"https://www.youtube.com/channel/UC8Qmz-PB_DeqsCJw6bXfNxA"}
-              target="_blank"
-              rel="noferrer"
-              className="size-10 flex items-center justify-center "
-              title="Youtube"
-            >
-              <YoutubeLogo
-                size={32}
-                className="text-white hover:text-myOrange"
-              />
-            </Link>
-            <Link
-              href={"https://www.facebook.com/profile.php?id=100087398000356"}
-              target="_blank"
-              rel="noferrer"
-              className="size-10 flex items-center justify-center"
-              title="Facebook"
-            >
-              <FacebookLogo
-                size={32}
-                className="text-white hover:text-myOrange"
-              />
-            </Link>
-            <Link
-              href={"https://wa.me/message/YVK2R3IRWEMPD1"}
-              target="_blank"
-              rel="noferrer"
-              className="size-10 flex items-center justify-center "
-              title="Whatsapp"
-            >
-              <WhatsappLogo
-                size={32}
-                className="text-white hover:text-myOrange"
-              />
-            </Link>
+            {socials.map((social) => (
+              <Link
+                key={social.name}
+                href={social.url}
+                target="_blank"
+                rel="noferrer"
+                className="size-10 flex items-center justify-center"
+                title={social.name}
+              >
+                {
+                  <social.icon
+                    size={32}
+                    className="text-white hover:text-myOrange"
+                  />
+                }
+              </Link>
+            ))}
           </div>
           <div className="h-1 border-b my-5"></div>
           <div className="text-center text-sm text-white">

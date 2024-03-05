@@ -19,7 +19,7 @@ const Modal: FunctionComponent<ModalProps> = ({ children }) => {
   return (
     <>
       <div
-        className="fixed z-50 top-0 left-0 w-full h-screen backdrop-blur bg-black/70"
+        className="fixed z-50 top-0 left-0 w-full h-screen backdrop-blur bg-black/80"
         onClick={onDismissModal}
       ></div>
       <div className="fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
