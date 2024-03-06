@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
+  Table as ReactTable,
   VisibilityState,
   flexRender,
   getCoreRowModel,
@@ -24,9 +25,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { Files } from "@phosphor-icons/react";
-import { DataTableToolbar } from "./DataTableToolbar";
 import { DataTablePagination } from "./DataTablePagination";
-import { ColumnFilter } from "./Table/ColumnFilter";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -66,7 +65,6 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
       <div className="rounded-md border bg-white shadow-sm">
         <Table>
           <TableHeader>

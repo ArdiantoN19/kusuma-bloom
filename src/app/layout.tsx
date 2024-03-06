@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className={poppins.className}>
         <NextAuthProvider>
           {children}
-          <Toaster richColors />
+          <Toaster position="top-center" richColors />
         </NextAuthProvider>
       </body>
     </html>

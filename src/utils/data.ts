@@ -247,3 +247,16 @@ export const months: { id: number; name: string }[] = [
     name: "Desember",
   },
 ];
+
+export const dataColors: Record<number, string> = {
+  1: "#f87171",
+  2: "#4ade80",
+  3: "#a3e635",
+  4: "#2dd4bf",
+  5: "#22d3ee",
+  6: "#818cf8",
+  7: "#e879f9",
+  8: "#f472b6",
+  9: "#fbbf24",
+  10: "#94a3b8",
+};

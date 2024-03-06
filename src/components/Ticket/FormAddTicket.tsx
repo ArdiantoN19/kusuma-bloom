@@ -47,11 +47,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { useRouter } from "next/navigation";
 
 const FormAddTicket = () => {
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof validator.FormAddTicketSchema>>({
     resolver: zodResolver(validator.FormAddTicketSchema),
@@ -101,6 +103,7 @@ const FormAddTicket = () => {
       setOpenDialog((prev) => !prev);
       onFormReset();
       toast.success(message);
+      router.refresh();
     } else {
       toast.error(message);
     }
@@ -188,11 +191,11 @@ const FormAddTicket = () => {
                           {field.value?.from ? (
                             field.value.to ? (
                               <>
-                                {format(field.value.from, "LLL dd, y")} -{" "}
-                                {format(field.value.to, "LLL dd, y")}
+                                {format(field.value.from, "eee, dd LLL y")} -{" "}
+                                {format(field.value.to, "eee, dd LLL y")}
                               </>
                             ) : (
-                              format(field.value.from, "LLL dd, y")
+                              format(field.value.from, "eee, dd LLL y")
                             )
                           ) : (
                             <span>Pilih range tanggal</span>

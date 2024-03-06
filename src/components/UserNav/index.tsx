@@ -41,13 +41,16 @@ const UserNav = () => {
                 ? "/admin/profile"
                 : "/user/profile"
             }
-            className="flex items-center gap-1"
+            className="flex items-center gap-1 w-full"
           >
             <User size={16} /> Profile
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <button onClick={() => signOut()} className="flex items-center gap-1">
+          <button
+            onClick={() => signOut()}
+            className="flex items-center gap-1 w-full"
+          >
             <SignOut size={16} />
             Logout
           </button>

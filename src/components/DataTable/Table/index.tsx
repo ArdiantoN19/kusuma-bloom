@@ -6,7 +6,7 @@ import { z } from "zod";
 import { TaskSchema, columns } from "./Columns";
 import { DataTable } from "@/components/DataTable";
 
-const getTasks = async () => {
+export const getTasks = async () => {
   const data = await fs.readFile(
     path.join(process.cwd(), "src/components/DataTable/Table/tasks.json")
   );
@@ -15,7 +15,7 @@ const getTasks = async () => {
   return tasks;
 };
 
-export default async function TicketTable() {
+export default async function TaskTable() {
   const tasks = await getTasks();
 
   return <DataTable data={tasks} columns={columns} />;

@@ -16,13 +16,17 @@ export type PayloadCheckAvailableTicketByDate = {
 export type ResponseTicketAction = {
   status: string;
   message: string;
-  data?: Record<string, any>[] | Record<string, any> | null;
+  data?: any;
 };
 
 export type ResponseTicket = {
   id: string;
   created_at: Date;
   updated_at: Date;
+  user: {
+    name: string | null;
+    image: string | null;
+  };
 } & PayloadAddedTicket;
 
 export interface ITicketService {

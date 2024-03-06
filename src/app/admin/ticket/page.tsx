@@ -1,8 +1,6 @@
 import FormAddTicket from "@/components/Ticket/FormAddTicket";
-import TicketTable from "@/components/DataTable/Table";
-import { Plus } from "@phosphor-icons/react/dist/ssr";
+import TicketTable from "@/components/Ticket/Table";
 import { Metadata } from "next";
-import Link from "next/link";
 import React from "react";
 
 export const metadata: Metadata = {

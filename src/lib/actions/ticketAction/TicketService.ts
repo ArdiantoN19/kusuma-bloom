@@ -28,7 +28,19 @@ class TicketService implements ITicketService {
   }
 
   async getTickets() {
-    const tickets = await this.prismaTicket.findMany();
+    const tickets = await this.prismaTicket.findMany({
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: {
+        created_at: "desc",
+      },
+    });
     return tickets;
   }
 }

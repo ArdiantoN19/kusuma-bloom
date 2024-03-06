@@ -10,15 +10,17 @@ import { DataTableViewOptions } from "./DataTableViewOptions";
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
   children?: React.ReactNode;
+  searchKeyword: string;
 }
 
 export function DataTableToolbar<TData>({
   table,
   children,
+  searchKeyword,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
   const onChangeSearchHandler = (e: FormEvent<HTMLInputElement>): void => {
-    table.getColumn("title")?.setFilterValue(e.currentTarget.value);
+    table.getColumn(searchKeyword)?.setFilterValue(e.currentTarget.value);
   };
 
   return (
@@ -27,7 +29,9 @@ export function DataTableToolbar<TData>({
         <Input
           placeholder="Search..."
           className="h-8 w-[150px] lg:w-[250px] bg-white"
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn(searchKeyword)?.getFilterValue() as string) ?? ""
+          }
           onChange={onChangeSearchHandler}
         />
         {children}
