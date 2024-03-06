@@ -1,7 +1,7 @@
 "use client";
 
 import { Row } from "@tanstack/react-table";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +18,9 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { deleteTicketById } from "@/lib/actions/ticketAction";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface TableRowActionProps<TData> {
   row: Row<TData>;
@@ -25,9 +28,25 @@ interface TableRowActionProps<TData> {
 
 export function TableRowAction<TData>({ row }: TableRowActionProps<TData>) {
   const ticket = TicketSchema.parse(row.original);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const router = useRouter();
+
+  const onDeleteTicketHandler = useCallback(
+    async (id: string) => {
+      const { status, message } = await deleteTicketById(id);
+      if (status !== "success") {
+        toast.error(message);
+        return;
+      }
+      toast.success(message);
+      setOpenDialog((prev) => !prev);
+      router.refresh();
+    },
+    [router]
+  );
 
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -51,10 +70,7 @@ export function TableRowAction<TData>({ row }: TableRowActionProps<TData>) {
           <DropdownMenuSeparator />
           <DialogTrigger asChild>
             <DropdownMenuItem>
-              <button
-                className="flex items-center gap-1 w-full"
-                onClick={() => console.log("ok")}
-              >
+              <button className="flex items-center gap-1 w-full">
                 <Trash size={16} />
                 Hapus
               </button>
@@ -74,7 +90,12 @@ export function TableRowAction<TData>({ row }: TableRowActionProps<TData>) {
                 Close
               </Button>
             </DialogClose>
-            <Button variant={"primary"}>Hapus</Button>
+            <Button
+              variant={"primary"}
+              onClick={() => onDeleteTicketHandler(ticket.id)}
+            >
+              Hapus
+            </Button>
           </div>
         </div>
       </DialogContent>

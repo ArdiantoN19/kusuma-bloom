@@ -35,4 +35,6 @@ export interface ITicketService {
     data: PayloadCheckAvailableTicketByDate
   ): Promise<void>;
   getTickets(): Promise<ResponseTicket[]>;
+  getTicketById(id: string): Promise<ResponseTicket>;
+  deleteTicketById(id: string): Promise<void>;
 }

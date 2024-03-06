@@ -42,3 +42,24 @@ export const getTickets = async (): Promise<ResponseTicketAction> => {
     return { status: "fail", message: error.message };
   }
 };
+
+export const deleteTicketById = async (
+  id: string
+): Promise<ResponseTicketAction> => {
+  try {
+    await ticketService.getTicketById(id);
+    await ticketService.deleteTicketById(id);
+    return {
+      status: "success",
+      message: "Tiket berhasil dihapus",
+    };
+  } catch (error: any) {
+    if ("code" in error) {
+      return {
+        status: "fail",
+        message: "Terjadi kesalahan, tiket gagal ditambahkan",
+      };
+    }
+    return { status: "fail", message: error.message };
+  }
+};

@@ -2,6 +2,7 @@ import {
   ITicketService,
   PayloadAddedTicket,
   PayloadCheckAvailableTicketByDate,
+  ResponseTicket,
 } from "@/types/ticketAction";
 import { PrismaClient } from "@prisma/client";
 import prisma from "@/lib/prisma";
@@ -9,7 +10,9 @@ import prisma from "@/lib/prisma";
 class TicketService implements ITicketService {
   constructor(private readonly prismaTicket: PrismaClient["ticket"]) {}
 
-  async checkAvailableTicketByDate(data: PayloadCheckAvailableTicketByDate) {
+  async checkAvailableTicketByDate(
+    data: PayloadCheckAvailableTicketByDate
+  ): Promise<void> {
     const ticket = await this.prismaTicket.findUnique({
       where: {
         fromDate_toDate: {
@@ -23,11 +26,11 @@ class TicketService implements ITicketService {
     }
   }
 
-  async addTicket(data: PayloadAddedTicket) {
+  async addTicket(data: PayloadAddedTicket): Promise<void> {
     await this.prismaTicket.create({ data });
   }
 
-  async getTickets() {
+  async getTickets(): Promise<ResponseTicket[]> {
     const tickets = await this.prismaTicket.findMany({
       include: {
         user: {
@@ -42,6 +45,34 @@ class TicketService implements ITicketService {
       },
     });
     return tickets;
+  }
+
+  async getTicketById(id: string): Promise<ResponseTicket> {
+    const ticket = await this.prismaTicket.findFirst({
+      where: { id },
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+      },
+    });
+
+    if (!ticket) {
+      throw new Error("Tiket tidak ditemukan");
+    }
+
+    return ticket;
+  }
+
+  async deleteTicketById(id: string): Promise<void> {
+    await this.prismaTicket.delete({
+      where: {
+        id,
+      },
+    });
   }
 }
 
