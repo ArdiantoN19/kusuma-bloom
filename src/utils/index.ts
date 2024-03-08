@@ -44,6 +44,18 @@ export const printColor = () => {
   return `bg-[${dataColors[random]}]`;
 };
 
+export const formattedPrice = (value: string) => {
+  const parts = value.split("");
+  // reduceRight akan mulai membaca elemen dari belakang
+  const result = parts.reduceRight((acc, curr, index) => {
+    if ((parts.length - index) % 3 === 0 && index !== 0) {
+      return "." + curr + acc;
+    }
+    return curr + acc;
+  }, "");
+  return result;
+};
+
 // Example usage
 // const targetDate = '2023-12-31';
 // console.log(calculateDaysLeft(targetDate));

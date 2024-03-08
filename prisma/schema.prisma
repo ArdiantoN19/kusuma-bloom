@@ -55,6 +55,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   tickets       Ticket[]
+  memberUsers   MemberUser?
 
 
   @@map("users")
@@ -85,3 +86,17 @@ model Ticket {
   @@unique([fromDate, toDate])
   @@map("tickets")
 }
+
+// model MemberUser {
+//   id          String      @id @default(cuid())
+//   image       String
+//   discount    Float       @default(0.3)
+//   userId      String      @unique
+//   acceptedBy  String?
+//   user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   verifiedAt  DateTime?   @default(now())
+//   created_at  DateTime    @default(now())
+//   updated_at  DateTime    @updatedAt
+
+//   @@unique([userId, acceptedBy])
+// }

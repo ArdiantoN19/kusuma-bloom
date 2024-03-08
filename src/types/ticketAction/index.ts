@@ -1,4 +1,4 @@
-export type PayloadAddedTicket = {
+export type PayloadBodyTicket = {
   name: string;
   quantity: number;
   price: number;
@@ -27,14 +27,17 @@ export type ResponseTicket = {
     name: string | null;
     image: string | null;
   };
-} & PayloadAddedTicket;
+} & PayloadBodyTicket;
 
 export interface ITicketService {
-  addTicket(data: PayloadAddedTicket): Promise<void>;
+  addTicket(data: PayloadBodyTicket): Promise<void>;
   checkAvailableTicketByDate(
     data: PayloadCheckAvailableTicketByDate
   ): Promise<void>;
   getTickets(): Promise<ResponseTicket[]>;
   getTicketById(id: string): Promise<ResponseTicket>;
+  updateTicketById(id: string, data: PayloadBodyTicket): Promise<void>;
   deleteTicketById(id: string): Promise<void>;
+  activateTicketById(id: string): Promise<void>;
+  nonActiveTicketById(id: string): Promise<void>;
 }

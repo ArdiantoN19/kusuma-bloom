@@ -1,6 +1,6 @@
 import {
   ITicketService,
-  PayloadAddedTicket,
+  PayloadBodyTicket,
   PayloadCheckAvailableTicketByDate,
   ResponseTicket,
 } from "@/types/ticketAction";
@@ -26,7 +26,7 @@ class TicketService implements ITicketService {
     }
   }
 
-  async addTicket(data: PayloadAddedTicket): Promise<void> {
+  async addTicket(data: PayloadBodyTicket): Promise<void> {
     await this.prismaTicket.create({ data });
   }
 
@@ -67,10 +67,39 @@ class TicketService implements ITicketService {
     return ticket;
   }
 
+  async updateTicketById(id: string, data: PayloadBodyTicket): Promise<void> {
+    await this.prismaTicket.update({
+      where: { id },
+      data,
+    });
+  }
+
   async deleteTicketById(id: string): Promise<void> {
     await this.prismaTicket.delete({
       where: {
         id,
+      },
+    });
+  }
+
+  async activateTicketById(id: string): Promise<void> {
+    await this.prismaTicket.update({
+      where: {
+        id,
+      },
+      data: {
+        status: true,
+      },
+    });
+  }
+
+  async nonActiveTicketById(id: string): Promise<void> {
+    await this.prismaTicket.update({
+      where: {
+        id,
+      },
+      data: {
+        status: false,
       },
     });
   }

@@ -18,9 +18,10 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { deleteTicketById } from "@/lib/actions/ticketAction";
+import { deleteTicketByIdAction } from "@/lib/actions/ticketAction";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import FormEditTicket from "../FormEditTicket";
 
 interface TableRowActionProps<TData> {
   row: Row<TData>;
@@ -30,10 +31,11 @@ export function TableRowAction<TData>({ row }: TableRowActionProps<TData>) {
   const ticket = TicketSchema.parse(row.original);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const router = useRouter();
+  const [statusDialog, setStatusDialog] = useState<string>("");
 
   const onDeleteTicketHandler = useCallback(
     async (id: string) => {
-      const { status, message } = await deleteTicketById(id);
+      const { status, message } = await deleteTicketByIdAction(id);
       if (status !== "success") {
         toast.error(message);
         return;
@@ -61,7 +63,10 @@ export function TableRowAction<TData>({ row }: TableRowActionProps<TData>) {
           <DropdownMenuItem>
             <button
               className="flex items-center gap-1 w-full"
-              onClick={() => alert("Edit-" + ticket.id)}
+              onClick={() => {
+                setStatusDialog(() => "edit");
+                setOpenDialog((prev) => !prev);
+              }}
             >
               <Pencil size={16} />
               Edit
@@ -70,7 +75,10 @@ export function TableRowAction<TData>({ row }: TableRowActionProps<TData>) {
           <DropdownMenuSeparator />
           <DialogTrigger asChild>
             <DropdownMenuItem>
-              <button className="flex items-center gap-1 w-full">
+              <button
+                className="flex items-center gap-1 w-full"
+                onClick={() => setStatusDialog(() => "delete")}
+              >
                 <Trash size={16} />
                 Hapus
               </button>
@@ -79,25 +87,29 @@ export function TableRowAction<TData>({ row }: TableRowActionProps<TData>) {
         </DropdownMenuContent>
       </DropdownMenu>
       <DialogContent className="bg-white">
-        <div className="flex flex-col gap-5 items-center justify-center">
-          <h1 className="text-xl">Yakin ingin menghapus tiket ini?</h1>
-          <div className="flex gap-2 justify-center">
-            <DialogClose asChild>
+        {statusDialog === "edit" ? (
+          <FormEditTicket {...ticket} setOpenDialog={setOpenDialog} />
+        ) : (
+          <div className="flex flex-col gap-5 items-center justify-center">
+            <h1 className="text-xl">Yakin ingin menghapus tiket ini?</h1>
+            <div className="flex gap-2 justify-center">
+              <DialogClose asChild>
+                <Button
+                  variant={"primary"}
+                  className="bg-muted-foreground hover:bg-muted-foreground"
+                >
+                  Close
+                </Button>
+              </DialogClose>
               <Button
                 variant={"primary"}
-                className="bg-muted-foreground hover:bg-muted-foreground"
+                onClick={() => onDeleteTicketHandler(ticket.id)}
               >
-                Close
+                Hapus
               </Button>
-            </DialogClose>
-            <Button
-              variant={"primary"}
-              onClick={() => onDeleteTicketHandler(ticket.id)}
-            >
-              Hapus
-            </Button>
+            </div>
           </div>
-        </div>
+        )}
       </DialogContent>
     </Dialog>
   );

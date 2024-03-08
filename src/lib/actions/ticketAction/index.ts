@@ -1,10 +1,10 @@
 "use server";
 
-import { PayloadAddedTicket, ResponseTicketAction } from "@/types/ticketAction";
+import { PayloadBodyTicket, ResponseTicketAction } from "@/types/ticketAction";
 import { ticketService } from "./TicketService";
 
 export const addTicketAction = async (
-  data: PayloadAddedTicket
+  data: PayloadBodyTicket
 ): Promise<ResponseTicketAction> => {
   try {
     await ticketService.checkAvailableTicketByDate({
@@ -24,7 +24,7 @@ export const addTicketAction = async (
   }
 };
 
-export const getTickets = async (): Promise<ResponseTicketAction> => {
+export const getTicketsAction = async (): Promise<ResponseTicketAction> => {
   try {
     const tickets = await ticketService.getTickets();
     return {
@@ -36,18 +36,43 @@ export const getTickets = async (): Promise<ResponseTicketAction> => {
     if ("code" in error) {
       return {
         status: "fail",
-        message: "Terjadi kesalahan, tiket gagal ditambahkan",
+        message: "Terjadi kesalahan, tiket gagal didapatkan",
       };
     }
     return { status: "fail", message: error.message };
   }
 };
 
-export const deleteTicketById = async (
+export const updateTicketByIdAction = async (
+  id: string,
+  data: PayloadBodyTicket
+) => {
+  try {
+    const ticket = await ticketService.getTicketById(id);
+    if (ticket.toDate < new Date()) {
+      throw new Error("Tiket sudah kedaluwarsa, tidak dapat diubah");
+    }
+    await ticketService.updateTicketById(id, data);
+    return { status: "success", message: "Tiket berhasil diubah" };
+  } catch (error: any) {
+    if ("code" in error) {
+      return {
+        status: "fail",
+        message: "Terjadi kesalahan, tiket gagal diubah",
+      };
+    }
+    return { status: "fail", message: error.message };
+  }
+};
+
+export const deleteTicketByIdAction = async (
   id: string
 ): Promise<ResponseTicketAction> => {
   try {
-    await ticketService.getTicketById(id);
+    const ticket = await ticketService.getTicketById(id);
+    if (ticket.toDate < new Date()) {
+      throw new Error("Tiket sudah kedaluwarsa, tidak dapat dihapus");
+    }
     await ticketService.deleteTicketById(id);
     return {
       status: "success",
@@ -57,7 +82,30 @@ export const deleteTicketById = async (
     if ("code" in error) {
       return {
         status: "fail",
-        message: "Terjadi kesalahan, tiket gagal ditambahkan",
+        message: "Terjadi kesalahan, tiket gagal dihapus",
+      };
+    }
+    return { status: "fail", message: error.message };
+  }
+};
+
+export const activateTicketByIdAction = async (id: string) => {
+  try {
+    const ticket = await ticketService.getTickets();
+    const ticketActive = ticket.find((ticket) => ticket.status === true);
+    if (ticketActive?.status) {
+      await ticketService.nonActiveTicketById(ticketActive.id);
+    }
+    await ticketService.activateTicketById(id);
+    return {
+      status: "success",
+      message: "Tiket berhasil diaktifkan",
+    };
+  } catch (error: any) {
+    if ("code" in error) {
+      return {
+        status: "fail",
+        message: "Terjadi kesalahan, tiket gagal diaktifkan",
       };
     }
     return { status: "fail", message: error.message };

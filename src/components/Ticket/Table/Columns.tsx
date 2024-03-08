@@ -87,7 +87,7 @@ export const columns: ColumnDef<z.infer<typeof TicketSchema>>[] = [
         <Badge
           className={
             status
-              ? "bg-primary hover:bg-primary/90"
+              ? "bg-primary hover:bg-green-500/90"
               : "bg-red-400 hover:bg-red-400/90"
           }
         >
@@ -132,12 +132,26 @@ export const columns: ColumnDef<z.infer<typeof TicketSchema>>[] = [
     cell: ({ row }) => {
       const status = row.getValue("status");
       const dayLeft = calculateDaysLeft(row.original.toDate.toString());
-      return status ? (
-        <Badge className={dayLeft < 3 ? "bg-red-400" : "bg-primary"}>
+      return status && dayLeft >= 0 ? (
+        <Badge
+          className={
+            dayLeft <= 5
+              ? "bg-red-400 hover:bg-red-400/90"
+              : dayLeft > 5 && dayLeft <= 15
+              ? "bg-orange-400 hover:bg-orange-400/90"
+              : "bg-primary hover:bg-green-500/90"
+          }
+        >
           {dayLeft} hari
         </Badge>
       ) : (
-        <div>-</div>
+        <div>
+          {dayLeft < 0 ? (
+            <Badge className="bg-red-400 hover:bg-red-400/90">expired</Badge>
+          ) : (
+            "-"
+          )}
+        </div>
       );
     },
   },
@@ -172,6 +186,9 @@ export const columns: ColumnDef<z.infer<typeof TicketSchema>>[] = [
   },
   {
     id: "action",
-    cell: ({ row }) => <TableRowAction row={row} />,
+    cell: ({ row }) => {
+      const isTicketExpired = row.original.toDate < new Date();
+      return !isTicketExpired && <TableRowAction row={row} />;
+    },
   },
 ];

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { RefObject, useState } from "react";
+import React, { useState } from "react";
 import {
   Form,
   FormControl,
@@ -28,7 +28,6 @@ import {
   Eraser,
   Plus,
   Ticket,
-  X,
 } from "@phosphor-icons/react";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { validator } from "@/lib/actions/ticketAction/validator";
@@ -37,7 +36,7 @@ import { cn } from "@/lib/utils";
 import { addDays, format } from "date-fns";
 import { Calendar } from "../ui/calendar";
 import { useSession } from "next-auth/react";
-import { PayloadAddedTicket, ResponseTicketAction } from "@/types/ticketAction";
+import { PayloadBodyTicket, ResponseTicketAction } from "@/types/ticketAction";
 import { addTicketAction } from "@/lib/actions/ticketAction";
 import { toast } from "sonner";
 import {
@@ -55,8 +54,8 @@ const FormAddTicket = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof validator.FormAddTicketSchema>>({
-    resolver: zodResolver(validator.FormAddTicketSchema),
+  const form = useForm<z.infer<typeof validator.FormTicketSchema>>({
+    resolver: zodResolver(validator.FormTicketSchema),
     defaultValues: {
       name: "",
       quantity: "",
@@ -83,9 +82,9 @@ const FormAddTicket = () => {
   };
 
   const onSubmitHandler = async (
-    data: z.infer<typeof validator.FormAddTicketSchema>
+    data: z.infer<typeof validator.FormTicketSchema>
   ) => {
-    const payload: PayloadAddedTicket = {
+    const payload: PayloadBodyTicket = {
       quantity: Number(data.quantity),
       price: Number(data.price),
       fromDate: data.date.from as Date,
