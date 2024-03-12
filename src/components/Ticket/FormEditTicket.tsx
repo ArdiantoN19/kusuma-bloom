@@ -83,22 +83,19 @@ const FormEditTicket: FunctionComponent<FormEditTicketProps> = (props) => {
 
   const onActivateTicketHandler = useCallback(
     async (id: string) => {
-      if (!props.status) {
-        setIsLoading(true);
-        const response = await activateTicketByIdAction(id);
-        if (response.status !== "success") {
-          toast.error(response.message);
-          return;
-        }
-
-        setIsLoading(false);
-        toast.success(response.message);
-        router.refresh();
+      setIsLoading(true);
+      const response = await activateTicketByIdAction(id);
+      if (response.status !== "success") {
+        toast.error(response.message);
         return;
       }
-      toast.success("Tiket sudah dalam keadaan aktif");
+
+      setIsLoading(false);
+      toast.success(response.message);
+      router.refresh();
+      return;
     },
-    [router, props.status]
+    [router]
   );
 
   const onSubmitHandler = async (
@@ -140,26 +137,30 @@ const FormEditTicket: FunctionComponent<FormEditTicketProps> = (props) => {
           className="space-y-4"
           onSubmit={form.handleSubmit(onSubmitHandler)}
         >
-          <Button
-            type="button"
-            variant={"primary"}
-            className="bg-red-400 hover:bg-red-400/90"
-            onClick={() => onActivateTicketHandler(props.id)}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <>
-                <Circle size={20} className="animate-pulse" /> Loading...
-              </>
-            ) : (
-              <>
-                <ArrowUpRight size={20} /> Aktifkan
-              </>
-            )}
-          </Button>
-          <FormDescription>
-            Gunakan ini untuk mengaktifkan tiket
-          </FormDescription>
+          {!props.status && (
+            <>
+              <Button
+                type="button"
+                variant={"primary"}
+                className="bg-red-400 hover:bg-red-400/90"
+                onClick={() => onActivateTicketHandler(props.id)}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <Circle size={20} className="animate-pulse" /> Loading...
+                  </>
+                ) : (
+                  <>
+                    <ArrowUpRight size={20} /> Aktifkan
+                  </>
+                )}
+              </Button>
+              <FormDescription>
+                Gunakan ini untuk mengaktifkan tiket
+              </FormDescription>
+            </>
+          )}
           <FormField
             name="name"
             control={form.control}

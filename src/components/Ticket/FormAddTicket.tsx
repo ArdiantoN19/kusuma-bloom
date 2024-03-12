@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Form,
   FormControl,
@@ -68,7 +68,7 @@ const FormAddTicket = () => {
     },
   });
 
-  const onFormReset = () => {
+  const onFormReset = useCallback(() => {
     form.reset({
       name: "",
       price: "",
@@ -79,7 +79,7 @@ const FormAddTicket = () => {
         to: undefined,
       },
     });
-  };
+  }, [form]);
 
   const onSubmitHandler = async (
     data: z.infer<typeof validator.FormTicketSchema>

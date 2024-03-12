@@ -55,7 +55,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   tickets       Ticket[]
-  memberUsers   MemberUser?
+  // memberUsers   MemberUser?
 
 
   @@map("users")
