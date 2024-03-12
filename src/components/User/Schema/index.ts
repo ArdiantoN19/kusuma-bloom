@@ -1,3 +1,4 @@
+import { GENDER } from "@/lib/actions/userAction/Validator";
 import { ROLE } from "@/types/authAction";
 import { z } from "zod";
 
@@ -9,6 +10,8 @@ export const UserSchema = z.object({
   password: z.string(),
   image: z.string(),
   role: z.enum([ROLE.ADMIN, ROLE.REGULAR]),
+  gender: z.enum([GENDER.MALE, GENDER.FEMALE]),
+  address: z.string().optional().nullable(),
   created_at: z.date(),
   updated_at: z.date(),
 });

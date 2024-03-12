@@ -13,12 +13,13 @@ import { Button } from "../ui/button";
 import { Check, Circle, Eraser, Plus, User } from "@phosphor-icons/react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { FormUserSchema } from "@/lib/actions/userAction/Validator";
+import { FormUserSchema, GENDER } from "@/lib/actions/userAction/Validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ROLE } from "@/types/authAction";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -45,6 +46,8 @@ import {
   getPublicIdFromUrl,
   uploadImageCloudinary,
 } from "@/lib/cloudinary";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Textarea } from "../ui/textarea";
 
 interface FormEditUserProps {
   user: ResponseUser;
@@ -66,6 +69,8 @@ const FormEditUser: FunctionComponent<FormEditUserProps> = ({
       password: user.password,
       image: undefined,
       role: user.role,
+      gender: user.gender,
+      address: user.address,
     },
   });
 
@@ -98,6 +103,8 @@ const FormEditUser: FunctionComponent<FormEditUserProps> = ({
       password: "",
       image: undefined,
       role: ROLE.REGULAR,
+      gender: GENDER.MALE,
+      address: "",
     });
     setImageUrl("");
   }, [form]);
@@ -112,6 +119,8 @@ const FormEditUser: FunctionComponent<FormEditUserProps> = ({
         image: !imageUrl
           ? `${process.env.NEXT_PUBLIC_API_AVATAR_URL}?seed=${user.name}`
           : user.image,
+        gender: data.gender,
+        address: data.address,
       };
 
       setIsLoading(true);
@@ -246,7 +255,36 @@ const FormEditUser: FunctionComponent<FormEditUserProps> = ({
               </FormItem>
             )}
           />
-
+          <FormField
+            name="gender"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Jenis Kelamin</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value={GENDER.MALE} />
+                      </FormControl>
+                      <FormLabel>Pria</FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value={GENDER.FEMALE} />
+                      </FormControl>
+                      <FormLabel>Wanita</FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             name="role"
             control={form.control}
@@ -267,6 +305,27 @@ const FormEditUser: FunctionComponent<FormEditUserProps> = ({
                     <SelectItem value={ROLE.ADMIN}>Admin</SelectItem>
                   </SelectContent>
                 </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="address"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Alamat</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Masukkan alamat"
+                    className="resize-none h-[150px]"
+                    {...field}
+                    value={field.value as string}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Kami akan menyimpan alamat Anda dengan aman
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

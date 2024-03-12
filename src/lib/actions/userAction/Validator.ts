@@ -9,6 +9,11 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/webp",
 ];
 
+export enum GENDER {
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+}
+
 export const FormUserSchema = z.object({
   name: z
     .string()
@@ -18,7 +23,6 @@ export const FormUserSchema = z.object({
     message:
       "Password harus terdiri dari huruf kecil, huruf besar dan minimal 8 karakter",
   }),
-  // image: z.custom<FileList>((v) => v instanceof File).optional(),
   image: z.custom<FileList>().optional(),
   // image: z
   // .custom<FileList>()
@@ -35,6 +39,8 @@ export const FormUserSchema = z.object({
   role: z.enum([ROLE.ADMIN, ROLE.REGULAR], {
     required_error: "Role user harus diisi",
   }),
+  gender: z.enum([GENDER.MALE, GENDER.FEMALE]),
+  address: z.string().optional().nullable(),
 });
 
 // ! Refine in zod

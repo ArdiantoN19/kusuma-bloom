@@ -1,3 +1,4 @@
+import { GENDER } from "@/lib/actions/userAction/Validator";
 import { ROLE } from "../authAction";
 
 export type PayloadBodyUser = {
@@ -6,6 +7,8 @@ export type PayloadBodyUser = {
   password: string;
   image: string;
   role: ROLE;
+  gender: GENDER;
+  address?: string | null;
 };
 
 export type ResponseUser = {

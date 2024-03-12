@@ -13,12 +13,13 @@ import { Button } from "../ui/button";
 import { Check, Circle, Eraser, Plus, User } from "@phosphor-icons/react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { FormUserSchema } from "@/lib/actions/userAction/Validator";
+import { FormUserSchema, GENDER } from "@/lib/actions/userAction/Validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ROLE } from "@/types/authAction";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -41,6 +42,8 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { uploadImageCloudinary } from "@/lib/cloudinary";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Textarea } from "../ui/textarea";
 
 const FormAddUser: FunctionComponent = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -55,6 +58,8 @@ const FormAddUser: FunctionComponent = () => {
       password: "",
       image: undefined,
       role: ROLE.REGULAR,
+      gender: GENDER.MALE,
+      address: "",
     },
   });
 
@@ -87,6 +92,8 @@ const FormAddUser: FunctionComponent = () => {
       password: "",
       image: undefined,
       role: ROLE.REGULAR,
+      gender: GENDER.MALE,
+      address: "",
     });
     setImageUrl("");
   }, [form]);
@@ -98,6 +105,8 @@ const FormAddUser: FunctionComponent = () => {
       password: data.password,
       image: `${process.env.NEXT_PUBLIC_API_AVATAR_URL}?seed=${data.name}`,
       role: data.role,
+      gender: data.gender,
+      address: data.address,
     };
 
     setIsLoading(true);
@@ -225,7 +234,36 @@ const FormAddUser: FunctionComponent = () => {
                 </FormItem>
               )}
             />
-
+            <FormField
+              name="gender"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Jenis Kelamin</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-col space-y-1"
+                    >
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value={GENDER.MALE} />
+                        </FormControl>
+                        <FormLabel>Pria</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value={GENDER.FEMALE} />
+                        </FormControl>
+                        <FormLabel>Wanita</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               name="role"
               control={form.control}
@@ -246,6 +284,26 @@ const FormAddUser: FunctionComponent = () => {
                       <SelectItem value={ROLE.ADMIN}>Admin</SelectItem>
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="address"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Alamat</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Masukkan alamat"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Kami akan menyimpan alamat Anda dengan aman
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

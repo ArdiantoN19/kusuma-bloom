@@ -42,6 +42,11 @@ enum ROLE {
   REGULAR
 }
 
+enum GENDER {
+  MALE
+  FEMALE
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -50,12 +55,15 @@ model User {
   password      String?
   image         String?
   role          ROLE
+  gender        GENDER?
+  address       String?    @db.Text
   created_at    DateTime  @default(now())
   updated_at    DateTime  @updatedAt
   deleted_at    DateTime?
   accounts      Account[]
   sessions      Session[]
   tickets       Ticket[]
+  vouchers      Voucher[]
   // memberUsers   MemberUser?
 
 
@@ -101,3 +109,17 @@ model Ticket {
 
 //   @@unique([userId, acceptedBy])
 // }
+
+model Voucher {
+  id          String      @id @default(cuid())
+  name        String
+  total       Int
+  discount    Float
+  status      Boolean     @default(false)
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
+
+  @@map("vouchers")
+}

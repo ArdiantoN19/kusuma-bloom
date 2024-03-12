@@ -8,8 +8,10 @@ import { DataTableColumnHeader } from "@/components/DataTable/DataTableColumnHea
 import { Badge } from "@/components/ui/badge";
 import { ROLE } from "@/types/authAction";
 import Image from "next/image";
-import { roles } from "./ColumnFilter";
+import { genders, roles } from "./ColumnFilter";
 import { TableRowAction } from "./TableRowAction";
+import { GENDER } from "@/lib/actions/userAction/Validator";
+import { cn } from "@/lib/utils";
 
 export const columns: ColumnDef<z.infer<typeof UserSchema>>[] = [
   {
@@ -79,6 +81,31 @@ export const columns: ColumnDef<z.infer<typeof UserSchema>>[] = [
     ),
   },
   {
+    accessorKey: "gender",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Jenis Kelamin" />
+    ),
+    cell: ({ row }) => {
+      const gender = genders.find(
+        (gender) => gender.value === row.getValue("gender")
+      ) as { value: GENDER; label: string; icon: any };
+      return (
+        <div
+          className={cn(
+            "w-[80px] flex gap-1",
+            gender.value === GENDER.MALE ? "text-primary" : "text-red-400"
+          )}
+        >
+          <gender.icon size={16} />
+          {gender.label}
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
     accessorKey: "email",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Email" />
@@ -100,7 +127,7 @@ export const columns: ColumnDef<z.infer<typeof UserSchema>>[] = [
       ) as { value: ROLE; label: string; icon: any };
 
       return (
-        <div className="w-[100px]">
+        <div className="w-[95px]">
           {role?.value === ROLE.ADMIN ? (
             <Badge className="bg-red-400 hover:bg-red-400/90 flex gap-1 items-center">
               <role.icon size={16} />
@@ -118,6 +145,20 @@ export const columns: ColumnDef<z.infer<typeof UserSchema>>[] = [
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
+  },
+  {
+    accessorKey: "address",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Alamat" />
+    ),
+    cell: ({ row }) => (
+      <div
+        className="w-[150px] text-xs text-wrap"
+        title={row.getValue("address")}
+      >
+        {row.getValue("address") ? row.getValue("address") : "-"}
+      </div>
+    ),
   },
   {
     id: "action",
