@@ -1,4 +1,5 @@
 import FormAddUser from "@/components/User/FormAddUser";
+import UserTable from "@/components/User/Table";
 import { Metadata } from "next";
 import React from "react";
 
@@ -19,7 +20,7 @@ const Page = () => {
         </div>
         <FormAddUser />
       </div>
-      {/* <TicketTable /> */}
+      <UserTable />
     </div>
   );
 };

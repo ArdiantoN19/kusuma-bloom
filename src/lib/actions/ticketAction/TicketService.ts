@@ -41,7 +41,7 @@ class TicketService implements ITicketService {
         },
       },
       orderBy: {
-        created_at: "desc",
+        updated_at: "desc",
       },
     });
     return tickets;

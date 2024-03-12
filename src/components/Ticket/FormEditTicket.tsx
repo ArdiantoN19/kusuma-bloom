@@ -47,7 +47,7 @@ import { useSession } from "next-auth/react";
 
 interface FormEditTicketProps extends PayloadBodyTicket {
   id: string;
-  setOpenDialog: (prev: boolean) => any;
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const FormEditTicket: FunctionComponent<FormEditTicketProps> = (props) => {

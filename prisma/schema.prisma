@@ -52,6 +52,7 @@ model User {
   role          ROLE
   created_at    DateTime  @default(now())
   updated_at    DateTime  @updatedAt
+  deleted_at    DateTime?
   accounts      Account[]
   sessions      Session[]
   tickets       Ticket[]

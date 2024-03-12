@@ -35,6 +35,10 @@ class UserService implements IUserService {
         id: {
           not: idToExclude,
         },
+        deleted_at: null,
+      },
+      orderBy: {
+        updated_at: "desc",
       },
     });
     return users as ResponseUser[];
@@ -61,6 +65,31 @@ class UserService implements IUserService {
       },
       data: {
         image,
+      },
+    });
+  }
+
+  async updateUserById(
+    id: string,
+    data: PayloadBodyUser
+  ): Promise<ResponseUser> {
+    const user = await this.prismaUser.update({
+      where: {
+        id,
+      },
+      data,
+    });
+
+    return user as ResponseUser;
+  }
+
+  async deleteUserById(id: string): Promise<void> {
+    await this.prismaUser.update({
+      where: {
+        id,
+      },
+      data: {
+        deleted_at: new Date(),
       },
     });
   }

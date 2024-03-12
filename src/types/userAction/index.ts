@@ -27,4 +27,6 @@ export interface IUserService {
   getUsers(idToExclude: string): Promise<ResponseUser[]>;
   updateImageUserById(id: string, image: string): Promise<void>;
   getUserById(id: string): Promise<ResponseUser>;
+  deleteUserById(id: string): Promise<void>;
+  updateUserById(id: string, data: PayloadBodyUser): Promise<ResponseUser>;
 }

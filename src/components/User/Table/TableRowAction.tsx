@@ -1,7 +1,16 @@
 "use client";
 
 import { Row } from "@tanstack/react-table";
-import React, { useCallback, useState } from "react";
+import { UserSchema } from "../Schema";
+import { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,33 +20,24 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Circle, DotsThree, Pencil, Trash } from "@phosphor-icons/react";
-import { TicketSchema } from "../Schema";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { deleteTicketByIdAction } from "@/lib/actions/ticketAction";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import FormEditTicket from "../FormEditTicket";
+import { deleteUserByIdAction } from "@/lib/actions/userAction";
+import FormEditUser from "../FormEditUser";
 
 interface TableRowActionProps<TData> {
   row: Row<TData>;
 }
 
 export function TableRowAction<TData>({ row }: TableRowActionProps<TData>) {
-  const ticket = TicketSchema.parse(row.original);
+  const user = UserSchema.parse(row.original);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const router = useRouter();
   const [statusDialog, setStatusDialog] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const onDeleteTicketHandler = useCallback(
+  const onDeleteUserHandler = useCallback(
     async (id: string) => {
       setIsLoading(true);
-      const { status, message } = await deleteTicketByIdAction(id);
+      const { status, message } = await deleteUserByIdAction(id);
       if (status !== "success") {
         toast.error(message);
         setIsLoading(false);
@@ -90,12 +90,12 @@ export function TableRowAction<TData>({ row }: TableRowActionProps<TData>) {
           </DialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>
-      <DialogContent className="bg-white">
+      <DialogContent className="bg-white max-w-md">
         {statusDialog === "edit" ? (
-          <FormEditTicket {...ticket} setOpenDialog={setOpenDialog} />
+          <FormEditUser user={user} setOpenDialog={setOpenDialog} />
         ) : (
           <div className="flex flex-col gap-5 items-center justify-center">
-            <h1 className="text-xl">Yakin ingin menghapus tiket ini?</h1>
+            <h1 className="text-xl">Yakin ingin menghapus user ini?</h1>
             <div className="flex gap-2 justify-center">
               <DialogClose asChild>
                 <Button
@@ -109,7 +109,7 @@ export function TableRowAction<TData>({ row }: TableRowActionProps<TData>) {
                 type="submit"
                 variant={"primary"}
                 disabled={isLoading}
-                onClick={() => onDeleteTicketHandler(ticket.id)}
+                onClick={() => onDeleteUserHandler(user.id)}
               >
                 {isLoading ? (
                   <>

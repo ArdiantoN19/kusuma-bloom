@@ -80,3 +80,54 @@ export const updateImageUserByIdAction = async (
     };
   }
 };
+
+export const updateUserByIdAction = async (
+  id: string,
+  data: PayloadBodyUser
+): Promise<ResponseUserAction> => {
+  try {
+    const user = await userService.getUserById(id);
+    data.password = await bcryptPasswordHash.hash(data.password);
+    await userService.updateUserById(user.id, data);
+    return {
+      status: "success",
+      message: "User berhasil diubah",
+      data: {
+        id: user.id,
+      },
+    };
+  } catch (error: any) {
+    if ("code" in error) {
+      return {
+        status: "fail",
+        message: "Terjadi kesalahan, user gagal diubah",
+      };
+    }
+    return {
+      status: "fail",
+      message: error.message,
+    };
+  }
+};
+
+export const deleteUserByIdAction = async (id: string) => {
+  try {
+    await userService.getUserById(id);
+    await userService.deleteUserById(id);
+    return {
+      status: "success",
+      message: "User berhasil dihapus",
+    };
+  } catch (error: any) {
+    if ("code" in error) {
+      return {
+        status: "fail",
+        message: "Terjadi kesalahan, user gagal dihapus",
+      };
+    }
+    return {
+      status: "fail",
+      message: error.message,
+    };
+  }
+};
