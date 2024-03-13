@@ -54,8 +54,8 @@ const FormEditTicket: FunctionComponent<FormEditTicketProps> = (props) => {
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
-  const form = useForm<z.infer<typeof validator.FormTicketSchema>>({
-    resolver: zodResolver(validator.FormTicketSchema),
+  const form = useForm<z.infer<typeof FormTicketSchema>>({
+    resolver: zodResolver(FormTicketSchema),
     defaultValues: {
       name: props.name,
       quantity: String(props.quantity),
@@ -98,9 +98,7 @@ const FormEditTicket: FunctionComponent<FormEditTicketProps> = (props) => {
     [router]
   );
 
-  const onSubmitHandler = async (
-    data: z.infer<typeof validator.FormTicketSchema>
-  ) => {
+  const onSubmitHandler = async (data: z.infer<typeof FormTicketSchema>) => {
     const payload: PayloadBodyTicket = {
       quantity: Number(data.quantity),
       price: Number(data.price),

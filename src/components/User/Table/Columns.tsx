@@ -44,7 +44,7 @@ export const columns: ColumnDef<z.infer<typeof UserSchema>>[] = [
       <DataTableColumnHeader column={column} title="User ID" />
     ),
     cell: ({ row }) => (
-      <div className="w-[130px] truncate" title={row.getValue("id")}>
+      <div className="w-[120px] truncate" title={row.getValue("id")}>
         {row.getValue("id")}
       </div>
     ),

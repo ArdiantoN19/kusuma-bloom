@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const FormTicketSchema = z.object({
+export const FormTicketSchema = z.object({
   name: z
     .string({
       required_error: "Nama harus diisi",
@@ -32,7 +32,3 @@ const FormTicketSchema = z.object({
       message: "Tanggal harus diisi",
     }),
 });
-
-export const validator = {
-  FormTicketSchema,
-};

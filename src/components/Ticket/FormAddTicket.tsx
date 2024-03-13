@@ -30,7 +30,7 @@ import {
   Ticket,
 } from "@phosphor-icons/react";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import { validator } from "@/lib/actions/ticketAction/validator";
+import { FormTicketSchema } from "@/lib/actions/ticketAction/validator";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
 import { addDays, format } from "date-fns";
@@ -54,8 +54,8 @@ const FormAddTicket = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof validator.FormTicketSchema>>({
-    resolver: zodResolver(validator.FormTicketSchema),
+  const form = useForm<z.infer<typeof FormTicketSchema>>({
+    resolver: zodResolver(FormTicketSchema),
     defaultValues: {
       name: "",
       quantity: "",
@@ -81,9 +81,7 @@ const FormAddTicket = () => {
     });
   }, [form]);
 
-  const onSubmitHandler = async (
-    data: z.infer<typeof validator.FormTicketSchema>
-  ) => {
+  const onSubmitHandler = async (data: z.infer<typeof FormTicketSchema>) => {
     const payload: PayloadBodyTicket = {
       quantity: Number(data.quantity),
       price: Number(data.price),
