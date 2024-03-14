@@ -19,6 +19,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTrigger,
+  DialogTitle,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import {
@@ -29,7 +30,6 @@ import {
   Plus,
   Ticket,
 } from "@phosphor-icons/react";
-import { DialogTitle } from "@radix-ui/react-dialog";
 import { FormTicketSchema } from "@/lib/actions/ticketAction/validator";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";

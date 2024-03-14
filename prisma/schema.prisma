@@ -37,16 +37,6 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-enum ROLE {
-  ADMIN
-  REGULAR
-}
-
-enum GENDER {
-  MALE
-  FEMALE
-}
-
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -64,6 +54,7 @@ model User {
   sessions      Session[]
   tickets       Ticket[]
   vouchers      Voucher[]
+  facilities    Facility[]
   // memberUsers   MemberUser?
 
 
@@ -122,4 +113,30 @@ model Voucher {
   updated_at  DateTime    @updatedAt
 
   @@map("vouchers")
+}
+
+model Facility {
+  id            String      @id @default(cuid())
+  name          String
+  description   String      @db.Text
+  image         String
+  category_age  String
+  capacities    String
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @updatedAt
+
+  @@map("facilities")
+}
+
+
+enum ROLE {
+  ADMIN
+  REGULAR
+}
+
+enum GENDER {
+  MALE
+  FEMALE
 }

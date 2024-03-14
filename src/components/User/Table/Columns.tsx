@@ -54,7 +54,7 @@ export const columns: ColumnDef<z.infer<typeof UserSchema>>[] = [
   {
     accessorKey: "image",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Image" />
+      <DataTableColumnHeader column={column} title="Gambar" />
     ),
     cell: ({ row }) => (
       <div className="size-[60px] bg-transparent">

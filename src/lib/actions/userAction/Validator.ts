@@ -40,7 +40,7 @@ export const FormUserSchema = z.object({
     required_error: "Role user harus diisi",
   }),
   gender: z.enum([GENDER.MALE, GENDER.FEMALE]),
-  address: z.string().optional().nullable(),
+  address: z.string().optional(),
 });
 
 // ! Refine in zod

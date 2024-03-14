@@ -1,9 +1,11 @@
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const NotFoundPage = () => {
   return (
-    <div className="container min-h-[90dvh] flex flex-col justify-center items-center">
+    <div className="container min-h-[90dvh] flex flex-col justify-center items-center gap-2">
       <Image
         src={"/images/404 Error.svg"}
         typeof="image/svg"
@@ -15,6 +17,9 @@ const NotFoundPage = () => {
       <p className="text-lg">
         Opps, sepertinya halaman yang Anda cari tidak ditemukan
       </p>
+      <Button asChild variant={"primary"}>
+        <Link href={"/"}>Home</Link>
+      </Button>
     </div>
   );
 };

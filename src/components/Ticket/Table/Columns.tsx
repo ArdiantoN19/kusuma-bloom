@@ -44,7 +44,9 @@ export const columns: ColumnDef<z.infer<typeof TicketSchema>>[] = [
       <DataTableColumnHeader column={column} title="Ticket ID" />
     ),
     cell: ({ row }) => (
-      <div className=" w-[130px] truncate">{row.getValue("id")}</div>
+      <div className=" w-[130px] truncate" title={row.getValue("id")}>
+        {row.getValue("id")}
+      </div>
     ),
     enableSorting: false,
     enableHiding: false,
