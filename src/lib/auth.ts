@@ -61,8 +61,9 @@ export const authOptions: NextAuthOptions = {
         if (session.info.image) {
           token.picture = session.info.image;
         }
-        if (session.info.email) {
+        if (session.info.email || session.info.address) {
           token.email = session.info.email;
+          token.address = session.info.address;
         }
       }
       return token;
