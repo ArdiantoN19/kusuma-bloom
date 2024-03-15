@@ -87,14 +87,17 @@ export const updateUserByIdAction = async (
 ): Promise<ResponseUserAction> => {
   try {
     const user = await userService.getUserById(id);
-    data.password = await bcryptPasswordHash.hash(data.password);
+    if (user.email !== data.email) {
+      await userService.checkAvailableEmail(data.email);
+    }
+    if (!data.password.startsWith("$2b$10$")) {
+      data.password = await bcryptPasswordHash.hash(data.password);
+    }
     await userService.updateUserById(user.id, data);
     return {
       status: "success",
       message: "User berhasil diubah",
-      data: {
-        id: user.id,
-      },
+      data: user,
     };
   } catch (error: any) {
     if ("code" in error) {

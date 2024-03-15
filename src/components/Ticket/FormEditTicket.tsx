@@ -12,7 +12,7 @@ import {
 } from "@phosphor-icons/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { validator } from "@/lib/actions/ticketAction/validator";
+import { FormTicketSchema } from "@/lib/actions/ticketAction/validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PayloadBodyTicket } from "@/types/ticketAction";
 import {

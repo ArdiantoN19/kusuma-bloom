@@ -6,5 +6,6 @@ export async function GET(req: NextRequest) {
   //   const nameProduct = params.searchParams.get("name");
   //   const params = req.nextUrl;
   //   const nameProduct = params.searchParams.get("name");
-  //   return Response.json({ data: nameProduct });
+  // return Response.json({ data: nameProduct });
+  return Response.json({ data: "product-1" });
 }

@@ -2,7 +2,7 @@
 
 import { Row } from "@tanstack/react-table";
 import { UserSchema } from "../Schema";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {

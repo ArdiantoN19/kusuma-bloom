@@ -50,10 +50,20 @@ export const authOptions: NextAuthOptions = {
     maxAge: Number(process.env.NEXTAUTH_MAX_AGE_TOKEN),
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.userId = user.id;
         token.role = user.role;
+        token.gender = user.gender;
+        token.address = user.address;
+      }
+      if (trigger === "update") {
+        if (session.info.image) {
+          token.picture = session.info.image;
+        }
+        if (session.info.email) {
+          token.email = session.info.email;
+        }
       }
       return token;
     },
@@ -64,6 +74,12 @@ export const authOptions: NextAuthOptions = {
         }
         if ("userId" in token) {
           session.user.userId = token.userId;
+        }
+        if ("gender" in token) {
+          session.user.gender = token.gender;
+        }
+        if ("address" in token) {
+          session.user.address = token.address;
         }
       }
       return session;

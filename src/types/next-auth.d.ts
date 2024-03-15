@@ -1,3 +1,4 @@
+import { GENDER } from "@/lib/actions/userAction/Validator";
 import NextAuth, { DefaultSession } from "next-auth/next";
 
 declare module "next-auth" {
@@ -9,5 +10,7 @@ declare module "next-auth" {
   }
   interface User extends DefaultSession["user"] {
     role: string;
+    gender: GENDER;
+    address: string;
   }
 }

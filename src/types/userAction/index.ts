@@ -8,7 +8,7 @@ export type PayloadBodyUser = {
   image: string;
   role: ROLE;
   gender: GENDER;
-  address?: string;
+  address?: string | null;
 };
 
 export type ResponseUser = {

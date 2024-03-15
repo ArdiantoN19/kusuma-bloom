@@ -1,3 +1,5 @@
+import { GENDER } from "@/lib/actions/userAction/Validator";
+
 export enum ROLE {
   REGULAR = "REGULAR",
   ADMIN = "ADMIN",
@@ -24,6 +26,8 @@ export type UserType = {
   password: string | null;
   image: string | null;
   role: ROLE;
+  gender: GENDER;
+  address: string;
   created_at: Date;
   updated_at: Date;
 };

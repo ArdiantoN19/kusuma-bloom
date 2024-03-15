@@ -78,7 +78,7 @@ const Navbar: FunctionComponent = () => {
               <Link href={"/contact"}>Kontak Kami</Link>
             </li>
           </ul>
-          <div className="hidden lg:flex items-center gap-x-2">
+          <div className="hidden lg:flex items-center gap-x-4">
             {session?.user ? (
               <>
                 <Button

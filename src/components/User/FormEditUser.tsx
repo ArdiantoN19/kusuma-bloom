@@ -70,7 +70,7 @@ const FormEditUser: FunctionComponent<FormEditUserProps> = ({
       image: undefined,
       role: user.role,
       gender: user.gender,
-      address: user.address,
+      address: user.address as string,
     },
   });
 
