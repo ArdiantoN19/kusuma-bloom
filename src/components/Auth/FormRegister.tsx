@@ -1,21 +1,22 @@
 "use client";
 
 import React from "react";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import Alert, { AlertType } from "@/components/Alert";
 import { userRegisterAction } from "@/lib/actions/authAction";
 import { At, Password, User } from "@phosphor-icons/react/dist/ssr";
 import { signIn } from "next-auth/react";
+import { Circle } from "@phosphor-icons/react";
 
 const FormRegister = () => {
   const [state, formAction] = useFormState(userRegisterAction, null);
-
+  const { pending } = useFormStatus();
   return (
     <>
       {state?.message && <Alert type={AlertType.ERROR}>{state.message}</Alert>}
       <form action={formAction}>
         <div className="mb-3">
-          <div className=" w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary">
+          <div className=" w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary bg-white">
             <div className="relative w-8 h-full">
               <User
                 size={24}
@@ -33,7 +34,7 @@ const FormRegister = () => {
           <span className="text-red-400 text-xs">{state?.Error?.username}</span>
         </div>
         <div className="mb-3">
-          <div className="w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary">
+          <div className="w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary bg-white">
             <div className="relative w-8 h-full">
               <At
                 size={24}
@@ -51,7 +52,7 @@ const FormRegister = () => {
           <span className="text-red-400 text-xs">{state?.Error?.email}</span>
         </div>
         <div className="mb-8">
-          <div className="w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary">
+          <div className="w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary bg-white">
             <div className="relative w-8 h-full">
               <Password
                 size={24}
@@ -71,8 +72,15 @@ const FormRegister = () => {
         <button
           type="submit"
           className="w-full py-3 mb-5 bg-gradient-primary text-white btn-shadow rounded-xl border border-black flex items-center gap-x-2 justify-center text-lg"
+          disabled={pending}
         >
-          REGISTER 🔥
+          {pending ? (
+            <>
+              <Circle size={20} className="animate-pulse" /> Loading...
+            </>
+          ) : (
+            <>REGISTER 🔥</>
+          )}
         </button>
         <div className="text-center text-sm text-muted">
           <p className="inline">Atau kamu sudah punya akun? </p>

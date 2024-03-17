@@ -11,9 +11,13 @@ import CardItemOverview from "@/components/Dashboard/CardItemOverview";
 import CardTransaction from "@/components/Dashboard/CardTransaction";
 import CardChartTransaction from "@/components/Dashboard/CardChartTransaction";
 import Link from "next/link";
+import { getTotalTicketRecordsAction } from "@/lib/actions/ticketAction";
+import { getTotalUserRecordsAction } from "@/lib/actions/userAction";
 
 const Page = async () => {
   const session = await getAuthServerSession();
+  const totalTickets = await getTotalTicketRecordsAction();
+  const totalUsers = await getTotalUserRecordsAction();
   return (
     <div className="space-y-4">
       <div className="mb-5">
@@ -38,24 +42,26 @@ const Page = async () => {
           title="Total Pendapatan"
           icon={<CurrencyDollarSimple size={20} />}
           total={16000000}
+          isMoney
           omzetPercent={20.1}
         />
         <CardItemOverview
           title="Total User"
           icon={<Users size={20} />}
-          total={16000000}
+          total={totalUsers.data.total}
           omzetPercent={20.1}
         />
         <CardItemOverview
           title="Total Tiket"
           icon={<Ticket size={20} />}
-          total={16000000}
+          total={totalTickets.data.total}
           omzetPercent={20.1}
         />
         <CardItemOverview
           title="Total Transaksi"
           icon={<ArrowsDownUp size={20} />}
           total={16000000}
+          isMoney
           omzetPercent={20.1}
         />
       </div>

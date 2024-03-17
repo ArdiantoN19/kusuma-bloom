@@ -40,4 +40,5 @@ export interface ITicketService {
   deleteTicketById(id: string): Promise<void>;
   activateTicketById(id: string): Promise<void>;
   nonActiveTicketById(id: string): Promise<void>;
+  getTotalTicketRecords(): Promise<number>;
 }

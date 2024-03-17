@@ -111,3 +111,25 @@ export const activateTicketByIdAction = async (id: string) => {
     return { status: "fail", message: error.message };
   }
 };
+
+export const getTotalTicketRecordsAction =
+  async (): Promise<ResponseTicketAction> => {
+    try {
+      const totalTicketRecords = await ticketService.getTotalTicketRecords();
+      return {
+        status: "success",
+        message: "Total tiket berhasil didapatkan",
+        data: {
+          total: totalTicketRecords,
+        },
+      };
+    } catch (error: any) {
+      if ("code" in error) {
+        return {
+          status: "fail",
+          message: "Terjadi kesalahan, tiket gagal didapatkan",
+        };
+      }
+      return { status: "fail", message: error.message };
+    }
+  };

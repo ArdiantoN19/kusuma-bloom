@@ -32,4 +32,5 @@ export interface IUserService {
   getUserById(id: string): Promise<ResponseUser>;
   deleteUserById(id: string): Promise<void>;
   updateUserById(id: string, data: PayloadBodyUser): Promise<ResponseUser>;
+  getTotalUserRecords(): Promise<number>;
 }

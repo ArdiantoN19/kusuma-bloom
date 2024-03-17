@@ -7,6 +7,7 @@ interface CardItemOverviewProps {
   total: number;
   icon: React.ReactNode;
   omzetPercent: number;
+  isMoney?: boolean;
 }
 
 const CardItemOverview: FunctionComponent<CardItemOverviewProps> = ({
@@ -14,6 +15,7 @@ const CardItemOverview: FunctionComponent<CardItemOverviewProps> = ({
   total,
   icon,
   omzetPercent,
+  isMoney = false,
 }) => {
   return (
     <Card>
@@ -22,7 +24,9 @@ const CardItemOverview: FunctionComponent<CardItemOverviewProps> = ({
         <div className="size-4 text-sm">{icon}</div>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold mb-1">{rupiahFormatter(total)}</div>
+        <div className="text-2xl font-bold mb-1">
+          {isMoney ? rupiahFormatter(total) : total}
+        </div>
         <p className="text-xs text-muted-foreground">
           +{omzetPercent} dari bulan lalu
         </p>

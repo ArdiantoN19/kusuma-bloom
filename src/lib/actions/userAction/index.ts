@@ -134,3 +134,28 @@ export const deleteUserByIdAction = async (id: string) => {
     };
   }
 };
+
+export const getTotalUserRecordsAction =
+  async (): Promise<ResponseUserAction> => {
+    try {
+      const totalTicketRecords = await userService.getTotalUserRecords();
+      return {
+        status: "success",
+        message: "Total tiket berhasil didapatkan",
+        data: {
+          total: totalTicketRecords,
+        },
+      };
+    } catch (error: any) {
+      if ("code" in error) {
+        return {
+          status: "fail",
+          message: "Terjadi kesalahan, tiket gagal didapatkan",
+        };
+      }
+      return {
+        status: "fail",
+        message: error.message,
+      };
+    }
+  };

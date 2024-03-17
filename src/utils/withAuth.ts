@@ -12,7 +12,7 @@ const authPaths: string[] = ["/register", "/login"];
 
 export const withAuth = (middleware: NextMiddleware, requireAuth: string[]) => {
   return async (req: NextRequest, next: NextFetchEvent) => {
-    const { pathname } = req.nextUrl;
+    const { pathname, searchParams } = req.nextUrl;
     const token = await getToken({
       req,
       secret: process.env.NEXTAUTH_SECRET,
@@ -24,6 +24,28 @@ export const withAuth = (middleware: NextMiddleware, requireAuth: string[]) => {
      * - jika role = "REGULAR" maka redirect ke menu /user/dashboard
      * - jika role = "ADMIN" maka redirect ke menu /admin/dashboard
      */
+
+    if (
+      !token &&
+      pathname === "/verify/email/send" &&
+      (!searchParams.get("email") ||
+        !searchParams.get("token") ||
+        !searchParams.get("verification_send"))
+    ) {
+      const url = new URL("/", req.url);
+      return NextResponse.redirect(url);
+    }
+
+    if (
+      !token &&
+      pathname === "/verify/email" &&
+      (!searchParams.get("status") ||
+        !searchParams.get("signature") ||
+        searchParams.get("signature") !== process.env.BASE_SIGNATURE_APP)
+    ) {
+      const url = new URL("/", req.url);
+      return NextResponse.redirect(url);
+    }
 
     if (!token && startWithRequirePath(requireAuth, pathname)) {
       const url = new URL("/login", req.url);

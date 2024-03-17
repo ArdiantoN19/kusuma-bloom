@@ -103,6 +103,10 @@ class TicketService implements ITicketService {
       },
     });
   }
+
+  async getTotalTicketRecords(): Promise<number> {
+    return await this.prismaTicket.count();
+  }
 }
 
 export const ticketService = new TicketService(prisma.ticket);

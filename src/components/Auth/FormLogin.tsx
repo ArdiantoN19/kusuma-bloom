@@ -7,6 +7,7 @@ import { AuthValidator } from "@/lib/actions/authAction/validator";
 import { signIn } from "next-auth/react";
 import Alert, { AlertType } from "@/components/Alert";
 import Link from "next/link";
+import { hashedTokenOTP } from "@/lib/actions/authAction";
 
 interface CustomFormEvent extends FormEvent<HTMLFormElement> {
   currentTarget: HTMLFormElement & {
@@ -25,6 +26,9 @@ const FormLogin = () => {
   const [isLoading, setisLoading] = useState<boolean>(false);
   const params = useSearchParams();
   const router = useRouter();
+  const [dataVerifyEmail, setDataVerifyEmail] = useState<Record<string, any>>(
+    {}
+  );
 
   const onSubmitHandler = useCallback(
     async (e: CustomFormEvent) => {
@@ -51,7 +55,13 @@ const FormLogin = () => {
           redirect: false,
         });
         if (!res?.ok) {
-          setError({ message: res?.error, Error: {} });
+          const error = res?.error?.split("!");
+          setDataVerifyEmail({
+            email,
+            token: error?.[1],
+            isToken: Boolean(Number(error?.[1])),
+          });
+          setError({ message: error?.[0], Error: {} });
           return;
         }
         if (params.get("callbackUrl")?.includes("register")) {
@@ -67,12 +77,41 @@ const FormLogin = () => {
     },
     [params, router]
   );
+
+  const onClickVerifyEmail = useCallback(async () => {
+    const url = new URL("/verify/email/send", process.env.NEXT_PUBLIC_BASE_URL);
+    url.searchParams.set("email", dataVerifyEmail.email as string);
+    url.searchParams.set("verification_send", "1");
+    url.searchParams.set(
+      "token",
+      `${await hashedTokenOTP(dataVerifyEmail.token as string)}${
+        dataVerifyEmail.token
+      }`
+    );
+    router.push(url.toString());
+  }, [dataVerifyEmail.email, dataVerifyEmail.token, router]);
+
   return (
     <>
-      {error.message && <Alert type={AlertType.ERROR}>{error.message}</Alert>}
+      {error.message && (
+        <Alert type={AlertType.ERROR}>
+          <div>
+            {error.message}
+            {dataVerifyEmail.isToken && (
+              <button
+                className="underline"
+                type="button"
+                onClick={onClickVerifyEmail}
+              >
+                Verifikasi sekarang
+              </button>
+            )}
+          </div>
+        </Alert>
+      )}
       <form onSubmit={onSubmitHandler}>
         <div className="mb-3">
-          <div className="w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary">
+          <div className="w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary bg-white">
             <div className="relative w-8 h-full">
               <At
                 size={24}
@@ -90,7 +129,7 @@ const FormLogin = () => {
           <span className="text-red-400 text-xs">{error?.Error?.email}</span>
         </div>
         <div className="mb-8">
-          <div className="w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary">
+          <div className="w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary bg-white">
             <div className="relative w-8 h-full">
               <Password
                 size={24}

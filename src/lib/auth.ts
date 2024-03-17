@@ -7,6 +7,7 @@ import bcryptPasswordHash from "@/utils/bcryptPasswordHash";
 import { UserType } from "@/types/authAction";
 import prisma from "./prisma";
 import { Adapter } from "next-auth/adapters";
+import { verifyTokenService } from "./actions/authAction/VerifyTokenService";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -25,6 +26,7 @@ export const authOptions: NextAuthOptions = {
 
         if (email && password) {
           const user: UserType = await authService.login(email);
+          const responseToken = await verifyTokenService.getTokenByEmail(email);
           const comparePassword = await bcryptPasswordHash.comparePassword(
             password,
             user.password as string
@@ -33,6 +35,15 @@ export const authOptions: NextAuthOptions = {
           if (!comparePassword) {
             throw new Error("Email atau password tidak valid");
           }
+
+          if (!user.emailVerified) {
+            throw new Error(
+              `Verifikasi email Anda terlebih dahulu!${
+                responseToken.token ?? "0"
+              }`
+            );
+          }
+
           return user;
         }
 

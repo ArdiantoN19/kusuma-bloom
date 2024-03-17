@@ -16,6 +16,8 @@ export interface IAuthService {
   checkAvailableEmail(email: string): Promise<any>;
   register(data: PayloadRegisterType): Promise<any>;
   login(email: string): Promise<any>;
+  getUserByEmail(email: string): Promise<UserType>;
+  updateEmailVerified(email: string): Promise<void>;
 }
 
 export type UserType = {

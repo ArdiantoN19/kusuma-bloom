@@ -53,6 +53,26 @@ class AuthService implements IAuthService {
     }
     return user as UserType;
   }
+
+  async getUserByEmail(email: string): Promise<UserType> {
+    const user = await this.prismaUser.findUnique({
+      where: {
+        email,
+      },
+    });
+    return user as UserType;
+  }
+
+  async updateEmailVerified(email: string): Promise<void> {
+    await this.prismaUser.update({
+      where: {
+        email,
+      },
+      data: {
+        emailVerified: new Date(),
+      },
+    });
+  }
 }
 
 export const authService = new AuthService(prisma.user);
