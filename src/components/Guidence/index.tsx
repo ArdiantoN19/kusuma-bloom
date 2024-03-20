@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 
 const GuidenceSection: FunctionComponent = () => {
   return (
-    <section className="py-20 container flex items-center flex-col md:flex-row gap-2 md:gap-x-8">
+    <section className="pt-14 pb-10 container flex items-center flex-col md:flex-row gap-2 md:gap-x-8">
       <div className="w-full md:w-1/2">
         <div className="aspect-video w-3/4 rounded border border-black h-32"></div>
       </div>

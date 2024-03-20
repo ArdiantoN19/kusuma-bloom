@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const Page = () => {
   return (
     <section className="container mb-28 mt-5 lg:mt-10">
-      <div className="flex items-center flex-col md:flex-row justify-between mb-8">
+      <div className="flex items-center flex-col md:flex-row justify-between mb-8 md:mb-0">
         <div className="mb-5 w-full lg:w-1/2">
           <p className="tracking-wider text-lg md:text-xl text-myOrange mb-2">
             FASILITAS KAMI

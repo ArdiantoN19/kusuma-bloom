@@ -19,7 +19,7 @@ const TestimonialSection = () => {
   return (
     <section className="bg-gradient-primary py-12">
       <div className="container">
-        <div className="mb-16 ">
+        <div className="mb-10 md:mb-16">
           <p className="tracking-wider text-lg text-center md:text-xl text-white mb-2">
             TESTIMONIALS
           </p>

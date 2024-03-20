@@ -1,10 +1,10 @@
 "use client";
 
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import React, { FunctionComponent, ReactNode } from "react";
 import { startWithRequirePath } from "@/utils";
 import { usePathname } from "next/navigation";
-import React, { FunctionComponent, ReactNode } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 interface UserLayoutProps {
   children: Readonly<ReactNode>;

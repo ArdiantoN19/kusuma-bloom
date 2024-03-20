@@ -19,7 +19,7 @@ const Footer = () => {
     <footer className="py-12 bg-gradient-primary">
       <div className="container">
         <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 w-full md:grid-cols-3 p-2 rounded md:rounded-full bg-white shadow-sm border lg:py-5 mb-10 lg:mb-12 md:divide-x">
+          <div className="grid grid-cols-1 w-full gap-y-4 md:gap-y-0 md:grid-cols-3 p-2 rounded md:rounded-full bg-white shadow-sm border lg:py-5 mb-10 lg:mb-12 md:divide-x">
             <div className="flex items-center md:justify-center gap-x-2">
               <MapPin size={35} className="text-primary" />
               <div>
