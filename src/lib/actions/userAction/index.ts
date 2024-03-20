@@ -3,6 +3,9 @@
 import { ResponseUserAction, PayloadBodyUser } from "@/types/userAction";
 import { userService } from "./UserService";
 import bcryptPasswordHash from "@/utils/bcryptPasswordHash";
+import { ROLE } from "@/types/authAction";
+import { generateRandomTokenOTP, sendVerificationEmail } from "../authAction";
+import { verifyTokenService } from "../authAction/VerifyTokenService";
 
 export const addUserAction = async (
   data: PayloadBodyUser
@@ -10,6 +13,16 @@ export const addUserAction = async (
   try {
     await userService.checkAvailableEmail(data.email);
     data.password = await bcryptPasswordHash.hash(data.password);
+    if (data.role === ROLE.ADMIN) {
+      data.emailVerified = new Date();
+    } else {
+      const token = generateRandomTokenOTP();
+      await verifyTokenService.addVerifyToken({
+        identifier: data.email,
+        token,
+      });
+      await sendVerificationEmail(data.email, token);
+    }
     const user = await userService.addUser(data);
     return {
       status: "success",

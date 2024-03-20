@@ -24,11 +24,11 @@ export function DataTableToolbar<TData>({
   };
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+    <div className="flex md:items-center justify-between flex-col md:flex-row">
+      <div className="flex md:flex-1 md:items-center md:space-x-2 flex-col space-y-2 md:space-y-0 md:flex-row">
         <Input
           placeholder="Search..."
-          className="h-8 w-[150px] lg:w-[250px] bg-white"
+          className="h-8 w-full md:w-[150px] lg:w-[250px] bg-white"
           value={
             (table.getColumn(searchKeyword)?.getFilterValue() as string) ?? ""
           }

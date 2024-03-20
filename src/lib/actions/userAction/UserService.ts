@@ -5,6 +5,7 @@ import {
 } from "@/types/userAction";
 import { PrismaClient } from "@prisma/client";
 import prisma from "@/lib/prisma";
+import { ROLE } from "@/types/authAction";
 
 class UserService implements IUserService {
   constructor(private readonly prismaUser: PrismaClient["user"]) {}

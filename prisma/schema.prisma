@@ -45,7 +45,7 @@ model User {
   password      String?
   image         String?
   role          ROLE
-  gender        GENDER?
+  gender        GENDER?   @default(MALE)
   address       String?    @db.Text
   created_at    DateTime  @default(now())
   updated_at    DateTime  @updatedAt

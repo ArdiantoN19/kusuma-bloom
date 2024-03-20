@@ -78,12 +78,12 @@ const Navbar: FunctionComponent = () => {
               <Link href={"/contact"}>Kontak Kami</Link>
             </li>
           </ul>
-          <div className="hidden lg:flex items-center gap-x-4">
+          <div className="hidden lg:flex items-center gap-x-2">
             {session?.user ? (
               <>
                 <Button
                   asChild
-                  className="bg-gradient-primary rounded-full btn-shadow border border-black"
+                  className="bg-gradient-primary rounded-full btn-shadow border border-black mr-1"
                 >
                   <Link
                     href={

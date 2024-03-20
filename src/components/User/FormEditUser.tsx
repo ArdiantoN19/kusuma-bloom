@@ -70,7 +70,7 @@ const FormEditUser: FunctionComponent<FormEditUserProps> = ({
       image: undefined,
       role: user.role,
       gender: user.gender,
-      address: user.address as string,
+      address: user.address ?? "",
     },
   });
 
@@ -165,7 +165,9 @@ const FormEditUser: FunctionComponent<FormEditUserProps> = ({
           <User size={20} />
           Edit User
         </DialogTitle>
-        <DialogDescription>Anda bisa mengubah user disini.</DialogDescription>
+        <DialogDescription className="text-start">
+          Anda bisa mengubah user disini.
+        </DialogDescription>
       </DialogHeader>
       <Form {...form}>
         <form

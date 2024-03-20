@@ -123,7 +123,7 @@ export const resendVerificationTokenAction = async (data: {
   redirect(url.toString());
 };
 
-const generateRandomTokenOTP = (): string => {
+export const generateRandomTokenOTP = (): string => {
   const token = Math.floor(Math.random() * 999999 - 100000 + 1) + 100000;
   return String(token);
 };
@@ -149,7 +149,7 @@ const generateTemplateHTML = (token: string) => {
 </div>`;
 };
 
-const sendVerificationEmail = async (email: string, token: string) => {
+export const sendVerificationEmail = async (email: string, token: string) => {
   const resend = new Resend(process.env.RESEND_API_KEY as string);
   const { data, error } = await resend.emails.send({
     from: process.env.BASE_EMAIL_APP as string,

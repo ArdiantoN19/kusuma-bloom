@@ -98,7 +98,7 @@ const FormEditImageProfile: React.FC<FormEditImageProfileProps> = ({
     <div className={className} {...props}>
       <Form {...form}>
         <form
-          className="w-full flex gap-6 items-center"
+          className="w-full flex gap-6 items-center flex-col md:flex-row"
           onSubmit={form.handleSubmit(onSubmitHandler)}
         >
           <FormField
@@ -124,7 +124,7 @@ const FormEditImageProfile: React.FC<FormEditImageProfileProps> = ({
               </FormItem>
             )}
           />
-          <div className="flex-1">
+          <div className="flex-1 flex flex-col-reverse md:block gap-y-2">
             <Button variant={"primary"} className="mb-3" type="submit">
               {isLoading ? (
                 <>
@@ -134,7 +134,7 @@ const FormEditImageProfile: React.FC<FormEditImageProfileProps> = ({
                 <>Upload Foto</>
               )}
             </Button>
-            <div className="text-sm text-muted-foreground">
+            <div className="text-xs md:text-sm text-muted-foreground">
               <p>Rekomendasi gambar ukuran 800x800 px</p>
               <p>File berekstensi .jpg, .jpeg, .png, dan .webp</p>
               <p>Ukuran maksimal 3 MB</p>

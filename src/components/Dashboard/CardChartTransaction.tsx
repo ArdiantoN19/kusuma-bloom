@@ -65,7 +65,7 @@ const data = [
 
 const CardChartTransaction: FunctionComponent = () => {
   return (
-    <Card className="col-span-4">
+    <Card className="col-span-full md:col-span-4">
       <CardHeader>
         <CardTitle>Overview Transaksi</CardTitle>
       </CardHeader>

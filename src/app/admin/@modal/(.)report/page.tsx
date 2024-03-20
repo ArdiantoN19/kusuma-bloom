@@ -13,7 +13,7 @@ import React from "react";
 const Page = () => {
   return (
     <Modal>
-      <Card className="max-w-md ">
+      <Card className="w-72 md:w-auto md:max-w-md">
         <CardHeader>
           <CardTitle className="flex items-center gap-1">
             <Rocket size={20} /> Cetak Laporan Bulanan

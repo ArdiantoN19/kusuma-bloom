@@ -131,7 +131,7 @@ const FormAddFacility = () => {
       <DialogTrigger asChild>
         <Button variant={"primary"}>
           <Plus size={20} />
-          Tambah Fasilitas
+          <span className="text-xs md:text-sm">Tambah Fasilitas</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md bg-white max-h-[90dvh] overflow-y-auto">

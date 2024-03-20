@@ -123,7 +123,7 @@ const FormEditProfile: React.FC<FormEditProfileProps> = ({
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <div className="border rounded-lg p-6">
         <div className="flex items-center justify-between mb-5">
-          <h3 className="text-base font-bold">Personal info</h3>
+          <h3 className="text-lg font-bold">Personal info</h3>
           <DialogTrigger asChild>
             <Button variant={"primary"}>
               <Pencil size={16} />
@@ -132,7 +132,7 @@ const FormEditProfile: React.FC<FormEditProfileProps> = ({
           </DialogTrigger>
         </div>
 
-        <div className="grid grid-cols-5">
+        <div className="flex flex-col gap-y-4 md:grid md:grid-cols-3 lg:grid-cols-5">
           <div className="text-muted-foreground">
             <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
               <IdentificationBadge size={16} /> Username

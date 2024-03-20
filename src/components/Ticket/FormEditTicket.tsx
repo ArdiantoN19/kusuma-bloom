@@ -128,7 +128,9 @@ const FormEditTicket: FunctionComponent<FormEditTicketProps> = (props) => {
           <Ticket size={20} />
           Edit Tiket
         </DialogTitle>
-        <DialogDescription>Anda bisa mengubah tiket disini.</DialogDescription>
+        <DialogDescription className="text-start">
+          Anda bisa mengubah tiket disini.
+        </DialogDescription>
       </DialogHeader>
       <Form {...form}>
         <form

@@ -89,15 +89,18 @@ export const columns: ColumnDef<z.infer<typeof UserSchema>>[] = [
       const gender = genders.find(
         (gender) => gender.value === row.getValue("gender")
       ) as { value: GENDER; label: string; icon: any };
+      if (!gender) {
+        return <div>-</div>;
+      }
       return (
         <div
           className={cn(
             "w-[80px] flex gap-1",
-            gender.value === GENDER.MALE ? "text-primary" : "text-red-400"
+            gender?.value === GENDER.MALE ? "text-primary" : "text-red-400"
           )}
         >
           <gender.icon size={16} />
-          {gender.label}
+          {gender?.label}
         </div>
       );
     },

@@ -135,7 +135,7 @@ const FormAddUser: FunctionComponent = () => {
       <DialogTrigger asChild>
         <Button variant={"primary"}>
           <Plus size={20} />
-          Tambah User
+          <span className="text-xs md:text-sm">Tambah User</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md bg-white max-h-[90dvh] overflow-y-auto">
@@ -302,7 +302,7 @@ const FormAddUser: FunctionComponent = () => {
                   <FormControl>
                     <Textarea
                       placeholder="Masukkan alamat"
-                      className="resize-none"
+                      className="resize-none h-[150px]"
                       {...field}
                     />
                   </FormControl>

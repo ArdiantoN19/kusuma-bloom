@@ -21,9 +21,11 @@ const Page = async () => {
   return (
     <div className="space-y-4">
       <div className="mb-5">
-        <div className="flex items-center justify-between space-y-2">
+        <div className="flex items-center justify-between md:space-y-2">
           <div>
-            <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+              Dashboard
+            </h2>
             <p className="text-sm text-muted-foreground">
               Lihat dan pantau statistik bisnis Anda
             </p>
@@ -31,9 +33,10 @@ const Page = async () => {
           <Link
             href={"/admin/report"}
             className="flex items-center gap-1 py-2 rounded-md text-white font-medium text-sm px-4 bg-gradient-primary border border-black btn-shadow"
+            title="Cetak laporan"
           >
             <DownloadSimple size={20} />
-            Cetak Laporan
+            <span className="hidden md:block">Cetak Laporan</span>
           </Link>
         </div>
       </div>
@@ -65,7 +68,7 @@ const Page = async () => {
           omzetPercent={20.1}
         />
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 ">
+      <div className="grid gap-y-4 lg:gap-x-4 md:grid-cols-2 lg:grid-cols-7 ">
         <CardChartTransaction />
         <CardTransaction />
       </div>

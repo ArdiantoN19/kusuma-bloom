@@ -13,7 +13,9 @@ const Page = () => {
     <div className="space-y-4 ">
       <div className="flex items-center justify-between space-y-2  mb-5">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">User</h2>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+            User
+          </h2>
           <p className="text-sm text-muted-foreground">
             Kelola data user disini.
           </p>

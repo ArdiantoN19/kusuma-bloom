@@ -152,7 +152,7 @@ const FormEditFacility: FunctionComponent<FormEditFacilityProps> = ({
           <House size={20} />
           Edit Fasilitas
         </DialogTitle>
-        <DialogDescription>
+        <DialogDescription className="text-start">
           Anda bisa mengubah fasilitas disini.
         </DialogDescription>
       </DialogHeader>

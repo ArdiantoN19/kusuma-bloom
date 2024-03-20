@@ -92,7 +92,7 @@ const FormEditVoucher: FunctionComponent<FormEditVoucherProps> = ({
           <Ticket size={20} />
           Edit Voucher
         </DialogTitle>
-        <DialogDescription>
+        <DialogDescription className="text-start">
           Anda bisa mengubah voucher disini.
         </DialogDescription>
       </DialogHeader>

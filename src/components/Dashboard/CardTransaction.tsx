@@ -22,7 +22,7 @@ export function RecentTransactions() {
         </Avatar>
         <div className="ml-4 space-y-1">
           <p className="text-sm font-medium leading-none">Olivia Martin</p>
-          <p className="text-sm text-muted-foreground">
+          <p className="md:text-sm text-muted-foreground text-xs max-w-16 md:max-w-max truncate">
             olivia.martin@email.com
           </p>
         </div>
@@ -40,7 +40,9 @@ export function RecentTransactions() {
         </Avatar>
         <div className="ml-4 space-y-1">
           <p className="text-sm font-medium leading-none">Jackson Lee</p>
-          <p className="text-sm text-muted-foreground">jackson.lee@email.com</p>
+          <p className="md:text-sm text-muted-foreground text-xs max-w-16 md:max-w-max truncate">
+            jackson.lee@email.com
+          </p>
         </div>
         <div className="ml-auto">
           <Badge className="text-xs bg-primary hover:bg-primary">Sukses</Badge>
@@ -56,7 +58,7 @@ export function RecentTransactions() {
         </Avatar>
         <div className="ml-4 space-y-1">
           <p className="text-sm font-medium leading-none">Isabella Nguyen</p>
-          <p className="text-sm text-muted-foreground">
+          <p className="md:text-sm text-muted-foreground text-xs max-w-16 md:max-w-max truncate">
             isabella.nguyen@email.com
           </p>
         </div>
@@ -74,7 +76,9 @@ export function RecentTransactions() {
         </Avatar>
         <div className="ml-4 space-y-1">
           <p className="text-sm font-medium leading-none">William Kim</p>
-          <p className="text-sm text-muted-foreground">will@email.com</p>
+          <p className="md:text-sm text-muted-foreground text-xs max-w-16 md:max-w-max truncate">
+            will@email.com
+          </p>
         </div>
         <div className="ml-auto">
           <Badge className="text-xs bg-primary hover:bg-primary">Sukses</Badge>
@@ -90,7 +94,9 @@ export function RecentTransactions() {
         </Avatar>
         <div className="ml-4 space-y-1">
           <p className="text-sm font-medium leading-none">Sofia Davis</p>
-          <p className="text-sm text-muted-foreground">sofia.davis@email.com</p>
+          <p className="md:text-sm text-muted-foreground text-xs max-w-16 md:max-w-max truncate">
+            sofia.davis@email.com
+          </p>
         </div>
         <div className="ml-auto">
           <Badge className="text-xs bg-primary hover:bg-primary">Sukses</Badge>
@@ -102,7 +108,7 @@ export function RecentTransactions() {
 
 const CardTransaction = () => {
   return (
-    <Card className="col-span-3">
+    <Card className="md:col-span-3">
       <CardHeader>
         <CardTitle>Transaksi Terakhir</CardTitle>
         <CardDescription>Total ada 256 transaksi dibulan ini.</CardDescription>

@@ -17,7 +17,7 @@ const MainFooter = () => {
               className="size-8 object-cover"
             />
             <div>
-              <p className="text-lg font-bold text-primary leading-none">
+              <p className="text-base md:text-lg font-bold text-primary leading-none">
                 Kusuma Bloom
               </p>
               <p className="text-sm text-muted-foreground">
@@ -40,7 +40,7 @@ const MainFooter = () => {
             ))}
           </div>
         </div>
-        <div className="text-sm text-end">
+        <div className="text-sm text-center md:text-end">
           Made with ❤️ by{" "}
           <Link
             href={"https://github.com/ArdiantoN19"}

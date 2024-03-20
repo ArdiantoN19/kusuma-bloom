@@ -112,7 +112,7 @@ const FormAddTicket = () => {
       <DialogTrigger asChild>
         <Button variant={"primary"}>
           <Plus size={20} />
-          Tambah Tiket
+          <span className="text-xs md:text-sm">Tambah Tiket</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md bg-white">

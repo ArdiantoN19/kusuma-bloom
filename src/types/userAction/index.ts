@@ -9,6 +9,7 @@ export type PayloadBodyUser = {
   role: ROLE;
   gender: GENDER;
   address?: string | null;
+  emailVerified?: Date;
 };
 
 export type ResponseUser = {
