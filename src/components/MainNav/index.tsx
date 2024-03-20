@@ -27,7 +27,7 @@ const MainNav: FunctionComponent = ({
       </button>
       <nav
         className={cn(
-          "fixed z-50 top-0 md:static flex flex-col md:flex-row md:items-center transition-all md:space-x-4 lg:space-x-6 min-h-screen w-full bg-white md:bg-transparent pt-[4.2em] md:pt-0 gap-y-4 container md:px-0",
+          "fixed z-50 top-0 md:static flex flex-col md:flex-row md:items-center transition-all md:gap-x-4 lg:gap-x-6 min-h-screen w-full bg-white md:bg-transparent pt-[4.2em] md:pt-0 gap-y-4 container md:px-0",
           isShowSidebar ? "left-0" : "left-[-100%]",
           className
         )}
