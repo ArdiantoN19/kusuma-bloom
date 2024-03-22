@@ -56,6 +56,34 @@ export const formattedPrice = (value: string) => {
   return result;
 };
 
+export function getTimeOfDay() {
+  const now = new Date();
+  const hours = now.getHours();
+
+  if (hours >= 5 && hours < 12) {
+    return "Selamat Pagi";
+  } else if (hours >= 12 && hours < 18) {
+    return "Selamat Sore";
+  } else {
+    return "Selamat Malam";
+  }
+}
+
+export function setLocalStorage(key: string, value: string) {
+  if(typeof window !== 'undefined') {
+    localStorage.setItem(key, value);
+    return;
+  }
+  return 'not-supported'
+}
+
+export function getLocalStorage(key: string): string {
+  if(typeof window !== 'undefined') {
+    return localStorage.getItem(key) || "";
+  }
+  return 'not-supported'
+}
+
 // Example usage
 // const targetDate = '2023-12-31';
 // console.log(calculateDaysLeft(targetDate));

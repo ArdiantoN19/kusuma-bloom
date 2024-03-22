@@ -1,16 +1,9 @@
 "use client";
 
 import React, { FunctionComponent, useCallback, useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
+import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { Check, Circle, Eraser, Plus, Ticket } from "@phosphor-icons/react";
+import { Check, Circle, Eraser, Percent } from "@phosphor-icons/react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { FormVoucherSchema } from "@/lib/actions/voucherAction/Validator";
@@ -89,7 +82,7 @@ const FormEditVoucher: FunctionComponent<FormEditVoucherProps> = ({
     <>
       <DialogHeader>
         <DialogTitle className="flex items-center gap-1">
-          <Ticket size={20} />
+          <Percent size={20} />
           Edit Voucher
         </DialogTitle>
         <DialogDescription className="text-start">

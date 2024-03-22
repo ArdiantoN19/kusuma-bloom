@@ -67,6 +67,7 @@ export const authOptions: NextAuthOptions = {
         token.role = user.role;
         token.gender = user.gender;
         token.address = user.address;
+        token.isPopMember = 1;
       }
       if (trigger === "update") {
         if (session.info.image) {
@@ -76,7 +77,11 @@ export const authOptions: NextAuthOptions = {
           token.email = session.info.email;
           token.address = session.info.address;
         }
+        if (session.info.isPopMember === 0) {
+          token.isPopMember = session.info.isPopMember;
+        }
       }
+
       return token;
     },
     async session({ token, session }) {
@@ -92,6 +97,9 @@ export const authOptions: NextAuthOptions = {
         }
         if ("address" in token) {
           session.user.address = token.address;
+        }
+        if ("isPopMember" in token) {
+          session.user.isPopMember = token.isPopMember;
         }
       }
       return session;

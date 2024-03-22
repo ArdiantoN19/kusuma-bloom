@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { Check, Circle, Eraser, Plus, Ticket } from "@phosphor-icons/react";
+import { Check, Circle, Eraser, Percent, Plus } from "@phosphor-icons/react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { FormVoucherSchema } from "@/lib/actions/voucherAction/Validator";
@@ -89,7 +89,7 @@ const FormAddVoucher: FunctionComponent = () => {
       <DialogContent className="max-w-md bg-white max-h-[90dvh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-1">
-            <Ticket size={20} />
+            <Percent size={20} />
             Tambah Voucher
           </DialogTitle>
           <DialogDescription>

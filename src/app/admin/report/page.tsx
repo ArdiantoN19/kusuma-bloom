@@ -1,4 +1,4 @@
-import FormReporting from "@/components/Dashboard/FormReporting";
+import FormReporting from "@/components/Admin/Dashboard/FormReporting";
 import {
   Card,
   CardContent,

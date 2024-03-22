@@ -7,9 +7,9 @@ import {
   Ticket,
   Users,
 } from "@phosphor-icons/react/dist/ssr";
-import CardItemOverview from "@/components/Dashboard/CardItemOverview";
-import CardTransaction from "@/components/Dashboard/CardTransaction";
-import CardChartTransaction from "@/components/Dashboard/CardChartTransaction";
+import CardItemOverview from "@/components/Admin/Dashboard/CardItemOverview";
+import CardTransaction from "@/components/Admin/Dashboard/CardTransaction";
+import CardChartTransaction from "@/components/Admin/Dashboard/CardChartTransaction";
 import Link from "next/link";
 import { getTotalTicketRecordsAction } from "@/lib/actions/ticketAction";
 import { getTotalUserRecordsAction } from "@/lib/actions/userAction";
