@@ -8,11 +8,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "../../ui/form";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
+import { Input } from "../../ui/input";
 import {
   Dialog,
   DialogContent,
@@ -20,8 +20,8 @@ import {
   DialogHeader,
   DialogTrigger,
   DialogTitle,
-} from "../ui/dialog";
-import { Button } from "../ui/button";
+} from "../../ui/dialog";
+import { Button } from "../../ui/button";
 import {
   Calendar as CalendarIcon,
   Check,
@@ -31,10 +31,10 @@ import {
   Ticket,
 } from "@phosphor-icons/react";
 import { FormTicketSchema } from "@/lib/actions/ticketAction/validator";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { cn } from "@/lib/utils";
 import { addDays, format } from "date-fns";
-import { Calendar } from "../ui/calendar";
+import { Calendar } from "../../ui/calendar";
 import { useSession } from "next-auth/react";
 import { PayloadBodyTicket, ResponseTicketAction } from "@/types/ticketAction";
 import { addTicketAction } from "@/lib/actions/ticketAction";
@@ -45,7 +45,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../../ui/select";
 import { useRouter } from "next/navigation";
 
 const FormAddTicket = () => {

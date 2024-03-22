@@ -1,5 +1,5 @@
-import FormAddTicket from "@/components/Ticket/FormAddTicket";
-import TicketTable from "@/components/Ticket/Table";
+import FormAddTicket from "@/components/Admin/Ticket/FormAddTicket";
+import TicketTable from "@/components/Admin/Ticket/Table";
 import { Metadata } from "next";
 import React from "react";
 

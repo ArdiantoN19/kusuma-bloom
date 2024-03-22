@@ -1,7 +1,7 @@
 "use client";
 
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
+import { DialogDescription, DialogHeader, DialogTitle } from "../../ui/dialog";
 import {
   Check,
   Circle,
@@ -23,9 +23,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Button } from "../ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+} from "../../ui/form";
+import { Button } from "../../ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { cn } from "@/lib/utils";
 import { addDays, format } from "date-fns";
 import {
@@ -34,9 +34,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { Calendar } from "../ui/calendar";
-import { Input } from "../ui/input";
+} from "../../ui/select";
+import { Calendar } from "../../ui/calendar";
+import { Input } from "../../ui/input";
 import {
   activateTicketByIdAction,
   updateTicketByIdAction,

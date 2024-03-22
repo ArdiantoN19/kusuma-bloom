@@ -126,7 +126,7 @@ const HeroInfo = () => {
                 <small className="text-primary font-bold leading-none">
                   {session?.user.role}
                 </small>
-                <div className="rounded-full px-1.5 py-[.1em] bg-orange-400 text-white absolute -top-2 -right-1 text-[.5em]">
+                <div className="rounded-full px-1.5 py-[.1em] bg-myOrange text-white absolute -top-2 -right-1 text-[.5em]">
                   PRO
                 </div>
               </button>

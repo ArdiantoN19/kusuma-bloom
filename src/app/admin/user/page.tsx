@@ -1,5 +1,5 @@
-import FormAddUser from "@/components/User/FormAddUser";
-import UserTable from "@/components/User/Table";
+import FormAddUser from "@/components/Admin/User/FormAddUser";
+import UserTable from "@/components/Admin/User/Table";
 import { Metadata } from "next";
 import React from "react";
 

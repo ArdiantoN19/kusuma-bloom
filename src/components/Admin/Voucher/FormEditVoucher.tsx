@@ -1,8 +1,8 @@
 "use client";
 
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
-import { Button } from "../ui/button";
+import { DialogDescription, DialogHeader, DialogTitle } from "../../ui/dialog";
+import { Button } from "../../ui/button";
 import { Check, Circle, Eraser, Percent } from "@phosphor-icons/react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -16,13 +16,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
+} from "../../ui/form";
+import { Input } from "../../ui/input";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { PayloadBodyVoucher, ResponseVoucher } from "@/types/voucherAction";
-import { Checkbox } from "../ui/checkbox";
+import { Checkbox } from "../../ui/checkbox";
 import { updateVoucherByIdAction } from "@/lib/actions/voucherAction";
 
 interface FormEditVoucherProps {

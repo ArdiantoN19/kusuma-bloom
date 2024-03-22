@@ -1,14 +1,21 @@
 "use client";
 
-import { FormFacilitySchema } from "@/lib/actions/facilityAction/validator";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../../ui/dialog";
+import { Button } from "../../ui/button";
+import { Check, Circle, Eraser, Plus, User } from "@phosphor-icons/react";
 import { z } from "zod";
-import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
-import { Button } from "../ui/button";
-import { Check, Circle, Eraser, House, Plus } from "@phosphor-icons/react";
+import { useForm } from "react-hook-form";
+import { FormUserSchema, GENDER } from "@/lib/actions/userAction/Validator";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ROLE } from "@/types/authAction";
 import {
   Form,
   FormControl,
@@ -17,75 +24,62 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import Image from "next/image";
-import { toast } from "sonner";
-import { Textarea } from "../ui/textarea";
-import { PayloadBodyFacility, ResponseFacility } from "@/types/facilityAction";
-import { useSession } from "next-auth/react";
-import {
-  addFacilityAction,
-  updateFacilityByIdAction,
-  updateImageFacilityByIdAction,
-} from "@/lib/actions/facilityAction";
-import {
-  deleteImageFromCloudinary,
-  getPublicIdFromUrl,
-  uploadImageCloudinary,
-} from "@/lib/cloudinary";
+} from "../../ui/form";
+import { Input } from "../../ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { capacities, category_ages } from "./Table/ColumnFilter";
+} from "../../ui/select";
+import { PayloadBodyUser, ResponseUser } from "@/types/userAction";
+import {
+  updateImageUserByIdAction,
+  updateUserByIdAction,
+} from "@/lib/actions/userAction";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import {
+  deleteImageFromCloudinary,
+  getPublicIdFromUrl,
+  uploadImageCloudinary,
+} from "@/lib/cloudinary";
+import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
+import { Textarea } from "../../ui/textarea";
 
-interface FormEditFacilityProps {
-  facility: ResponseFacility;
+interface FormEditUserProps {
+  user: ResponseUser;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const FormEditFacility: FunctionComponent<FormEditFacilityProps> = ({
-  facility,
+const FormEditUser: FunctionComponent<FormEditUserProps> = ({
+  user,
   setOpenDialog,
 }) => {
-  const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [imageUrl, setImageUrl] = useState<string>(facility.image);
   const router = useRouter();
-
-  const form = useForm<z.infer<typeof FormFacilitySchema>>({
-    resolver: zodResolver(FormFacilitySchema),
+  const [imageUrl, setImageUrl] = useState<string | undefined>(user.image);
+  const form = useForm<z.infer<typeof FormUserSchema>>({
+    resolver: zodResolver(FormUserSchema),
     defaultValues: {
-      name: facility.name,
-      description: facility.description,
+      name: user.name,
+      email: user.email,
+      password: user.password,
       image: undefined,
-      category_age: facility.category_age,
-      capacities: facility.capacities,
+      role: user.role,
+      gender: user.gender,
+      address: user.address ?? "",
     },
   });
 
-  const onFormReset = useCallback(() => {
-    form.reset({
-      name: "",
-      description: "",
-      image: undefined,
-      category_age: "",
-      capacities: "",
-    });
-    setImageUrl("");
-  }, [form]);
-
   const imageRef = form.register("image");
-
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      if (file?.size >= 5000000) {
-        toast.error("Ukuran file harus lebih kecil dari 5 MB");
+      if (file?.size >= 3000000) {
+        toast.error("Ukuran file harus lebih kecil dari 3 MB");
         form.setValue("image", undefined);
         setImageUrl("");
         return;
@@ -97,51 +91,70 @@ const FormEditFacility: FunctionComponent<FormEditFacilityProps> = ({
         return;
       }
       setImageUrl(URL.createObjectURL(file));
+
+      return;
     }
   };
 
+  const onFormReset = useCallback(() => {
+    form.reset({
+      name: "",
+      email: "",
+      password: "",
+      image: undefined,
+      role: ROLE.REGULAR,
+      gender: GENDER.MALE,
+      address: "",
+    });
+    setImageUrl("");
+  }, [form]);
+
   const onSubmitHandler = useCallback(
-    async (data: z.infer<typeof FormFacilitySchema>) => {
-      const payload: PayloadBodyFacility = {
-        ...data,
+    async (data: z.infer<typeof FormUserSchema>) => {
+      const payload: PayloadBodyUser = {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        role: data.role,
         image: !imageUrl
-          ? `${process.env.NEXT_PUBLIC_API_AVATAR_URL}?seed=${data.name}`
-          : facility.image,
-        userId: session?.user.userId,
+          ? `${process.env.NEXT_PUBLIC_API_AVATAR_URL}?seed=${user.name}`
+          : user.image,
+        gender: data.gender,
+        address: data.address,
       };
+
       setIsLoading(true);
-      const response = await updateFacilityByIdAction(facility.id, payload);
+      const response = await updateUserByIdAction(user.id, payload);
 
       if (response.status !== "success") {
         toast.error(response.message);
       } else {
         if (data.image?.length) {
-          if (!facility.image.includes("api.dicebear.com")) {
-            const publicId = getPublicIdFromUrl(facility.image as string);
+          if (!user.image.includes("api.dicebear.com")) {
+            const publicId = getPublicIdFromUrl(user.image as string);
             await deleteImageFromCloudinary(publicId);
           }
           const secure_url = await uploadImageCloudinary(
             data.image as FileList,
-            process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_FACILITY as string
+            process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET as string
           );
-          await updateImageFacilityByIdAction(response.data.id, secure_url);
+          await updateImageUserByIdAction(response.data.id, secure_url);
         }
         toast.success(response.message);
         setOpenDialog((prev) => !prev);
         onFormReset();
         router.refresh();
       }
-
       setIsLoading(false);
     },
     [
-      facility.id,
-      facility.image,
       imageUrl,
       onFormReset,
       router,
-      session?.user.userId,
       setOpenDialog,
+      user.id,
+      user.image,
+      user.name,
     ]
   );
 
@@ -149,11 +162,11 @@ const FormEditFacility: FunctionComponent<FormEditFacilityProps> = ({
     <>
       <DialogHeader>
         <DialogTitle className="flex items-center gap-1">
-          <House size={20} />
-          Edit Fasilitas
+          <User size={20} />
+          Edit User
         </DialogTitle>
         <DialogDescription className="text-start">
-          Anda bisa mengubah fasilitas disini.
+          Anda bisa mengubah user disini.
         </DialogDescription>
       </DialogHeader>
       <Form {...form}>
@@ -166,9 +179,9 @@ const FormEditFacility: FunctionComponent<FormEditFacilityProps> = ({
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Gambar</FormLabel>
+                <FormLabel>Foto</FormLabel>
                 <FormControl>
-                  <div className="w-full h-[150px] border rounded shadow-sm relative overflow-hidden">
+                  <div className="size-[150px] border rounded shadow-sm relative overflow-hidden">
                     <p className="text-xs text-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                       Pilih gambar
                     </p>
@@ -176,7 +189,7 @@ const FormEditFacility: FunctionComponent<FormEditFacilityProps> = ({
                       {...imageRef}
                       type="file"
                       accept="image/*"
-                      className="opacity-0 w-full h-full absolute z-[10] cursor-pointer"
+                      className="opacity-0 w-full h-full absolute z-[10]"
                       onChange={onImageChange}
                     />
                     {imageUrl && (
@@ -211,7 +224,7 @@ const FormEditFacility: FunctionComponent<FormEditFacilityProps> = ({
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nama</FormLabel>
+                <FormLabel>Username</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -220,30 +233,79 @@ const FormEditFacility: FunctionComponent<FormEditFacilityProps> = ({
             )}
           />
           <FormField
-            name="category_age"
+            name="email"
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Kategory Umur</FormLabel>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input {...field} type="email" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="password"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input {...field} type="password" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="gender"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Jenis Kelamin</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value={GENDER.MALE} />
+                      </FormControl>
+                      <FormLabel>Pria</FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value={GENDER.FEMALE} />
+                      </FormControl>
+                      <FormLabel>Wanita</FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="role"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Role</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="--Pilih Kategory Umur--" />
+                      <SelectValue placeholder={"--pilih role--"} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {category_ages.map((category_age) => (
-                      <SelectItem
-                        key={category_age.value}
-                        value={category_age.value}
-                      >
-                        {category_age.label}
-                      </SelectItem>
-                    ))}
+                    <SelectItem value={ROLE.REGULAR}>Regular</SelectItem>
+                    <SelectItem value={ROLE.ADMIN}>Admin</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -251,47 +313,21 @@ const FormEditFacility: FunctionComponent<FormEditFacilityProps> = ({
             )}
           />
           <FormField
-            name="capacities"
+            name="address"
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Kapasitas</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  value={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="--Pilih Kapasitas--" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {capacities.map((capacity) => (
-                      <SelectItem key={capacity.value} value={capacity.value}>
-                        {capacity.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="description"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Deskripsi</FormLabel>
+                <FormLabel>Alamat</FormLabel>
                 <FormControl>
                   <Textarea
+                    placeholder="Masukkan alamat"
+                    className="resize-none h-[150px]"
                     {...field}
-                    placeholder="Deskripsi Fasilitas"
-                    className="resize-none h-[200px]"
+                    value={field.value as string}
                   />
                 </FormControl>
                 <FormDescription>
-                  Harap deskripsikan dengan jelas mengenai fasilitas tersebut.
+                  Kami akan menyimpan alamat Anda dengan aman
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -324,4 +360,4 @@ const FormEditFacility: FunctionComponent<FormEditFacilityProps> = ({
   );
 };
 
-export default FormEditFacility;
+export default FormEditUser;

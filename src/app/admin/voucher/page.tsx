@@ -1,5 +1,5 @@
-import FormAddVoucher from "@/components/Voucher/FormAddVoucher";
-import VoucherTable from "@/components/Voucher/Table";
+import FormAddVoucher from "@/components/Admin/Voucher/FormAddVoucher";
+import VoucherTable from "@/components/Admin/Voucher/Table";
 import { Metadata } from "next";
 import React from "react";
 

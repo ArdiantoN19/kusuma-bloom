@@ -1,5 +1,5 @@
-import FormAddFacility from "@/components/Facility/FormAddFacility";
-import FacilityTable from "@/components/Facility/Table";
+import FormAddFacility from "@/components/Admin/Facility/FormAddFacility";
+import FacilityTable from "@/components/Admin/Facility/Table";
 import { Metadata } from "next";
 import React from "react";
 

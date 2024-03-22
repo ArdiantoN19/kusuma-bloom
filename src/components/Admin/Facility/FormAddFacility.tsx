@@ -1,6 +1,11 @@
 "use client";
 
-import React, { FunctionComponent, useCallback, useState } from "react";
+import { FormFacilitySchema } from "@/lib/actions/facilityAction/validator";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import React, { useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import {
   Dialog,
   DialogContent,
@@ -8,14 +13,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { Button } from "../ui/button";
-import { Check, Circle, Eraser, Plus, User } from "@phosphor-icons/react";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { FormUserSchema, GENDER } from "@/lib/actions/userAction/Validator";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ROLE } from "@/types/authAction";
+} from "../../ui/dialog";
+import { Button } from "../../ui/button";
+import { Check, Circle, Eraser, House, Plus } from "@phosphor-icons/react";
 import {
   Form,
   FormControl,
@@ -24,51 +24,63 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
+} from "../../ui/form";
+import { Input } from "../../ui/input";
+import Image from "next/image";
+import { toast } from "sonner";
+import { Textarea } from "../../ui/textarea";
+import { PayloadBodyFacility } from "@/types/facilityAction";
+import { useSession } from "next-auth/react";
+import {
+  addFacilityAction,
+  updateImageFacilityByIdAction,
+} from "@/lib/actions/facilityAction";
+import { uploadImageCloudinary } from "@/lib/cloudinary";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { PayloadBodyUser } from "@/types/userAction";
-import {
-  addUserAction,
-  updateImageUserByIdAction,
-} from "@/lib/actions/userAction";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { uploadImageCloudinary } from "@/lib/cloudinary";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { Textarea } from "../ui/textarea";
+} from "../../ui/select";
+import { capacities, category_ages } from "./Table/ColumnFilter";
 
-const FormAddUser: FunctionComponent = () => {
+const FormAddFacility = () => {
+  const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [imageUrl, setImageUrl] = useState<string>("");
   const router = useRouter();
-  const [imageUrl, setImageUrl] = useState<string | undefined>("");
-  const form = useForm<z.infer<typeof FormUserSchema>>({
-    resolver: zodResolver(FormUserSchema),
+
+  const form = useForm<z.infer<typeof FormFacilitySchema>>({
+    resolver: zodResolver(FormFacilitySchema),
     defaultValues: {
       name: "",
-      email: "",
-      password: "",
+      description: "",
       image: undefined,
-      role: undefined,
-      gender: GENDER.MALE,
-      address: "",
+      category_age: "",
+      capacities: "",
     },
   });
 
+  const onFormReset = useCallback(() => {
+    form.reset({
+      name: "",
+      description: "",
+      image: undefined,
+      category_age: "",
+      capacities: "",
+    });
+    setImageUrl("");
+  }, [form]);
+
   const imageRef = form.register("image");
+
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      if (file?.size >= 3000000) {
-        toast.error("Ukuran file harus lebih kecil dari 3 MB");
+      if (file?.size >= 5000000) {
+        toast.error("Ukuran file harus lebih kecil dari 5 MB");
         form.setValue("image", undefined);
         setImageUrl("");
         return;
@@ -80,72 +92,56 @@ const FormAddUser: FunctionComponent = () => {
         return;
       }
       setImageUrl(URL.createObjectURL(file));
-
-      return;
     }
   };
 
-  const onFormReset = useCallback(() => {
-    form.reset({
-      name: "",
-      email: "",
-      password: "",
-      image: undefined,
-      role: ROLE.REGULAR,
-      gender: GENDER.MALE,
-      address: "",
-    });
-    setImageUrl("");
-  }, [form]);
+  const onSubmitHandler = useCallback(
+    async (data: z.infer<typeof FormFacilitySchema>) => {
+      const payload: PayloadBodyFacility = {
+        ...data,
+        image: `${process.env.NEXT_PUBLIC_API_AVATAR_URL}?seed=${data.name}`,
+        userId: session?.user.userId,
+      };
+      setIsLoading(true);
+      const response = await addFacilityAction(payload);
 
-  const onSubmitHandler = async (data: z.infer<typeof FormUserSchema>) => {
-    const payload: PayloadBodyUser = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      image: `${process.env.NEXT_PUBLIC_API_AVATAR_URL}?seed=${data.name}`,
-      role: data.role,
-      gender: data.gender,
-      address: data.address,
-    };
-
-    setIsLoading(true);
-    const response = await addUserAction(payload);
-
-    if (response.status !== "success") {
-      toast.error(response.message);
-    } else {
-      if (data.image?.length) {
-        const secure_url = await uploadImageCloudinary(
-          data.image as FileList,
-          process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET as string
-        );
-        await updateImageUserByIdAction(response.data.id, secure_url);
+      if (response.status !== "success") {
+        toast.error(response.message);
+      } else {
+        if (data.image?.length) {
+          const secure_url = await uploadImageCloudinary(
+            data.image as FileList,
+            process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_FACILITY as string
+          );
+          await updateImageFacilityByIdAction(response.data.id, secure_url);
+        }
+        toast.success(response.message);
+        setOpenDialog((prev) => !prev);
+        onFormReset();
+        router.refresh();
       }
-      toast.success(response.message);
-      setOpenDialog((prev) => !prev);
-      onFormReset();
-      router.refresh();
-    }
-    setIsLoading(false);
-  };
+
+      setIsLoading(false);
+    },
+    [onFormReset, router, session?.user.userId]
+  );
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
         <Button variant={"primary"}>
           <Plus size={20} />
-          <span className="text-xs md:text-sm">Tambah User</span>
+          <span className="text-xs md:text-sm">Tambah Fasilitas</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md bg-white max-h-[90dvh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-1">
-            <User size={20} />
-            Tambah User
+            <House size={20} />
+            Tambah Fasilitas
           </DialogTitle>
           <DialogDescription>
-            Anda bisa menambahkan user disini.
+            Anda bisa menambahkan fasilitas disini.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -158,9 +154,9 @@ const FormAddUser: FunctionComponent = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Foto</FormLabel>
+                  <FormLabel>Gambar</FormLabel>
                   <FormControl>
-                    <div className="size-[150px] border rounded shadow-sm relative overflow-hidden">
+                    <div className="w-full h-[150px] border rounded shadow-sm relative overflow-hidden">
                       <p className="text-xs text-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                         Pilih gambar
                       </p>
@@ -203,7 +199,7 @@ const FormAddUser: FunctionComponent = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Nama</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -212,68 +208,11 @@ const FormAddUser: FunctionComponent = () => {
               )}
             />
             <FormField
-              name="email"
+              name="category_age"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="email" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="password"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="password" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="gender"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Jenis Kelamin</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      value={field.value}
-                      className="flex flex-col space-y-1"
-                    >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value={GENDER.MALE} />
-                        </FormControl>
-                        <FormLabel>Pria</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value={GENDER.FEMALE} />
-                        </FormControl>
-                        <FormLabel>Wanita</FormLabel>
-                      </FormItem>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="role"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Role</FormLabel>
+                  <FormLabel>Kategory Umur</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -281,12 +220,18 @@ const FormAddUser: FunctionComponent = () => {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder={"--pilih role--"} />
+                        <SelectValue placeholder="--Pilih Kategory Umur--" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value={ROLE.REGULAR}>Regular</SelectItem>
-                      <SelectItem value={ROLE.ADMIN}>Admin</SelectItem>
+                      {category_ages.map((category_age) => (
+                        <SelectItem
+                          key={category_age.value}
+                          value={category_age.value}
+                        >
+                          {category_age.label}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -294,20 +239,47 @@ const FormAddUser: FunctionComponent = () => {
               )}
             />
             <FormField
-              name="address"
+              name="capacities"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Alamat</FormLabel>
+                  <FormLabel>Kapasitas</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    value={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="--Pilih Kapasitas--" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {capacities.map((capacity) => (
+                        <SelectItem key={capacity.value} value={capacity.value}>
+                          {capacity.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="description"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Deskripsi</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Masukkan alamat"
-                      className="resize-none h-[150px]"
                       {...field}
+                      placeholder="Deskripsi Fasilitas"
+                      className="resize-none h-[200px]"
                     />
                   </FormControl>
                   <FormDescription>
-                    Kami akan menyimpan alamat Anda dengan aman
+                    Harap deskripsikan dengan jelas mengenai fasilitas tersebut.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -341,4 +313,4 @@ const FormAddUser: FunctionComponent = () => {
   );
 };
 
-export default FormAddUser;
+export default FormAddFacility;
