@@ -7,8 +7,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ui/card";
-import Alert, { AlertType } from "../Alert";
+} from "../../ui/card";
+import Alert, { AlertType } from "../../Alert";
 import { Star, X } from "@phosphor-icons/react";
 import Link from "next/link";
 
@@ -24,7 +24,7 @@ const CardPopMember: React.FC<CardPopMemberProps> = ({
   return (
     isPopMember && (
       <div
-        className="w-full min-h-screen fixed z-[51] top-0 left-0 flex items-center justify-center backdrop-blur bg-black/50"
+        className="w-full min-h-screen fixed z-[51] top-0 left-0 flex items-center justify-center backdrop-blur bg-black/70"
         onClick={onClickUpdatePopMemberHandler}
       >
         <Card className="w-[350px] md:max-w-screen-md relative">
@@ -47,7 +47,7 @@ const CardPopMember: React.FC<CardPopMemberProps> = ({
               <li>
                 Melengkapi data diri pada{" "}
                 <Link
-                  href={"/user/account"}
+                  href={"/user/profile"}
                   className="underline text-primary inline"
                 >
                   akun
@@ -55,7 +55,10 @@ const CardPopMember: React.FC<CardPopMemberProps> = ({
               </li>
               <li>
                 Mengisi formulir pendaftaran{" "}
-                <Link href={"/"} className="underline text-primary inline">
+                <Link
+                  href={"/user/profile"}
+                  className="underline text-primary inline"
+                >
                   member
                 </Link>
               </li>

@@ -55,7 +55,7 @@ model User {
   tickets       Ticket[]
   vouchers      Voucher[]
   facilities    Facility[]
-  // memberUsers   MemberUser?
+  memberUsers   MemberUser?
 
 
   @@map("users")
@@ -87,19 +87,20 @@ model Ticket {
   @@map("tickets")
 }
 
-// model MemberUser {
-//   id          String      @id @default(cuid())
-//   image       String
-//   discount    Float       @default(0.3)
-//   userId      String      @unique
-//   acceptedBy  String?
-//   user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   verifiedAt  DateTime?   @default(now())
-//   created_at  DateTime    @default(now())
-//   updated_at  DateTime    @updatedAt
+model MemberUser {
+  id          String      @id @default(cuid())
+  image       String
+  discount    Float       @default(0.3)
+  userId      String      @unique
+  acceptedBy  String?
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verifiedAt  DateTime?   
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
 
-//   @@unique([userId, acceptedBy])
-// }
+  @@unique([userId, acceptedBy])
+  @@map("memberUsers")
+}
 
 model Voucher {
   id          String      @id @default(cuid())

@@ -1,4 +1,4 @@
-import HeroInfo from "@/components/DashboardUser/HeroInfo";
+import HeroInfo from "@/components/User/Dashboard/HeroInfo";
 import { Metadata } from "next";
 import React from "react";
 

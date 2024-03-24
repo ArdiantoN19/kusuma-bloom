@@ -8,6 +8,7 @@ import { UserType } from "@/types/authAction";
 import prisma from "./prisma";
 import { Adapter } from "next-auth/adapters";
 import { verifyTokenService } from "./actions/authAction/VerifyTokenService";
+import { memberUserService } from "./actions/memberUserAction/MemberUserService";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -27,6 +28,7 @@ export const authOptions: NextAuthOptions = {
         if (email && password) {
           const user: UserType = await authService.login(email);
           const responseToken = await verifyTokenService.getTokenByEmail(email);
+          const memberUser = await memberUserService.getMemberUserById(user.id);
           const comparePassword = await bcryptPasswordHash.comparePassword(
             password,
             user.password as string
@@ -44,7 +46,15 @@ export const authOptions: NextAuthOptions = {
             );
           }
 
-          return user;
+          if (memberUser && !memberUser.verifiedAt) {
+            return { statusMember: "pending", ...user };
+          }
+
+          if (memberUser && memberUser.verifiedAt) {
+            return { statusMember: "success", ...user };
+          }
+
+          return { statusMember: "fail", ...user };
         }
 
         return null;
@@ -68,6 +78,7 @@ export const authOptions: NextAuthOptions = {
         token.gender = user.gender;
         token.address = user.address;
         token.isPopMember = 1;
+        token.statusMember = user.statusMember;
       }
       if (trigger === "update") {
         if (session.info.image) {
@@ -78,7 +89,13 @@ export const authOptions: NextAuthOptions = {
           token.address = session.info.address;
         }
         if (session.info.isPopMember === 0) {
-          token.isPopMember = session.info.isPopMember;
+          token.isPopMember = 0;
+        }
+        if (session.info.isPopMember === 1) {
+          token.isPopMember = 1;
+        }
+        if (session.info.statusMember) {
+          token.statusMember = session.info.statusMember;
         }
       }
 
@@ -100,6 +117,9 @@ export const authOptions: NextAuthOptions = {
         }
         if ("isPopMember" in token) {
           session.user.isPopMember = token.isPopMember;
+        }
+        if ("statusMember" in token) {
+          session.user.statusMember = token.statusMember;
         }
       }
       return session;

@@ -10,15 +10,19 @@ export async function uploadImageCloudinary(
   }
 
   formData.append("upload_preset", uploadPreset);
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/upload`,
-    {
-      method: "POST",
-      body: formData,
-    }
-  );
-  const responseJson = await response.json();
-  return responseJson.data;
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const responseJson = await response.json();
+    return responseJson.data;
+  } catch (error: any) {
+    console.error(error.message);
+  }
 }
 
 function generateCloudinarySignature(

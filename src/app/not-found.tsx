@@ -14,7 +14,7 @@ const NotFoundPage = () => {
         alt="404 Error"
         className="size-[30rem]"
       />
-      <p className="text-lg">
+      <p className="text-lg text-center">
         Opps, sepertinya halaman yang Anda cari tidak ditemukan
       </p>
       <Button asChild variant={"primary"}>

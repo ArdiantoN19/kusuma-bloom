@@ -12,5 +12,6 @@ declare module "next-auth" {
     role: string;
     gender: GENDER;
     address: string;
+    statusMember: string;
   }
 }

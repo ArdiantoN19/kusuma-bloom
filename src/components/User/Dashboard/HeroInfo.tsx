@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { getTimeOfDay } from "@/utils";
 import { CheckCircle, Headset, Star, XCircle } from "@phosphor-icons/react";
-import CardPopMember from "@/components/DashboardUser/CardPopMember";
+import CardPopMember from "@/components/User/Dashboard/CardPopMember";
 
 const HeroInfoSkeleton = () => {
   return (
@@ -57,18 +57,15 @@ const HeroInfoSkeleton = () => {
 
 const HeroInfo = () => {
   const { data: session, update: sessionUpdate } = useSession();
-  const [isPopMember, setIsPopMember] = useState<boolean>(
-    Boolean(session?.user.isPopMember)
-  );
+  const isPopMember = Boolean(session?.user.isPopMember);
 
   const onClickUpdatePopMemberHandler = useCallback(() => {
-    setIsPopMember((prev) => !prev);
     sessionUpdate({
       info: {
-        isPopMember: !isPopMember,
+        isPopMember: session?.user.isPopMember === 1 ? 0 : 1,
       },
     });
-  }, [sessionUpdate, isPopMember]);
+  }, [sessionUpdate, session]);
 
   if (!session) {
     return <HeroInfoSkeleton />;
@@ -118,26 +115,41 @@ const HeroInfo = () => {
             </div>
             <div className="flex items-center justify-between p-3">
               <small className="text-xs">{session?.user.email}</small>
-              <button
-                className="flex items-center gap-x-1 border bg-green-100/90 px-2.5 py-1.5 rounded-full relative"
-                onClick={onClickUpdatePopMemberHandler}
-              >
-                <Star size={16} className="text-primary" />
-                <small className="text-primary font-bold leading-none">
-                  {session?.user.role}
-                </small>
-                <div className="rounded-full px-1.5 py-[.1em] bg-myOrange text-white absolute -top-2 -right-1 text-[.5em]">
-                  PRO
+              {session?.user.statusMember === "success" ? (
+                <div className="flex items-center gap-x-1 border bg-green-100/90 px-2.5 py-1.5 rounded-full relative">
+                  <Star size={16} className="text-primary" />
+                  <small className="text-primary font-bold leading-none">
+                    {session?.user.role}
+                  </small>
+                  <p className="rounded-full px-1.5 py-[.1em] bg-myOrange text-white absolute -top-2 -right-1 text-[.5em]">
+                    PRO
+                  </p>
                 </div>
-              </button>
+              ) : (
+                <button
+                  className="flex items-center gap-x-1 border bg-green-100/90 px-2.5 py-1.5 rounded-full relative"
+                  onClick={
+                    session?.user.statusMember === "fail"
+                      ? onClickUpdatePopMemberHandler
+                      : () => {}
+                  }
+                >
+                  <Star size={16} className="text-primary" />
+                  <small className="text-primary font-bold leading-none">
+                    {session?.user.role}
+                  </small>
+                </button>
+              )}
             </div>
           </div>
         </div>
       </div>
-      <CardPopMember
-        isPopMember={isPopMember}
-        onClickUpdatePopMemberHandler={onClickUpdatePopMemberHandler}
-      />
+      {session?.user.statusMember === "fail" && (
+        <CardPopMember
+          isPopMember={isPopMember}
+          onClickUpdatePopMemberHandler={onClickUpdatePopMemberHandler}
+        />
+      )}
     </>
   );
 };

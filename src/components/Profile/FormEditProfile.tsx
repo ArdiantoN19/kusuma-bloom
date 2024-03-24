@@ -62,6 +62,44 @@ const FormEditProfileSchema = z.object({
   address: z.string().optional(),
 });
 
+const FormEditProfileSkeleton = () => {
+  return (
+    <div className="flex flex-col gap-y-4 md:grid md:grid-cols-3 lg:grid-cols-5">
+      <div className="text-muted-foreground">
+        <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
+          <IdentificationBadge size={16} /> Username
+        </h4>
+        <div className="w-full md:w-20 h-5 bg-muted animate-pulse rounded-sm"></div>
+      </div>
+      <div className="text-muted-foreground">
+        <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
+          <At size={16} /> Email
+        </h4>
+        <div className="w-full md:w-24 h-5 bg-muted animate-pulse rounded-sm"></div>
+      </div>
+      <div className="text-muted-foreground">
+        <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
+          <Star size={16} /> Role
+        </h4>
+        <div className="w-full md:w-20 h-5 bg-muted animate-pulse rounded-sm"></div>
+      </div>
+      <div className="text-muted-foreground">
+        <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
+          <GenderMale size={16} />
+          Gender
+        </h4>
+        <div className="w-full md:w-24 h-5 bg-muted animate-pulse rounded-sm"></div>
+      </div>
+      <div className="text-muted-foreground">
+        <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
+          <MapPin size={16} /> Alamat
+        </h4>
+        <div className="w-full md:w-24 h-14 bg-muted animate-pulse rounded-sm"></div>
+      </div>
+    </div>
+  );
+};
+
 const FormEditProfile: React.FC<FormEditProfileProps> = ({
   user,
   sessionUpdate,
@@ -132,47 +170,56 @@ const FormEditProfile: React.FC<FormEditProfileProps> = ({
           </DialogTrigger>
         </div>
 
-        <div className="flex flex-col gap-y-4 md:grid md:grid-cols-3 lg:grid-cols-5">
-          <div className="text-muted-foreground">
-            <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
-              <IdentificationBadge size={16} /> Username
-            </h4>
-            <p className="text-sm">{user?.name}</p>
+        {!user ? (
+          <FormEditProfileSkeleton />
+        ) : (
+          <div className="flex flex-col gap-y-4 md:grid md:grid-cols-3 lg:grid-cols-5">
+            <div className="text-muted-foreground">
+              <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
+                <IdentificationBadge size={16} /> Username
+              </h4>
+              <p className="text-sm">{user?.name}</p>
+            </div>
+            <div className="text-muted-foreground">
+              <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
+                <At size={16} /> Email
+              </h4>
+              <p className="text-sm hidden lg:block">
+                @{user?.email.split("@")[0]}
+              </p>
+              <p className="text-sm block lg:hidden">{user?.email}</p>
+            </div>
+            <div className="text-muted-foreground">
+              <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
+                <Star size={16} /> Role
+              </h4>
+              <Badge className="text-sm font-normal hover:bg-primary">
+                {user?.role}
+              </Badge>
+            </div>
+            <div className="text-muted-foreground">
+              <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
+                {user?.gender === GENDER.MALE ? (
+                  <GenderMale size={16} />
+                ) : (
+                  <GenderFemale size={16} />
+                )}{" "}
+                Gender
+              </h4>
+              <p className="text-sm">
+                {user?.gender === GENDER.MALE ? "Laki-laki" : "Perempuan"}
+              </p>
+            </div>
+            <div className="text-muted-foreground">
+              <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
+                <MapPin size={16} /> Alamat
+              </h4>
+              <p className="text-sm max-w-[350px] lg:truncate">
+                {user?.address || "-"}
+              </p>
+            </div>
           </div>
-          <div className="text-muted-foreground">
-            <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
-              <At size={16} /> Email
-            </h4>
-            <p className="text-sm">{user?.email}</p>
-          </div>
-          <div className="text-muted-foreground">
-            <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
-              <Star size={16} /> Role
-            </h4>
-            <Badge className="text-sm font-normal hover:bg-primary">
-              {user?.role}
-            </Badge>
-          </div>
-          <div className="text-muted-foreground">
-            <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
-              {user?.gender === GENDER.MALE ? (
-                <GenderMale size={16} />
-              ) : (
-                <GenderFemale size={16} />
-              )}{" "}
-              Jenis Kelamin
-            </h4>
-            <p className="text-sm">
-              {user?.gender === GENDER.MALE ? "Laki-laki" : "Perempuan"}
-            </p>
-          </div>
-          <div className="text-muted-foreground">
-            <h4 className="text-sm font-bold flex gap-1 items-center mb-1">
-              <MapPin size={16} /> Alamat
-            </h4>
-            <p className="text-sm">{user?.address || "-"}</p>
-          </div>
-        </div>
+        )}
         <DialogContent className="bg-white max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-1">

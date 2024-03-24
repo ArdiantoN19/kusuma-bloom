@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
 import { toast } from "sonner";
-import { Circle, Pen } from "@phosphor-icons/react";
+import { Circle, Pen, Upload } from "@phosphor-icons/react";
 import { uploadImageCloudinary } from "@/lib/cloudinary";
 import { updateImageUserByIdAction } from "@/lib/actions/userAction";
 
@@ -125,13 +125,20 @@ const FormEditImageProfile: React.FC<FormEditImageProfileProps> = ({
             )}
           />
           <div className="flex-1 flex flex-col-reverse md:block gap-y-2">
-            <Button variant={"primary"} className="mb-3" type="submit">
+            <Button
+              disabled={isLoading}
+              variant={"primary"}
+              className="mb-3"
+              type="submit"
+            >
               {isLoading ? (
                 <>
                   <Circle size={20} className="animate-pulse" /> Loading...
                 </>
               ) : (
-                <>Upload Foto</>
+                <>
+                  <Upload size={20} /> Upload Foto
+                </>
               )}
             </Button>
             <div className="text-xs md:text-sm text-muted-foreground">
