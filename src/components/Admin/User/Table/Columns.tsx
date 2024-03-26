@@ -57,7 +57,7 @@ export const columns: ColumnDef<z.infer<typeof UserSchema>>[] = [
       <DataTableColumnHeader column={column} title="Gambar" />
     ),
     cell: ({ row }) => (
-      <div className="size-[60px] bg-transparent">
+      <div className="size-[60px] bg-transparent rounded overflow-hidden">
         <Image
           src={row.getValue("image")}
           alt={row.getValue("name")}

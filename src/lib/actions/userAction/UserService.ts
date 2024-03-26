@@ -5,7 +5,6 @@ import {
 } from "@/types/userAction";
 import { PrismaClient } from "@prisma/client";
 import prisma from "@/lib/prisma";
-import { ROLE } from "@/types/authAction";
 
 class UserService implements IUserService {
   constructor(private readonly prismaUser: PrismaClient["user"]) {}
@@ -37,6 +36,15 @@ class UserService implements IUserService {
           not: idToExclude,
         },
         deleted_at: null,
+      },
+      include: {
+        memberUsers: {
+          select: {
+            verifiedAt: true,
+            userId: true,
+            image: true,
+          },
+        },
       },
       orderBy: {
         updated_at: "desc",

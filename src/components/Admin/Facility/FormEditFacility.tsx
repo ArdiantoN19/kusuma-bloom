@@ -42,6 +42,7 @@ import {
   SelectValue,
 } from "../../ui/select";
 import { capacities, category_ages } from "./Table/ColumnFilter";
+import Link from "next/link";
 
 interface FormEditFacilityProps {
   facility: ResponseFacility;
@@ -105,7 +106,7 @@ const FormEditFacility: FunctionComponent<FormEditFacilityProps> = ({
       const payload: PayloadBodyFacility = {
         ...data,
         image: !imageUrl
-          ? `${process.env.NEXT_PUBLIC_API_AVATAR_URL}?seed=${data.name}`
+          ? `https://res.cloudinary.com/dgzdcgqfz/image/upload/v1711441905/Screenshot_2024-03-26_153028_hlat2p.png`
           : facility.image,
         userId: session?.user.userId,
       };
@@ -290,6 +291,17 @@ const FormEditFacility: FunctionComponent<FormEditFacilityProps> = ({
                     className="resize-none h-[200px]"
                   />
                 </FormControl>
+                <div className="text-xs text-muted-foreground">
+                  Perhatian, harap gunakan markdown syntax.{" "}
+                  <Link
+                    href={"https://www.markdownguide.org/basic-syntax/"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline text-primary"
+                  >
+                    Lihat referensi
+                  </Link>
+                </div>
                 <FormDescription>
                   Harap deskripsikan dengan jelas mengenai fasilitas tersebut.
                 </FormDescription>

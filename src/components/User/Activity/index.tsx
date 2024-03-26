@@ -1,6 +1,6 @@
 "use client";
 
-import { dateFormatter, rupiahFormatter } from "@/utils";
+import { createQueryString, dateFormatter, rupiahFormatter } from "@/utils";
 import { ArrowLeft, Ticket } from "@phosphor-icons/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useMemo } from "react";
@@ -39,23 +39,19 @@ const ActivityUser = () => {
 
   const status: string = params.get("status") || "";
 
-  const createQueryString = useCallback((key: string, value: string) => {
-    const url = new URL("/user/activity", process.env.NEXT_PUBLIC_BASE_URL);
-    url.searchParams.set(key, value);
-    return url.toString();
-  }, []);
-
   const onClickStatusHandler = useCallback(
     (value: string) => {
       if (!!value) {
-        const queryString = createQueryString("status", value);
+        const queryString = createQueryString("/user/activity", [
+          { key: "status", value },
+        ]);
         router.push(queryString);
         return;
       }
       router.push("/user/activity");
       return;
     },
-    [router, createQueryString]
+    [router]
   );
 
   const dataActivities = useMemo(() => {

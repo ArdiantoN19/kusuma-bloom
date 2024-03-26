@@ -59,6 +59,45 @@ class FacilityService implements IFacilityService {
     return facilities as ResponseFacility[];
   }
 
+  async getFacilitiesWithParams(params: string): Promise<ResponseFacility[]> {
+    const facilities = await this.prismaFacility.findMany({
+      where: {
+        name: {
+          contains: params,
+        },
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: {
+        updated_at: "desc",
+      },
+    });
+    return facilities as ResponseFacility[];
+  }
+
+  async getFacilityDetail(slug: string): Promise<ResponseFacility> {
+    const facilities = await this.prismaFacility.findFirst({
+      where: {
+        name: slug,
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+      },
+    });
+    return facilities as ResponseFacility;
+  }
+
   async updateFacilityById(
     id: string,
     data: PayloadBodyFacility

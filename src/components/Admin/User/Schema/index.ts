@@ -14,4 +14,11 @@ export const UserSchema = z.object({
   address: z.string().optional().nullable(),
   created_at: z.date(),
   updated_at: z.date(),
+  memberUsers: z
+    .object({
+      userId: z.string(),
+      image: z.string(),
+      verifiedAt: z.date().nullish(),
+    })
+    .nullish(),
 });

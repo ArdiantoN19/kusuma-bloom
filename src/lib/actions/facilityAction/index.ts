@@ -60,11 +60,11 @@ export const updateImageFacilityByIdAction = async (
 export const getFacilitiesAction =
   async (): Promise<ResponseFacilityAction> => {
     try {
-      const facility = await facilityService.getFacilities();
+      const facilities = await facilityService.getFacilities();
       return {
         status: "success",
         message: "Fasilitas berhasil didapatkan",
-        data: facility,
+        data: facilities,
       };
     } catch (error: any) {
       if ("code" in error) {
@@ -79,6 +79,59 @@ export const getFacilitiesAction =
       };
     }
   };
+
+export const getFacilitiesWithParamsAction = async (
+  params?: string
+): Promise<ResponseFacilityAction> => {
+  try {
+    let facilities;
+    if (!params) {
+      facilities = await facilityService.getFacilities();
+    } else {
+      facilities = await facilityService.getFacilitiesWithParams(params);
+    }
+    return {
+      status: "success",
+      message: "Fasilitas berhasil didapatkan",
+      data: facilities,
+    };
+  } catch (error: any) {
+    if ("code" in error) {
+      return {
+        status: "fail",
+        message: "Terjadi kesalahan, fasilitas gagal didapatkan",
+      };
+    }
+    return {
+      status: "fail",
+      message: error.message,
+    };
+  }
+};
+
+export const getFacilityDetailAction = async (
+  slug: string
+): Promise<ResponseFacilityAction> => {
+  try {
+    const facility = await facilityService.getFacilityDetail(slug);
+    return {
+      status: "success",
+      message: "Fasilitas berhasil didapatkan",
+      data: facility,
+    };
+  } catch (error: any) {
+    if ("code" in error) {
+      return {
+        status: "fail",
+        message: "Terjadi kesalahan, fasilitas gagal didapatkan",
+      };
+    }
+    return {
+      status: "fail",
+      message: error.message,
+    };
+  }
+};
 
 export const updateFacilityByIdAction = async (
   id: string,

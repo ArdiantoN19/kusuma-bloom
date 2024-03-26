@@ -2,15 +2,10 @@
 
 import { Row } from "@tanstack/react-table";
 import { UserSchema } from "../Schema";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,7 +16,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Circle, DotsThree, Pencil, Trash } from "@phosphor-icons/react";
 import { deleteUserByIdAction } from "@/lib/actions/userAction";
-import FormEditUser from "../FormEditUser";
+import ContentAction from "./ContentAction";
+import { useSession } from "next-auth/react";
+import {
+  deleteMemberUserByIdAction,
+  verifyMemberUserAction,
+} from "@/lib/actions/memberUserAction";
 
 interface TableRowActionProps<TData> {
   row: Row<TData>;
@@ -29,6 +29,8 @@ interface TableRowActionProps<TData> {
 
 export function TableRowAction<TData>({ row }: TableRowActionProps<TData>) {
   const user = UserSchema.parse(row.original);
+  const { data: session } = useSession();
+
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const router = useRouter();
   const [statusDialog, setStatusDialog] = useState<string>("");
@@ -49,6 +51,48 @@ export function TableRowAction<TData>({ row }: TableRowActionProps<TData>) {
       router.refresh();
     },
     [router]
+  );
+
+  const onVerifyMemberUserHandler = useCallback(
+    async (userId: string) => {
+      setIsLoading(true);
+      const payload = {
+        userId,
+        acceptedBy: session?.user.userId,
+      };
+      const response = await verifyMemberUserAction(payload);
+      if (response.status !== "success") {
+        toast.error(response.message);
+        setIsLoading(false);
+        return;
+      }
+      toast.success(response.message);
+      setOpenDialog(false);
+      setIsLoading(false);
+      router.refresh();
+    },
+    [session, router]
+  );
+
+  const onDeleteMemberUserHandler = useCallback(
+    async (userId: string) => {
+      setIsLoading(true);
+      const payload = {
+        userId,
+        acceptedBy: session?.user.userId,
+      };
+      const response = await deleteMemberUserByIdAction(payload);
+      if (response.status !== "success") {
+        toast.error(response.message);
+        setIsLoading(false);
+        return;
+      }
+      toast.success(response.message);
+      setOpenDialog(false);
+      setIsLoading(false);
+      router.refresh();
+    },
+    [session, router]
   );
 
   return (
@@ -76,6 +120,20 @@ export function TableRowAction<TData>({ row }: TableRowActionProps<TData>) {
               Edit
             </button>
           </DropdownMenuItem>
+          {user?.memberUsers && (
+            <DropdownMenuItem>
+              <button
+                className="flex items-center gap-1 w-full"
+                onClick={() => {
+                  setStatusDialog(() => "member");
+                  setOpenDialog((prev) => !prev);
+                }}
+              >
+                <Circle size={16} weight="fill" className="animate-pulse" />
+                Verify
+              </button>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuSeparator />
           <DialogTrigger asChild>
             <DropdownMenuItem>
@@ -90,38 +148,16 @@ export function TableRowAction<TData>({ row }: TableRowActionProps<TData>) {
           </DialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>
-      <DialogContent className="bg-white max-w-md overflow-auto max-h-[95dvh]">
-        {statusDialog === "edit" ? (
-          <FormEditUser user={user} setOpenDialog={setOpenDialog} />
-        ) : (
-          <div className="flex flex-col gap-5 items-center justify-center">
-            <h1 className="text-xl">Yakin ingin menghapus user ini?</h1>
-            <div className="flex gap-2 justify-center">
-              <DialogClose asChild>
-                <Button
-                  variant={"primary"}
-                  className="bg-muted-foreground hover:bg-muted-foreground"
-                >
-                  Close
-                </Button>
-              </DialogClose>
-              <Button
-                type="submit"
-                variant={"primary"}
-                disabled={isLoading}
-                onClick={() => onDeleteUserHandler(user.id)}
-              >
-                {isLoading ? (
-                  <>
-                    <Circle size={20} className="animate-pulse" /> Loading...
-                  </>
-                ) : (
-                  <>Hapus</>
-                )}
-              </Button>
-            </div>
-          </div>
-        )}
+      <DialogContent className="bg-white max-w-[350px] md:min-w-[350px] md:max-w-md rounded overflow-auto max-h-[95dvh]">
+        <ContentAction
+          statusDialog={statusDialog}
+          setOpenDialog={setOpenDialog}
+          user={user}
+          onDeleteUserHandler={onDeleteUserHandler}
+          isLoading={isLoading}
+          onVerifyMemberUserHandler={onVerifyMemberUserHandler}
+          onDeleteMemberUserHandler={onDeleteMemberUserHandler}
+        />
       </DialogContent>
     </Dialog>
   );

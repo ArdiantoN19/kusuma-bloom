@@ -1,15 +1,15 @@
+"use client";
+
 import React, { FunctionComponent } from "react";
 import { rupiahFormatter } from "@/utils";
-import {
-  ArrowRight,
-  MapPin,
-  Ticket,
-  Watch,
-} from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import { seaweedScript } from "@/utils/font";
+import Link from "next/link";
+import { signIn, useSession } from "next-auth/react";
 
 const HeroSection: FunctionComponent = () => {
+  const { data: session } = useSession();
   return (
     <section className="container md:min-h-screen lg:min-h-[80dvh] mt-5 md:mt-10 pb-10">
       <div className="w-full flex items-center flex-col-reverse lg:flex-row md:gap-y-3 lg:gap-y-0">
@@ -59,9 +59,23 @@ const HeroSection: FunctionComponent = () => {
               <p className="text-xs text-muted">Harga hari ini:</p>
               <h3 className="text-black">{rupiahFormatter(15000)}</h3>
             </div>
-            <button className="bg-gradient-primary px-2.5 py-1 rounded-full text-white text-xs">
-              Pesan
-            </button>
+            {session?.user ? (
+              <Link
+                href={"/user/ticket"}
+                className="bg-gradient-primary px-2.5 py-1 rounded-full text-white text-xs"
+              >
+                Pesan
+              </Link>
+            ) : (
+              <button
+                onClick={() =>
+                  signIn("credentials", { callbackUrl: "/user/ticket" })
+                }
+                className="bg-gradient-primary px-2.5 py-1 rounded-full text-white text-xs"
+              >
+                Pesan
+              </button>
+            )}
           </div>
         </div>
       </div>

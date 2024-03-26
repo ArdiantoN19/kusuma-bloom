@@ -65,7 +65,7 @@ const Navbar: FunctionComponent = () => {
             </li>
             <li
               className={`hover:text-primary transition-all ${
-                pathname === "/facility" ? "text-primary" : ""
+                pathname.startsWith("/facility") ? "text-primary" : ""
               }`}
             >
               <Link href={"/facility"}>Fasilitas</Link>

@@ -44,6 +44,7 @@ import {
   SelectValue,
 } from "../../ui/select";
 import { capacities, category_ages } from "./Table/ColumnFilter";
+import Link from "next/link";
 
 const FormAddFacility = () => {
   const { data: session } = useSession();
@@ -99,7 +100,8 @@ const FormAddFacility = () => {
     async (data: z.infer<typeof FormFacilitySchema>) => {
       const payload: PayloadBodyFacility = {
         ...data,
-        image: `${process.env.NEXT_PUBLIC_API_AVATAR_URL}?seed=${data.name}`,
+        image:
+          "https://res.cloudinary.com/dgzdcgqfz/image/upload/v1711441905/Screenshot_2024-03-26_153028_hlat2p.png",
         userId: session?.user.userId,
       };
       setIsLoading(true);
@@ -134,7 +136,7 @@ const FormAddFacility = () => {
           <span className="text-xs md:text-sm">Tambah Fasilitas</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-md bg-white max-h-[90dvh] overflow-y-auto">
+      <DialogContent className="bg-white max-w-[350px] md:min-w-[350px] md:max-w-md rounded max-h-[90dvh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-1">
             <House size={20} />
@@ -278,6 +280,17 @@ const FormAddFacility = () => {
                       className="resize-none h-[200px]"
                     />
                   </FormControl>
+                  <div className="text-xs text-muted-foreground">
+                    Perhatian, harap gunakan markdown syntax.{" "}
+                    <Link
+                      href={"https://www.markdownguide.org/basic-syntax/"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline text-primary"
+                    >
+                      Lihat referensi
+                    </Link>
+                  </div>
                   <FormDescription>
                     Harap deskripsikan dengan jelas mengenai fasilitas tersebut.
                   </FormDescription>

@@ -28,6 +28,8 @@ export interface IFacilityService {
   getFacilityById: (id: string) => Promise<ResponseFacility>;
   updateImageFacilityById(id: string, image: string): Promise<void>;
   getFacilities(): Promise<ResponseFacility[]>;
+  getFacilitiesWithParams(params: string): Promise<ResponseFacility[]>;
+  getFacilityDetail(slug: string): Promise<ResponseFacility>;
   updateFacilityById(
     id: string,
     data: PayloadBodyFacility

@@ -1,6 +1,8 @@
 import {
   IMemberUser,
   PayloadBodyMemberUser,
+  PayloadDeleteMemberUser,
+  PayloadVerifyMemberUser,
   ResponseMemberUser,
 } from "@/types/memberUserAction";
 import { PrismaClient } from "@prisma/client";
@@ -35,6 +37,27 @@ class MemberUserService implements IMemberUser {
     });
 
     return memberUser as ResponseMemberUser;
+  }
+
+  async verifyMemberUser(data: PayloadVerifyMemberUser): Promise<void> {
+    await this.prismaMemberUser.update({
+      where: {
+        userId: data.userId,
+      },
+      data: {
+        verifiedAt: new Date(),
+        ...data,
+      },
+    });
+  }
+
+  async deleteMemberUser(data: PayloadDeleteMemberUser): Promise<void> {
+    await this.prismaMemberUser.delete({
+      where: {
+        userId: data.userId,
+        acceptedBy: data.acceptedBy,
+      },
+    });
   }
 }
 

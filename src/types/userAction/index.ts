@@ -9,14 +9,18 @@ export type PayloadBodyUser = {
   role: ROLE;
   gender: GENDER;
   address?: string | null;
-  emailVerified?: Date;
+  emailVerified?: Date | null;
 };
 
 export type ResponseUser = {
   id: string;
-  emailVerified: Date | null;
   created_at: Date;
   updated_at: Date;
+  memberUsers?: {
+    userId: string;
+    image: string;
+    verifiedAt?: Date | null;
+  } | null;
 } & PayloadBodyUser;
 
 export type ResponseUserAction = {

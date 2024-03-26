@@ -26,13 +26,9 @@ import Image from "next/image";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { uploadImageCloudinary } from "@/lib/cloudinary";
-import {
-  addMemberUserAction,
-  getMemberUserByIdAction,
-} from "@/lib/actions/memberUserAction";
+import { addMemberUserAction } from "@/lib/actions/memberUserAction";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 const FormJoinMember = () => {
   const { data: session, update: sessionUpdate } = useSession();

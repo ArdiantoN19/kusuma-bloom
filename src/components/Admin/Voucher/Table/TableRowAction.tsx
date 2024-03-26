@@ -90,7 +90,7 @@ export function TableRowAction<TData>({ row }: TableRowActionProps<TData>) {
           </DialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>
-      <DialogContent className="bg-white max-w-md overflow-auto max-h-[95dvh]">
+      <DialogContent className="bg-white max-w-[350px] md:min-w-[350px] md:max-w-md rounded overflow-auto max-h-[95dvh]">
         {statusDialog === "edit" ? (
           <FormEditVoucher voucher={voucher} setOpenDialog={setOpenDialog} />
         ) : (

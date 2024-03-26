@@ -138,7 +138,7 @@ const FormAddUser: FunctionComponent = () => {
           <span className="text-xs md:text-sm">Tambah User</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-md bg-white max-h-[90dvh] overflow-y-auto">
+      <DialogContent className="bg-white max-w-[350px] md:min-w-[350px] md:max-w-md rounded max-h-[90dvh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-1">
             <User size={20} />

@@ -115,14 +115,14 @@ const FormAddTicket = () => {
           <span className="text-xs md:text-sm">Tambah Tiket</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-md bg-white">
+      <DialogContent className="bg-white max-w-[350px] md:min-w-[350px] md:max-w-md rounded">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-1">
             <Ticket size={20} />
             Tambah Tiket
           </DialogTitle>
-          <DialogDescription>
-            Anda bisa menambahkan tiket disini.
+          <DialogDescription className="text-start">
+            Anda bisa menambah tiket disini.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>

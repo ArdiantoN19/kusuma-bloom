@@ -70,18 +70,49 @@ export function getTimeOfDay() {
 }
 
 export function setLocalStorage(key: string, value: string) {
-  if(typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     localStorage.setItem(key, value);
     return;
   }
-  return 'not-supported'
+  return "not-supported";
 }
 
 export function getLocalStorage(key: string): string {
-  if(typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     return localStorage.getItem(key) || "";
   }
-  return 'not-supported'
+  return "not-supported";
+}
+
+export function createQueryString(
+  redirectUrl: string,
+  searchParams?: { key: string; value: string }[]
+) {
+  const url = new URL(redirectUrl, process.env.NEXT_PUBLIC_BASE_URL);
+  if (searchParams?.length) {
+    searchParams.forEach((params: { key: string; value: string }) => {
+      url.searchParams.set(params.key, params.value);
+    });
+  }
+  return url.toString();
+}
+
+export function createTemplateSlug(slug: string) {
+  return slug.trim().split(" ").join("-");
+}
+
+export function encodeTemplateSlug(slug: string) {
+  return slug.trim().split("-").join(" ");
+}
+
+export async function copyContent(content: string) {
+  try {
+    await navigator.clipboard.writeText(content);
+    return true;
+  } catch (err) {
+    console.error("Failed to copy: ", err);
+    return false;
+  }
 }
 
 // Example usage
