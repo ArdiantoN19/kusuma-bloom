@@ -131,12 +131,18 @@ const Navbar: FunctionComponent = () => {
           <div className="relative lg:hidden">
             <input
               type="checkbox"
-              className="w-6 h-6 peer/checkbox absolute top-0 right-0 appearance-none"
+              className="w-6 h-6 peer/checkbox absolute top-0 right-0 cursor-pointer appearance-none"
               ref={menuCheckbox}
             />
 
-            <List size={28} className="block peer-checked/checkbox:hidden" />
-            <X size={28} className="hidden peer-checked/checkbox:block" />
+            <List
+              size={28}
+              className="block peer-checked/checkbox:hidden cursor-pointer"
+            />
+            <X
+              size={28}
+              className="hidden peer-checked/checkbox:block cursor-pointer"
+            />
 
             <div className="min-h-screen hidden transition-all peer-checked/checkbox:block fixed z-50 top-[67px] w-full left-0 bg-black/40 backdrop-blur-sm"></div>
             <div className="transition-all fixed z-50 top-[67px] -right-full peer-checked/checkbox:right-0 h-screen w-5/6 bg-myGreen1 flex flex-col gap-y-10 p-6">

@@ -29,4 +29,5 @@ export interface IVoucherService {
   getVoucherById(id: string): Promise<ResponseVoucher>;
   updateVoucherById(id: string, data: PayloadBodyVoucher): Promise<void>;
   deleteVoucherById(id: string): Promise<void>;
+  getVoucherByName(name: string): Promise<ResponseVoucher>;
 }

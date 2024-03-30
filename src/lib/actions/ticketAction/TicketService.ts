@@ -107,6 +107,37 @@ class TicketService implements ITicketService {
   async getTotalTicketRecords(): Promise<number> {
     return await this.prismaTicket.count();
   }
+
+  async getActiveTicket(): Promise<ResponseTicket | null> {
+    const ticketActive = await this.prismaTicket.findFirst({
+      where: {
+        status: true,
+        quantity: {
+          gt: 0,
+        },
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+      },
+    });
+    return ticketActive;
+  }
+
+  async updateTicketQuantityById(id: string, quantity: number): Promise<void> {
+    await this.prismaTicket.update({
+      where: {
+        id,
+      },
+      data: {
+        quantity,
+      },
+    });
+  }
 }
 
 export const ticketService = new TicketService(prisma.ticket);

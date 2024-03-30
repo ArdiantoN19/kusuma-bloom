@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FunctionComponent, ReactNode } from "react";
+import React, { FunctionComponent, ReactNode, useEffect } from "react";
 import { SessionProvider } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import CTA from "@/components/CTA";

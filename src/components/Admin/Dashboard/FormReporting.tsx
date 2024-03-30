@@ -96,7 +96,7 @@ const FormReporting = () => {
                     selected={{ from: field.value.from!, to: field.value.to }}
                     onSelect={field.onChange}
                     numberOfMonths={1}
-                    disabled={(date) => date < new Date("2024-01-01")}
+                    disabled={(date) => date < new Date()}
                   />
                 </PopoverContent>
               </Popover>

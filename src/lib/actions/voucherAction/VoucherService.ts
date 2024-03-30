@@ -54,6 +54,18 @@ class VoucherService implements IVoucherService {
     return voucher as ResponseVoucher;
   }
 
+  async getVoucherByName(name: string): Promise<ResponseVoucher> {
+    const voucher = await this.prismaVoucher.findUnique({
+      where: {
+        name,
+      },
+    });
+    if (!voucher) {
+      throw new Error("Voucher tidak ditemukan");
+    }
+    return voucher as ResponseVoucher;
+  }
+
   async updateVoucherById(id: string, data: PayloadBodyVoucher): Promise<void> {
     await this.prismaVoucher.update({
       where: {
@@ -67,6 +79,17 @@ class VoucherService implements IVoucherService {
     await this.prismaVoucher.delete({
       where: {
         id,
+      },
+    });
+  }
+
+  async updateTotalVoucherById(id: string, total: number): Promise<void> {
+    await this.prismaVoucher.update({
+      where: {
+        id,
+      },
+      data: {
+        total,
       },
     });
   }

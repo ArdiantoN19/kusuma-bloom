@@ -13,5 +13,6 @@ declare module "next-auth" {
     gender: GENDER;
     address: string;
     statusMember: string;
+    memberUser: Record<string, any>;
   }
 }

@@ -227,7 +227,7 @@ const FormAddTicket = () => {
                         }}
                         onSelect={field.onChange}
                         numberOfMonths={2}
-                        disabled={(date) => date < new Date("2024-01-01")}
+                        disabled={(date) => date < new Date()}
                       />
                     </PopoverContent>
                   </Popover>

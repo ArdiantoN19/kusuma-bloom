@@ -133,3 +133,25 @@ export const getTotalTicketRecordsAction =
       return { status: "fail", message: error.message };
     }
   };
+
+export const getActiveTicketAction = async () => {
+  try {
+    const ticketActive = await ticketService.getActiveTicket();
+    return {
+      status: "success",
+      message: "Tiket berhasil didapatkan",
+      data: ticketActive,
+    };
+  } catch (error: any) {
+    if ("code" in error) {
+      return {
+        status: "fail",
+        message: "Terjadi kesalahan, tiket gagal didapatkan",
+      };
+    }
+    return {
+      status: "fail",
+      message: error.message,
+    };
+  }
+};

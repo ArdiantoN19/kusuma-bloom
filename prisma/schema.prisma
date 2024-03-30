@@ -56,11 +56,12 @@ model User {
   vouchers      Voucher[]
   facilities    Facility[]
   memberUsers   MemberUser?
+  transactions  Transaction[]
+  scanTickets   ScanTicket[]
 
 
   @@map("users")
 }
-
 
 model VerificationToken {
   identifier String
@@ -71,32 +72,34 @@ model VerificationToken {
 }
 
 model Ticket {
-  id          String    @id @default(cuid())
-  name        String
-  quantity    Int
-  price       Int
-  status      Boolean   @default(false)
-  fromDate    DateTime
-  toDate      DateTime
-  userId      String
-  user        User      @relation(fields: [userId], references: [id])
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
+  id            String    @id @default(cuid())
+  name          String
+  quantity      Int
+  price         Int
+  status        Boolean   @default(false)
+  fromDate      DateTime
+  toDate        DateTime
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  transactions  Transaction[]
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
 
   @@unique([fromDate, toDate])
   @@map("tickets")
 }
 
 model MemberUser {
-  id          String      @id @default(cuid())
-  image       String
-  discount    Float       @default(0.3)
-  userId      String      @unique
-  acceptedBy  String?
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  verifiedAt  DateTime?   
-  created_at  DateTime    @default(now())
-  updated_at  DateTime    @updatedAt
+  id            String      @id @default(cuid())
+  image         String
+  discount      Float       @default(0.3)
+  userId        String      @unique
+  acceptedBy    String?
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verifiedAt    DateTime?   
+  transactions  Transaction[]
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @updatedAt
 
   @@unique([userId, acceptedBy])
   @@map("memberUsers")
@@ -110,6 +113,7 @@ model Voucher {
   status      Boolean     @default(false)
   userId      String
   user        User        @relation(fields: [userId], references: [id])
+  transactions Transaction[]
   created_at  DateTime    @default(now())
   updated_at  DateTime    @updatedAt
 
@@ -131,6 +135,45 @@ model Facility {
   @@map("facilities")
 }
 
+model Transaction {
+  id            String      @id @default(cuid())
+  quantity      Int
+  price         Int
+  gross_amount  Int
+  status        TRANSACTION_STATUS    @default(PENDING)
+  snap_token    String      @unique
+  payment_type  String?
+  expired       DateTime
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  ticketId      String
+  ticket        Ticket      @relation(fields: [ticketId], references: [id])
+  memberUserId  String?
+  memberUser    MemberUser? @relation(fields: [memberUserId], references: [id])
+  voucherId     String?
+  voucher       Voucher?    @relation(fields: [voucherId], references: [id])
+  scanTickets   ScanTicket?
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @updatedAt
+
+
+  @@unique([userId, voucherId])
+  @@map("transactions")
+}
+
+model ScanTicket {
+  id              String        @id @default(cuid())
+  transactionId   String        @unique
+  transaction     Transaction   @relation(fields: [transactionId], references: [id])
+  status          Boolean       @default(false)
+  acceptedBy      String?
+  user            User?          @relation(fields: [acceptedBy],references: [id])
+  scannedAt       DateTime
+  created_at      DateTime      @default(now())
+  updated_at      DateTime      @updatedAt
+
+  @@map("scanTickets")
+}
 
 enum ROLE {
   ADMIN
@@ -140,4 +183,10 @@ enum ROLE {
 enum GENDER {
   MALE
   FEMALE
+}
+
+enum TRANSACTION_STATUS {
+  PENDING
+  SUCCESS
+  FAILURE
 }

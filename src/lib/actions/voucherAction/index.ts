@@ -5,6 +5,7 @@ import {
   ResponseVoucherAction,
 } from "@/types/voucherAction";
 import { voucherService } from "./VoucherService";
+import { transactionService } from "../transactionAction/TransactionService";
 
 export const addVoucherAction = async (
   data: PayloadBodyVoucher
@@ -90,6 +91,35 @@ export const updateVoucherByIdAction = async (
       return {
         status: "fail",
         message: "Terjadi kesalahan, voucher gagal diubah",
+      };
+    }
+    return {
+      status: "fail",
+      message: error.message,
+    };
+  }
+};
+
+export const getVoucherByNameAction = async ({
+  name,
+  userId,
+}: Record<string, string>) => {
+  try {
+    const voucher = await voucherService.getVoucherByName(name);
+    await transactionService.checkAvailableVoucherInTransactionByUserId(
+      userId,
+      voucher.id
+    );
+    return {
+      status: "success",
+      message: "Voucher berhasil didapatkan",
+      data: voucher,
+    };
+  } catch (error: any) {
+    if ("code" in error) {
+      return {
+        status: "fail",
+        message: "Terjadi kesalahan, voucher gagal didapatkan",
       };
     }
     return {

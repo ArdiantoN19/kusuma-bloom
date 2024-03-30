@@ -41,4 +41,6 @@ export interface ITicketService {
   activateTicketById(id: string): Promise<void>;
   nonActiveTicketById(id: string): Promise<void>;
   getTotalTicketRecords(): Promise<number>;
+  getActiveTicket(): Promise<ResponseTicket | null>;
+  updateTicketQuantityById(id: string, quantity: number): Promise<void>;
 }

@@ -65,7 +65,7 @@ const UserNav = () => {
           </DialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>
-      <DialogContent className="bg-white max-w-md ">
+      <DialogContent className="bg-white max-w-[350px] md:min-w-[350px] md:max-w-md rounded">
         <div className="flex flex-col gap-5 items-center justify-center">
           <h1 className="text-xl">Yakin keluar dari aplikasi ini?</h1>
           <div className="flex gap-2 justify-center">

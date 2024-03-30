@@ -47,14 +47,14 @@ export const authOptions: NextAuthOptions = {
           }
 
           if (memberUser && !memberUser.verifiedAt) {
-            return { statusMember: "pending", ...user };
+            return { statusMember: "pending", memberUser, ...user };
           }
 
           if (memberUser && memberUser.verifiedAt) {
-            return { statusMember: "success", ...user };
+            return { statusMember: "success", memberUser, ...user };
           }
 
-          return { statusMember: "fail", ...user };
+          return { statusMember: "fail", memberUser, ...user };
         }
 
         return null;
@@ -79,6 +79,7 @@ export const authOptions: NextAuthOptions = {
         token.address = user.address;
         token.isPopMember = 1;
         token.statusMember = user.statusMember;
+        token.memberUser = user.memberUser;
       }
       if (trigger === "update") {
         if (session.info.image) {
@@ -120,6 +121,9 @@ export const authOptions: NextAuthOptions = {
         }
         if ("statusMember" in token) {
           session.user.statusMember = token.statusMember;
+        }
+        if ("memberUser" in token) {
+          session.user.memberUser = token.memberUser;
         }
       }
       return session;

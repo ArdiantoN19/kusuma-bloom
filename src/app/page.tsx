@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import AboutSection from "@/components/About";
 import FacilitySection from "@/components/Facility";
 import Footer from "@/components/Footer";
@@ -8,11 +7,6 @@ import Navbar from "@/components/Navbar";
 import ServiceSection from "@/components/Service";
 import TestimonialSection from "@/components/Testimonial";
 import VendorSection from "@/components/Vendor";
-
-export const metadata: Metadata = {
-  title: "Home",
-  description: "Home page of kusuma bloom",
-};
 
 export default function Home() {
   return (

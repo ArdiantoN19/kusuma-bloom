@@ -81,7 +81,7 @@ export const deleteMemberUserByIdAction = async (
     if (!memberUser.acceptedBy) {
       throw new Error("Member user tidak ditemukan, periksa kembali id member");
     }
-    // await memberUserService.deleteMemberUserById(userId);
+    await memberUserService.deleteMemberUser(data);
     return {
       status: "success",
       message: "Member user berhasil dihapuskan",
