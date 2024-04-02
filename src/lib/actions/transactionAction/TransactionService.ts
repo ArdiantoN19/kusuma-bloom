@@ -1,6 +1,9 @@
 import {
   ITransactionService,
+  ORDERBY,
   PayloadAddTransaction,
+  ResponseTransaction,
+  TRANSACTION_STATUS,
 } from "@/types/transactionAction";
 import { PrismaClient } from "@prisma/client";
 import prisma from "@/lib/prisma";
@@ -16,7 +19,10 @@ class TransactionService implements ITransactionService {
     });
   }
 
-  async updateTransactionById(id: string, data: any): Promise<void> {
+  async updateTransactionById(
+    id: string,
+    data: Record<string, any>
+  ): Promise<void> {
     await this.prismaTransaction.update({
       where: {
         id,
@@ -35,11 +41,6 @@ class TransactionService implements ITransactionService {
           userId,
           voucherId,
         },
-        AND: {
-          status: {
-            not: "FAILURE",
-          },
-        },
       },
     });
 
@@ -57,6 +58,66 @@ class TransactionService implements ITransactionService {
     if (!snapToken) {
       throw new Error("Token tidak valid");
     }
+  }
+
+  async getTransactionById(id: string): Promise<ResponseTransaction> {
+    const transaction = await this.prismaTransaction.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!transaction) {
+      throw new Error("Transaksi tidak ditemukan");
+    }
+    return transaction as ResponseTransaction;
+  }
+
+  async getVoucherIdInTransactionByUserId(userId: string): Promise<string[]> {
+    const voucherIds = await this.prismaTransaction.findMany({
+      where: {
+        userId,
+        voucherId: {
+          not: null,
+        },
+      },
+      select: {
+        voucherId: true,
+      },
+    });
+
+    return voucherIds.map((voucher) => voucher.voucherId) as string[];
+  }
+
+  async getLatestTransaction(): Promise<ResponseTransaction> {
+    const transaction = await this.prismaTransaction.findFirst({
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+
+    return transaction as ResponseTransaction;
+  }
+
+  async getCountTransactionByStatus(
+    status: TRANSACTION_STATUS
+  ): Promise<number> {
+    const statusLength = await this.prismaTransaction.count({
+      where: {
+        status,
+      },
+    });
+
+    return statusLength;
+  }
+
+  async getTransactions(orderBy?: ORDERBY): Promise<ResponseTransaction[]> {
+    const transactions = await this.prismaTransaction.findMany({
+      orderBy: {
+        created_at: orderBy,
+      },
+    });
+
+    return transactions as ResponseTransaction[];
   }
 }
 

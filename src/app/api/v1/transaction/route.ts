@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     },
   };
 
-  const url = `${process.env.BASE_URL_MIDTRANS_API}/snap/v1/transactions`;
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL_MIDTRANS_API}/snap/v1/transactions`;
   const options = {
     method: "POST",
     headers: {

@@ -24,7 +24,7 @@ const FlyingNav = () => {
             <small className="text-xs">Dashboard</small>
           </Link>
           <Link
-            href={"/user/activity"}
+            href={"/user/activity?orderBy=newest"}
             className="flex flex-col items-center gap-y-1"
             title="Aktivitas"
           >

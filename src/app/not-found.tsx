@@ -13,6 +13,7 @@ const NotFoundPage = () => {
         height={300}
         alt="404 Error"
         className="size-[30rem]"
+        priority
       />
       <p className="text-lg text-center">
         Opps, sepertinya halaman yang Anda cari tidak ditemukan

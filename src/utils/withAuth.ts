@@ -47,7 +47,11 @@ export const withAuth = (middleware: NextMiddleware, requireAuth: string[]) => {
       return NextResponse.redirect(url);
     }
 
-    if (!token && startWithRequirePath(requireAuth, pathname)) {
+    if (
+      !token &&
+      startWithRequirePath(requireAuth, pathname) &&
+      !pathname.startsWith("/api/v1/transaction/notification")
+    ) {
       const url = new URL("/login", req.url);
       url.searchParams.set("callbackUrl", encodeURI(pathname));
       return NextResponse.redirect(url);

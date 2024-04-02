@@ -9,8 +9,8 @@ const TicketUser = () => {
   const router = useRouter();
 
   return (
-    <div className="container pt-5 lg:pb-10 bg-white border-b rounded shadow-sm border-r border-l">
-      <div className="flex justify-between items-center mb-5">
+    <div className="container lg:pb-24 bg-white border-b rounded shadow-sm border-r border-l relative">
+      <div className="flex justify-between items-center mb-3 pb-2 sticky pt-5 top-0 left-0 bg-white">
         <button
           type="button"
           title="dashboard"

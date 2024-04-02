@@ -3,9 +3,10 @@
 import React, { useCallback } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { getTimeOfDay } from "@/utils";
+import { dateFormatter, getTimeOfDay } from "@/utils";
 import { CheckCircle, Headset, Star, XCircle } from "@phosphor-icons/react";
 import CardPopMember from "@/components/User/Dashboard/CardPopMember";
+import { format } from "date-fns";
 
 const HeroInfoSkeleton = () => {
   return (
@@ -55,7 +56,17 @@ const HeroInfoSkeleton = () => {
   );
 };
 
-const HeroInfo = () => {
+interface HeroInfoProps {
+  latestDateTransaction: Date;
+  successCountTransaction: number;
+  failureCountTransaction: number;
+}
+
+const HeroInfo: React.FC<HeroInfoProps> = ({
+  latestDateTransaction,
+  successCountTransaction,
+  failureCountTransaction,
+}) => {
   const { data: session, update: sessionUpdate } = useSession();
   const isPopMember = Boolean(session?.user.isPopMember);
 
@@ -94,22 +105,30 @@ const HeroInfo = () => {
           <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 border bg-white rounded-md w-[85%] shadow-sm md:max-w-md">
             <div className="grid grid-cols-4 gap-x-3 divide-x p-3 border-b">
               <div className="text-xs col-span-2">
-                <p>Transaksi Terakhir</p>
+                <p className="mb-1">Transaksi Terakhir</p>
                 <div className="font-bold">
-                  <p>Rabu, 12 Agustus 2024</p>
-                  <p className="text-primary">03.00</p>
+                  <p>{format(latestDateTransaction, "eee, dd LLL y")}</p>
+                  <p className="text-primary">
+                    {
+                      dateFormatter(latestDateTransaction.toISOString()).split(
+                        ", "
+                      )[1]
+                    }
+                  </p>
                 </div>
               </div>
               <div className="pl-3">
                 <p className="text-xs mb-1">Berhasil</p>
                 <h3 className="text-sm font-bold flex gap-x-1 items-center">
-                  <CheckCircle size={20} className="text-primary" /> 3
+                  <CheckCircle size={20} className="text-primary" />{" "}
+                  {successCountTransaction}
                 </h3>
               </div>
               <div className="pl-3">
                 <p className="text-xs mb-1">Gagal</p>
                 <h3 className="text-sm font-bold flex gap-x-1 items-center">
-                  <XCircle size={20} className="text-red-400" /> 3
+                  <XCircle size={20} className="text-red-400" />{" "}
+                  {failureCountTransaction}
                 </h3>
               </div>
             </div>

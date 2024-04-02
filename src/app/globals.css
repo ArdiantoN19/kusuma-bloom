@@ -75,6 +75,10 @@
   box-shadow: none;
 }
 
+.scrollable-content::-webkit-scrollbar {
+  display: none;
+}
+
 .loader {
   width: 50px;
   aspect-ratio: 1;

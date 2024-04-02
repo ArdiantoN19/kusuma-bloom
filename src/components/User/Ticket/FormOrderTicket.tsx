@@ -353,7 +353,7 @@ const FormOrderTicket: React.FC<FormOrderTicketProps> = ({
                 </>
               ) : (
                 <>
-                  Lanjut Pembayaran
+                  Pilih Pembayaran
                   <ArrowCircleRight size={20} />
                 </>
               )}
