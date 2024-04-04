@@ -65,6 +65,24 @@ class TransactionService implements ITransactionService {
       where: {
         id,
       },
+      include: {
+        voucher: {
+          select: {
+            discount: true,
+          },
+        },
+        memberUser: {
+          select: {
+            discount: true,
+          },
+        },
+        user: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
     });
     if (!transaction) {
       throw new Error("Transaksi tidak ditemukan");
@@ -99,19 +117,27 @@ class TransactionService implements ITransactionService {
   }
 
   async getCountTransactionByStatus(
+    userId: string,
     status: TRANSACTION_STATUS
   ): Promise<number> {
     const statusLength = await this.prismaTransaction.count({
       where: {
         status,
+        userId,
       },
     });
 
     return statusLength;
   }
 
-  async getTransactions(orderBy?: ORDERBY): Promise<ResponseTransaction[]> {
+  async getTransactions(
+    userId?: string,
+    orderBy?: ORDERBY
+  ): Promise<ResponseTransaction[]> {
     const transactions = await this.prismaTransaction.findMany({
+      where: {
+        userId,
+      },
       orderBy: {
         created_at: orderBy,
       },

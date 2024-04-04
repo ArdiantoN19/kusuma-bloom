@@ -30,6 +30,16 @@ export type ResponseTransaction = {
   ticketId: string;
   memberUserId: string | null;
   voucherId: string | null;
+  memberUser: {
+    discount: number;
+  } | null;
+  voucher: {
+    discount: number;
+  } | null;
+  user: {
+    name: string;
+    email: string;
+  };
   created_at: Date;
   updated_at: Date;
 };
@@ -38,6 +48,11 @@ export enum ORDERBY {
   desc = "desc",
   asc = "asc",
 }
+
+export type ResponseTransactionWithDiscount = ResponseTransaction & {
+  discountMember?: number;
+  discountVoucher?: number;
+};
 
 export interface ITransactionService {
   addTransaction(data: PayloadAddTransaction): Promise<void>;
@@ -50,6 +65,12 @@ export interface ITransactionService {
   getTransactionById(id: string): Promise<ResponseTransaction>;
   getVoucherIdInTransactionByUserId(userId: string): Promise<string[]>;
   getLatestTransaction(): Promise<ResponseTransaction>;
-  getCountTransactionByStatus(status: TRANSACTION_STATUS): Promise<number>;
-  getTransactions(orderBy?: ORDERBY): Promise<ResponseTransaction[]>;
+  getCountTransactionByStatus(
+    userId: string,
+    status: TRANSACTION_STATUS
+  ): Promise<number>;
+  getTransactions(
+    userId?: string,
+    orderBy?: ORDERBY
+  ): Promise<ResponseTransaction[]>;
 }

@@ -60,7 +60,7 @@ const useSnap = () => {
           //     'https://kuy-anime.vercel.app/finish?order_id=trx-1711770730247&status_code=200&transaction_status=settlement'
           // }
 
-          // console.log("success", result);
+          console.log("success", result);
         },
         onPending: (result: ResponseTypeMidtrans) => {
           action.onPending(result);

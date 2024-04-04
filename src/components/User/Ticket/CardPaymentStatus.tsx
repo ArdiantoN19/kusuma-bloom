@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { ResponseTransaction } from "@/types/transactionAction";
 import { dateFormatter, rupiahFormatter } from "@/utils";
-import { CheckCircle, Info, XCircle } from "@phosphor-icons/react";
+import { CheckCircle, Clock, Ticket, XCircle } from "@phosphor-icons/react";
 import Link from "next/link";
 import React from "react";
 
@@ -34,7 +34,7 @@ const CardPaymentStatusSuccess: React.FC = () => {
 const CardPaymentPendingStatus: React.FC = () => {
   return (
     <>
-      <Info
+      <Clock
         size={95}
         weight="fill"
         className="text-myOrange mx-auto mb-5 animate-pulse"
@@ -73,41 +73,48 @@ const CardPaymentStatus: React.FC<CardPaymentStatusProps> = ({
 }) => {
   return (
     <div className="container w-full h-[90dvh] flex flex-col items-center justify-between pt-10">
-      <div>
-        {transaction.status === "PENDING" ? (
-          <CardPaymentPendingStatus />
-        ) : transaction.status === "SUCCESS" ? (
-          <CardPaymentStatusSuccess />
-        ) : (
-          <CardPaymentErrorStatus />
-        )}
-        <Card className="w-full">
-          <CardContent className="p-5">
-            <div className="border-b pb-3">
-              <h3 className="font-bold text-sm">Pesanan dibuat pada</h3>
-              <p className="text-xs">
-                {dateFormatter(transaction.created_at.toISOString())}
-              </p>
-            </div>
-            <div className="pt-3">
-              <div className="flex justify-between items-center">
-                <h3 className="font-bold text-sm">Total</h3>
-
-                <h3 className="font-bold text-sm">
-                  {rupiahFormatter(transaction.gross_amount)}{" "}
-                  {transaction.status === "PENDING" ? (
-                    <span className="uppercase text-myOrange">(pending)</span>
-                  ) : transaction.status === "SUCCESS" ? (
-                    <span className="uppercase text-primary">(sukses)</span>
-                  ) : (
-                    <span className="uppercase text-red-400">(gagal)</span>
-                  )}
-                </h3>
+      {!transaction ? (
+        <div className="flex items-center justify-center h-52 flex-col gap-y-2">
+          <Ticket size={42} className="text-primary" />
+          <h1 className="text-sm text-center">Transaksi tidak ditemukan</h1>
+        </div>
+      ) : (
+        <div>
+          {transaction.status === "PENDING" ? (
+            <CardPaymentPendingStatus />
+          ) : transaction.status === "SUCCESS" ? (
+            <CardPaymentStatusSuccess />
+          ) : (
+            <CardPaymentErrorStatus />
+          )}
+          <Card className="w-full">
+            <CardContent className="p-5">
+              <div className="border-b pb-3">
+                <h3 className="font-bold text-sm">Pesanan dibuat pada</h3>
+                <p className="text-xs">
+                  {dateFormatter(transaction.created_at.toISOString())}
+                </p>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+              <div className="pt-3">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-bold text-sm">Total</h3>
+
+                  <h3 className="font-bold text-sm">
+                    {rupiahFormatter(transaction.gross_amount)}{" "}
+                    {transaction.status === "PENDING" ? (
+                      <span className="uppercase text-myOrange">(pending)</span>
+                    ) : transaction.status === "SUCCESS" ? (
+                      <span className="uppercase text-primary">(sukses)</span>
+                    ) : (
+                      <span className="uppercase text-red-400">(gagal)</span>
+                    )}
+                  </h3>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
       <Button className="w-full" variant={"primary"} asChild>
         <Link href={"/user/dashboard"}>Kembali</Link>
       </Button>

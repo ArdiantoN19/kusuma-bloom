@@ -1,5 +1,5 @@
 import CardPaymentStatus from "@/components/User/Ticket/CardPaymentStatus";
-import { transactionService } from "@/lib/actions/transactionAction/TransactionService";
+import { getTransactionByIdAction } from "@/lib/actions/transactionAction";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -16,11 +16,9 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     return redirect("/user/ticket");
   }
 
-  const transaction = await transactionService.getTransactionById(
-    searchParams.order_id
-  );
+  const transaction = await getTransactionByIdAction(searchParams.order_id);
 
-  return <CardPaymentStatus transaction={transaction} />;
+  return <CardPaymentStatus transaction={transaction.data!} />;
 };
 
 export default Page;

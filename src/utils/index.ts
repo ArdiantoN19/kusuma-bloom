@@ -115,6 +115,11 @@ export async function copyContent(content: string) {
   }
 }
 
+export function hiddenTextFormatter(value: string) {
+  const result = value.slice(0, 10) + "*".repeat(4) + value.slice(-3);
+  return result;
+}
+
 // Example usage
 // const targetDate = '2023-12-31';
 // console.log(calculateDaysLeft(targetDate));

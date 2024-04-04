@@ -8,6 +8,8 @@ import { PayloadRegisterType } from "@/types/authAction";
 import { redirect } from "next/navigation";
 import { Resend } from "resend";
 import { verifyTokenService } from "./VerifyTokenService";
+import { resendEmailService } from "@/lib/resend";
+import { PayloadSendMailType } from "@/types/resend";
 
 export const userRegisterAction = async (
   prevState: any,
@@ -150,18 +152,12 @@ const generateTemplateHTML = (token: string) => {
 };
 
 export const sendVerificationEmail = async (email: string, token: string) => {
-  const resend = new Resend(process.env.RESEND_API_KEY as string);
-  const { data, error } = await resend.emails.send({
-    from: process.env.BASE_EMAIL_APP as string,
+  const payload: PayloadSendMailType = {
     to: email,
     subject: "Verify your email from KUSUMA BLOOM",
     html: generateTemplateHTML(token),
-  });
-  if (error) {
-    return console.error({ error });
-  }
-
-  console.log({ data });
+  };
+  await resendEmailService.sendMail(payload);
 };
 
 export const hashedTokenOTP = (token: string) => {

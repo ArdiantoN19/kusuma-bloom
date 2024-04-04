@@ -168,7 +168,7 @@ model ScanTicket {
   status          Boolean       @default(false)
   acceptedBy      String?
   user            User?          @relation(fields: [acceptedBy],references: [id])
-  scannedAt       DateTime
+  scannedAt       DateTime?
   created_at      DateTime      @default(now())
   updated_at      DateTime      @updatedAt
 

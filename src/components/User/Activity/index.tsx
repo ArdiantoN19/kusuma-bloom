@@ -1,11 +1,15 @@
 "use client";
 
 import { createQueryString, dateFormatter, rupiahFormatter } from "@/utils";
-import { ArrowLeft, Ticket } from "@phosphor-icons/react";
+import { ArrowLeft, Scroll, Ticket } from "@phosphor-icons/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useMemo } from "react";
 import DialogFilterActivity from "./DialogFilterActivity";
-import { ResponseTransaction } from "@/types/transactionAction";
+import {
+  ResponseTransaction,
+  TRANSACTION_STATUS,
+} from "@/types/transactionAction";
+import Link from "next/link";
 
 const fakeActivities: any = [
   {
@@ -124,37 +128,49 @@ const ActivityUser: React.FC<ActivityUserProps> = ({ transactions }) => {
           </button>
         </div>
       </div>
-      <div className="flex flex-col lg:pb-24 h-full overflow-auto scrollable-content">
-        {dataActivities.datas.map((data: any) => (
-          <div
-            key={data.id}
-            className="flex gap-x-3 px-2 py-3 border-b cursor-pointer hover:bg-slate-50 rounded"
-          >
-            <Ticket
-              size={10}
-              className="size-8 rounded-full bg-green-100/90 p-2 text-primary"
-            />
-            <div className="flex-1">
-              <div className="flex justify-between items-center text-[.65em]">
-                <p
-                  className={`block ${
-                    statusColor[
-                      data.status.toLowerCase() as keyof typeof statusColor
-                    ]
-                  }`}
-                >
-                  {data.status}
+      {!dataActivities.datas.length ? (
+        <div className="flex items-center justify-center h-52 flex-col gap-y-2">
+          <Scroll size={42} className="text-primary" />
+          <h1 className="text-sm text-center">Tidak ada aktivitas</h1>
+        </div>
+      ) : (
+        <div className="flex flex-col lg:pb-24 h-full overflow-auto scrollable-content">
+          {dataActivities.datas.map((data: ResponseTransaction) => (
+            <Link
+              key={data.id}
+              href={
+                data.status !== TRANSACTION_STATUS.PENDING
+                  ? `/user/activity/${data.id}`
+                  : `/user/ticket/pay?token=${data.snap_token}`
+              }
+              className="flex gap-x-3 px-2 py-3 border-b hover:bg-slate-50 rounded"
+            >
+              <Ticket
+                size={10}
+                className="size-8 rounded-full bg-green-100/90 p-2 text-primary"
+              />
+              <div className="flex-1">
+                <div className="flex justify-between items-center text-[.65em]">
+                  <p
+                    className={`block ${
+                      statusColor[
+                        data.status.toLowerCase() as keyof typeof statusColor
+                      ]
+                    }`}
+                  >
+                    {data.status}
+                  </p>
+                  <p className="text-muted">{dateFormatter(data.created_at)}</p>
+                </div>
+                <p className="text-xs font-bold">Pemesanan Tiket</p>
+                <p className="text-[.7em] text-muted">
+                  {rupiahFormatter(data.gross_amount)}
                 </p>
-                <p className="text-muted">{dateFormatter(data.created_at)}</p>
               </div>
-              <p className="text-xs font-bold">Pemesanan Tiket</p>
-              <p className="text-[.7em] text-muted">
-                {rupiahFormatter(data.gross_amount)}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
