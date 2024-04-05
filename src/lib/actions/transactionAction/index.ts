@@ -2,9 +2,9 @@
 
 import { ResponseTransactionWithDiscount } from "@/types/transactionAction";
 import { transactionService } from "./TransactionService";
-import { Resend } from "resend";
 import { PayloadSendMailType } from "@/types/resend";
 import { resendEmailService } from "@/lib/resend";
+import QRCode from "qrcode";
 
 export const checkValidTokenAction = async (token: string) => {
   try {
@@ -54,11 +54,14 @@ export const getTransactionByIdAction = async (
   }
 };
 
-export const sendMailByTransactionIdAction = async (email: string) => {
-  // const payload: PayloadSendMailType = {
-  //   to: email,
-  //   subject: "Ticket Order KUSUMA BLOOM",
-  // html: generateTemplateHTML(token),
-  // };
-  // await resendEmailService.sendMail(payload);
+export const sendMailByTransactionIdAction = async (
+  email: string,
+  template: string
+) => {
+  const payload: PayloadSendMailType = {
+    to: email,
+    subject: "Konfirmasi Pemesanan Tiket KUSUMA BLOOM",
+    html: template,
+  };
+  await resendEmailService.sendMail(payload);
 };

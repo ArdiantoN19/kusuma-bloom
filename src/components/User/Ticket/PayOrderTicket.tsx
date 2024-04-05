@@ -11,12 +11,16 @@ import {
 } from "@/lib/midtrans";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+
+import { useSession } from "next-auth/react";
 
 const PayOrderTicket = () => {
+  const { data: session } = useSession();
   const params = useSearchParams();
   const [isValidToken, setIsValidToken] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const snapContainer = useRef<HTMLDivElement>(null);
 
   const { snapEmbed } = useSnap();
 
@@ -30,12 +34,12 @@ const PayOrderTicket = () => {
     }
   }, [params]);
 
-  useEffect(() => {
-    if (isValidToken) {
-      snapEmbed(params.get("token")!, "snap-container", {
+  const onShowPayment = useCallback(() => {
+    if (isValidToken && snapContainer.current) {
+      snapEmbed(params.get("token")!, snapContainer.current.id, {
         onSuccess: (result: ResponseTypeMidtrans) => {
           (async () => {
-            await snapSuccessStatus(result);
+            await snapSuccessStatus(result, session?.user);
           })();
         },
         onPending: (result: ResponseTypeMidtrans) => {
@@ -50,7 +54,20 @@ const PayOrderTicket = () => {
         },
       });
     }
-  }, [isValidToken, params, snapEmbed]);
+  }, [
+    isValidToken,
+    params,
+    session?.user.email,
+    session?.user.userId,
+    snapEmbed,
+  ]);
+
+  useEffect(() => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.onclick = onShowPayment;
+    button.click();
+  }, [onShowPayment]);
 
   if (
     (!params.get("token") || params.get("token")?.length! !== 36) &&
@@ -73,7 +90,13 @@ const PayOrderTicket = () => {
   }
 
   return !isLoading ? (
-    <div id="snap-container" className="w-full h-full pt-5 rounded"></div>
+    <>
+      <div
+        ref={snapContainer}
+        id="snap-container"
+        className="w-full h-full pt-5 rounded"
+      ></div>
+    </>
   ) : (
     <div className="loader"></div>
   );

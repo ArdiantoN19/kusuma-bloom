@@ -1,5 +1,7 @@
+"use client";
+
 import { ResponseTypeMidtrans } from "@/lib/midtrans";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 declare global {
   interface Window {
@@ -10,7 +12,7 @@ declare global {
 const CLIENT_KEY = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY;
 
 const useSnap = () => {
-  const [snap, setSnap] = React.useState<any>(null);
+  const [snap, setSnap] = useState<any>("");
 
   useEffect(() => {
     // const snapSrcUrl = "https://app.stg.midtrans.com/snap/snap.js";
@@ -101,7 +103,6 @@ const useSnap = () => {
       });
     }
   };
-
   return { snapEmbed };
 };
 

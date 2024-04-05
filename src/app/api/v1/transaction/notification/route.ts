@@ -1,3 +1,4 @@
+import { getAuthServerSession } from "@/lib/auth";
 import {
   ResponseTypeMidtrans,
   snapErrorStatus,
@@ -7,6 +8,8 @@ import {
 import crypto from "crypto";
 
 export async function POST(req: Request) {
+  const session = await getAuthServerSession();
+
   const payload: ResponseTypeMidtrans | any = await req.json();
   const orderId = payload.order_id;
   const statusCode = payload.status_code;
@@ -23,7 +26,7 @@ export async function POST(req: Request) {
 
   if (isValidSignatureKey) {
     if (transactionStatus === "capture" || transactionStatus === "settlement") {
-      await snapSuccessStatus(payload);
+      await snapSuccessStatus(payload, session?.user);
     } else if (
       transactionStatus === "cancel" ||
       transactionStatus === "deny" ||

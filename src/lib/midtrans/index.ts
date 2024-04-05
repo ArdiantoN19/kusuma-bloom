@@ -4,6 +4,13 @@ import { TRANSACTION_STATUS } from "@/types/transactionAction";
 import { transactionService } from "../actions/transactionAction/TransactionService";
 import { voucherService } from "../actions/voucherAction/VoucherService";
 import { ticketService } from "../actions/ticketAction/TicketService";
+import { scanTicketService } from "../actions/scanTicketAction/ScanTicketService";
+import {
+  getTransactionByIdAction,
+  sendMailByTransactionIdAction,
+} from "@/lib/actions/transactionAction";
+import { templateTransactionTicket } from "@/lib/actions/transactionAction/templateConfirmationTicket";
+import { ResponseTransactionWithDiscount } from "@/types/transactionAction";
 
 export type ResponseTypeMidtrans = {
   status_code: string;
@@ -25,7 +32,11 @@ type ResponseErrorTypeMidtrans = {
 };
 
 export const snapSuccessStatus = async (
-  response: ResponseTypeMidtrans
+  response: ResponseTypeMidtrans,
+  user: {
+    email: string;
+    userId: string;
+  }
 ): Promise<void> => {
   try {
     const data: Record<string, any> = {
@@ -33,6 +44,14 @@ export const snapSuccessStatus = async (
       status: TRANSACTION_STATUS.SUCCESS,
     };
     await transactionService.updateTransactionById(response.order_id, data);
+    await scanTicketService.addScanTicket(response.order_id);
+
+    const transaction: ResponseTransactionWithDiscount = (
+      await getTransactionByIdAction(user.userId, response.order_id)
+    ).data!;
+
+    const template = templateTransactionTicket(transaction);
+    await sendMailByTransactionIdAction(user.email, template);
   } catch (error: any) {
     console.error(error.message);
   }

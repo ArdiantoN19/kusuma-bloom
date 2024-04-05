@@ -130,10 +130,15 @@ class TransactionService implements ITransactionService {
     return statusLength;
   }
 
-  async getTransactions(
-    userId?: string,
-    orderBy?: ORDERBY
-  ): Promise<ResponseTransaction[]> {
+  async getTransactions({
+    userId,
+    orderBy,
+    limit,
+  }: {
+    userId?: string;
+    orderBy?: ORDERBY;
+    limit?: number;
+  }): Promise<ResponseTransaction[]> {
     const transactions = await this.prismaTransaction.findMany({
       where: {
         userId,

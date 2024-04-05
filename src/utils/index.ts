@@ -1,4 +1,6 @@
+import QRCode from "qrcode";
 import { dataColors } from "./data";
+import path from "path";
 
 export const rupiahFormatter = (value: number) => {
   const formatter = new Intl.NumberFormat("id-ID", {
@@ -119,6 +121,30 @@ export function hiddenTextFormatter(value: string) {
   const result = value.slice(0, 10) + "*".repeat(4) + value.slice(-3);
   return result;
 }
+
+export const generateQRCode = (text: string): string => {
+  const options: Record<string, any> = {
+    errorCorrectionLevel: "H",
+    quality: 0.3,
+    margin: 1,
+    width: 250,
+    type: "image/webp",
+    color: {
+      dark: "#00bd71",
+      light: "#ffffff",
+    },
+  };
+
+  let qrCode: string = "";
+  QRCode.toDataURL(text, options, (err, url) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    qrCode = url;
+  });
+  return qrCode;
+};
 
 // Example usage
 // const targetDate = '2023-12-31';

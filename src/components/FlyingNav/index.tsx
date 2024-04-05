@@ -9,7 +9,8 @@ const FlyingNav = () => {
   const pathname = usePathname();
 
   return (
-    !pathname.includes("/user/ticket") && (
+    !pathname.includes("/user/ticket") &&
+    !pathname.includes("/user/qr-code") && (
       <div className="fixed z-50 bottom-0 md:bottom-5 left-1/2 -translate-x-1/2">
         <div className="bg-white flex items-center justify-center md:rounded-full px-7 py-2.5 gap-x-7 shadow-sm border w-full">
           <Link

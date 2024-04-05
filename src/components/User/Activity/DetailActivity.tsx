@@ -1,6 +1,5 @@
 "use client";
 
-import Alert, { AlertType } from "@/components/Alert";
 import {
   Accordion,
   AccordionContent,
@@ -9,13 +8,13 @@ import {
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import {
-  ResponseTransaction,
   ResponseTransactionWithDiscount,
   TRANSACTION_STATUS,
 } from "@/types/transactionAction";
 import { dateFormatter, hiddenTextFormatter, rupiahFormatter } from "@/utils";
-import { ArrowLeft, CheckCircle, XCircle } from "@phosphor-icons/react";
+import { ArrowLeft, CheckCircle, QrCode, XCircle } from "@phosphor-icons/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -232,6 +231,13 @@ const DetailActivity: React.FC<DetailActivityProps> = ({ transaction }) => {
               </div>
             )}
           </div>
+          <Link
+            href={`/user/qr-code/${transaction.id}`}
+            className="absolute top-5 right-5 text-primary hover:bg-slate-100"
+            title="QR Code"
+          >
+            <QrCode size={22} />
+          </Link>
         </div>
         <div className="text-center text-xs">
           <p>
