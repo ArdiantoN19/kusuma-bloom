@@ -106,10 +106,10 @@ const MainNav: FunctionComponent = ({
           Fasilitas
         </Link>
         <Link
-          href="/admin/scanqrcode"
+          href="/admin/scan-qr-code"
           onClick={onClickSidebarHandler}
           className={`text-sm transition-colors hover:text-primary ${
-            pathname === "/admin/scanqrcode"
+            pathname === "/admin/scan-qr-code"
               ? "text-primary font-semibold"
               : "text-muted-foreground font-medium"
           }`}

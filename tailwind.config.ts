@@ -78,12 +78,21 @@ const config = {
           from: { transform: "translateX(5px)" },
           to: { transform: "translateX(10px)" },
         },
+        "slide-up-down": {
+          from: {
+            transform: "translateY(0)",
+          },
+          to: {
+            transform: "translateY(340px)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "animate-fade-in 0.3s ease-in-out",
         "slide-right": "slide-right 0.5s ease-in-out infinite alternate",
+        "slide-up-down": "slide-up-down 0.5s ease-in-out infinite alternate",
       },
     },
   },
