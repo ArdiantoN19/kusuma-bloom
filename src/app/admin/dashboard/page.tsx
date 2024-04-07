@@ -1,23 +1,26 @@
 import { getAuthServerSession } from "@/lib/auth";
 import React from "react";
-import {
-  ArrowsDownUp,
-  CurrencyDollarSimple,
-  DownloadSimple,
-  Ticket,
-  Users,
-} from "@phosphor-icons/react/dist/ssr";
-import CardItemOverview from "@/components/Admin/Dashboard/CardItemOverview";
+import { DownloadSimple } from "@phosphor-icons/react/dist/ssr";
 import CardTransaction from "@/components/Admin/Dashboard/CardTransaction";
 import CardChartTransaction from "@/components/Admin/Dashboard/CardChartTransaction";
 import Link from "next/link";
-import { getTotalTicketRecordsAction } from "@/lib/actions/ticketAction";
-import { getTotalUserRecordsAction } from "@/lib/actions/userAction";
+import { ORDERBY } from "@/types/transactionAction";
+import {
+  OverviewDashboardAction,
+  TransactionForAdminDashboardAction,
+} from "@/lib/actions/dashboardAction";
+import ListOverview from "@/components/Admin/Dashboard/Overview/ListOverview";
 
 const Page = async () => {
   const session = await getAuthServerSession();
-  const totalTickets = await getTotalTicketRecordsAction();
-  const totalUsers = await getTotalUserRecordsAction();
+
+  const dataTransactions = await TransactionForAdminDashboardAction({
+    limit: 5,
+    orderBy: ORDERBY.desc,
+  });
+
+  const dataOverviewDashboard = await OverviewDashboardAction();
+
   return (
     <div className="space-y-4">
       <div className="mb-5">
@@ -40,37 +43,10 @@ const Page = async () => {
           </Link>
         </div>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <CardItemOverview
-          title="Total Pendapatan"
-          icon={<CurrencyDollarSimple size={20} />}
-          total={16000000}
-          isMoney
-          omzetPercent={20.1}
-        />
-        <CardItemOverview
-          title="Total User"
-          icon={<Users size={20} />}
-          total={totalUsers.data.total}
-          omzetPercent={20.1}
-        />
-        <CardItemOverview
-          title="Total Tiket"
-          icon={<Ticket size={20} />}
-          total={totalTickets.data.total}
-          omzetPercent={20.1}
-        />
-        <CardItemOverview
-          title="Total Transaksi"
-          icon={<ArrowsDownUp size={20} />}
-          total={16000000}
-          isMoney
-          omzetPercent={20.1}
-        />
-      </div>
+      <ListOverview {...dataOverviewDashboard} />
       <div className="grid gap-y-4 lg:gap-x-4 md:grid-cols-2 lg:grid-cols-7 ">
-        <CardChartTransaction />
-        <CardTransaction />
+        <CardChartTransaction data={dataOverviewDashboard.totalIncomeByMonth} />
+        <CardTransaction {...dataTransactions} />
       </div>
     </div>
   );

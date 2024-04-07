@@ -11,59 +11,66 @@ import {
   YAxis,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { rupiahFormatter } from "@/utils";
 
-const data = [
-  {
-    name: "Jan",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Feb",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Mar",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Apr",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "May",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Jun",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Jul",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Aug",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Sep",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Oct",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Dec",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-];
+// const data = [
+//   {
+//     name: "Jan",
+//     total: Math.floor(Math.random() * 5000) + 1000,
+//   },
+//   {
+//     name: "Feb",
+//     total: Math.floor(Math.random() * 5000) + 1000,
+//   },
+//   {
+//     name: "Mar",
+//     total: Math.floor(Math.random() * 5000) + 1000,
+//   },
+//   {
+//     name: "Apr",
+//     total: Math.floor(Math.random() * 5000) + 1000,
+//   },
+//   {
+//     name: "May",
+//     total: Math.floor(Math.random() * 5000) + 1000,
+//   },
+//   {
+//     name: "Jun",
+//     total: Math.floor(Math.random() * 5000) + 1000,
+//   },
+//   {
+//     name: "Jul",
+//     total: Math.floor(Math.random() * 5000) + 1000,
+//   },
+//   {
+//     name: "Aug",
+//     total: Math.floor(Math.random() * 5000) + 1000,
+//   },
+//   {
+//     name: "Sep",
+//     total: Math.floor(Math.random() * 5000) + 1000,
+//   },
+//   {
+//     name: "Oct",
+//     total: Math.floor(Math.random() * 5000) + 1000,
+//   },
+//   {
+//     name: "Nov",
+//     total: Math.floor(Math.random() * 5000) + 1000,
+//   },
+//   {
+//     name: "Dec",
+//     total: Math.floor(Math.random() * 5000) + 1000,
+//   },
+// ];
 
-const CardChartTransaction: FunctionComponent = () => {
+interface CardChartTransactionProps {
+  data: { name: string; total: number }[];
+}
+
+const CardChartTransaction: FunctionComponent<CardChartTransactionProps> = ({
+  data,
+}) => {
   return (
     <Card className="col-span-full md:col-span-4">
       <CardHeader>
@@ -81,10 +88,10 @@ const CardChartTransaction: FunctionComponent = () => {
             />
             <YAxis
               stroke="#888888"
-              fontSize={12}
+              fontSize={10}
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => `$${value}`}
+              tickFormatter={(value) => rupiahFormatter(value).slice(0, -3)}
             />
             <Bar
               dataKey="total"

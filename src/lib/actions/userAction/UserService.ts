@@ -106,6 +106,11 @@ class UserService implements IUserService {
   async getTotalUserRecords(): Promise<number> {
     return await this.prismaUser.count();
   }
+
+  async getCountUsers(): Promise<number> {
+    const count = await this.prismaUser.count();
+    return count;
+  }
 }
 
 export const userService = new UserService(prisma?.user);

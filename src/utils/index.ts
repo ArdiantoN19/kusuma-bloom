@@ -1,6 +1,4 @@
-import QRCode from "qrcode";
 import { dataColors } from "./data";
-import path from "path";
 
 export const rupiahFormatter = (value: number) => {
   const formatter = new Intl.NumberFormat("id-ID", {
@@ -122,28 +120,19 @@ export function hiddenTextFormatter(value: string) {
   return result;
 }
 
-export const generateQRCode = (text: string): string => {
-  const options: Record<string, any> = {
-    errorCorrectionLevel: "H",
-    quality: 0.3,
-    margin: 1,
-    width: 250,
-    type: "image/webp",
-    color: {
-      dark: "#00bd71",
-      light: "#ffffff",
-    },
-  };
-
-  let qrCode: string = "";
-  QRCode.toDataURL(text, options, (err, url) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    qrCode = url;
-  });
-  return qrCode;
+export const transformMonthFromIndex: Record<number, string> = {
+  0: "Jan",
+  1: "Feb",
+  2: "Mar",
+  3: "Apr",
+  4: "May",
+  5: "Jun",
+  6: "Jul",
+  7: "Aug",
+  8: "Sep",
+  9: "Oct",
+  10: "Nov",
+  11: "Dec",
 };
 
 // Example usage

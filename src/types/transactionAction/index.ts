@@ -39,6 +39,7 @@ export type ResponseTransaction = {
   user: {
     name: string;
     email: string;
+    image?: string;
   };
   created_at: Date;
   updated_at: Date;
@@ -69,8 +70,15 @@ export interface ITransactionService {
     userId: string,
     status: TRANSACTION_STATUS
   ): Promise<number>;
-  getTransactions(
-    userId?: string,
-    orderBy?: ORDERBY
-  ): Promise<ResponseTransaction[]>;
+  getTransactions({
+    userId,
+    orderBy,
+    limit,
+  }: {
+    userId?: string;
+    orderBy?: ORDERBY;
+    limit?: number;
+  }): Promise<ResponseTransaction[]>;
+  getAllCountTransactions(): Promise<number>;
+  getAllCountTransactionsInOneMonth(): Promise<number>;
 }

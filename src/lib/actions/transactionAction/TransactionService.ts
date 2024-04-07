@@ -143,12 +143,44 @@ class TransactionService implements ITransactionService {
       where: {
         userId,
       },
+      take: limit,
       orderBy: {
         created_at: orderBy,
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true,
+            image: true,
+          },
+        },
       },
     });
 
     return transactions as ResponseTransaction[];
+  }
+
+  async getAllCountTransactions(): Promise<number> {
+    const count = await this.prismaTransaction.count();
+    return count;
+  }
+
+  async getAllCountTransactionsInOneMonth(): Promise<number> {
+    const now = new Date();
+    const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    const count = await this.prismaTransaction.count({
+      where: {
+        created_at: {
+          lte: lastDayOfMonth,
+          gte: firstDayOfMonth,
+        },
+      },
+    });
+
+    return count;
   }
 }
 

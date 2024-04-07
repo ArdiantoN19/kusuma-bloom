@@ -2,19 +2,17 @@ import React, { FunctionComponent } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { rupiahFormatter } from "@/utils";
 
-interface CardItemOverviewProps {
+interface ItemOverviewProps {
   title: string;
   total: number;
   icon: React.ReactNode;
-  omzetPercent: number;
   isMoney?: boolean;
 }
 
-const CardItemOverview: FunctionComponent<CardItemOverviewProps> = ({
+const ItemOverview: FunctionComponent<ItemOverviewProps> = ({
   title,
   total,
   icon,
-  omzetPercent,
   isMoney = false,
 }) => {
   return (
@@ -27,12 +25,9 @@ const CardItemOverview: FunctionComponent<CardItemOverviewProps> = ({
         <div className="text-2xl font-bold mb-1">
           {isMoney ? rupiahFormatter(total) : total}
         </div>
-        <p className="text-xs text-muted-foreground">
-          +{omzetPercent} dari bulan lalu
-        </p>
       </CardContent>
     </Card>
   );
 };
 
-export default CardItemOverview;
+export default ItemOverview;

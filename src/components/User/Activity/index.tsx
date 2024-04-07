@@ -11,27 +11,6 @@ import {
 } from "@/types/transactionAction";
 import Link from "next/link";
 
-const fakeActivities: any = [
-  {
-    id: 1,
-    date: new Date(),
-    status: "pending",
-    price: 500000,
-  },
-  {
-    id: 2,
-    date: new Date(),
-    status: "success",
-    price: 1200000,
-  },
-  {
-    id: 3,
-    date: new Date(),
-    status: "failed",
-    price: 1500000,
-  },
-];
-
 const statusColor = {
   success: "text-green-400",
   failure: "text-red-400",

@@ -54,13 +54,7 @@ const PayOrderTicket = () => {
         },
       });
     }
-  }, [
-    isValidToken,
-    params,
-    session?.user.email,
-    session?.user.userId,
-    snapEmbed,
-  ]);
+  }, [isValidToken, params, session?.user, snapEmbed]);
 
   useEffect(() => {
     const button = document.createElement("button");

@@ -22,10 +22,10 @@ const Page: React.FC<ActivityUserPage> = async ({ searchParams }) => {
     newest: ORDERBY.desc,
     oldest: ORDERBY.asc,
   };
-  const transactions = await transactionService.getTransactions(
-    session?.user.userId,
-    transformOrderBy[searchParams.orderBy]
-  );
+  const transactions = await transactionService.getTransactions({
+    userId: session?.user.userId,
+    orderBy: transformOrderBy[searchParams.orderBy],
+  });
 
   return (
     <>

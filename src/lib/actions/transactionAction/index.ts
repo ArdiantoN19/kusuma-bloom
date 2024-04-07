@@ -4,7 +4,6 @@ import { ResponseTransactionWithDiscount } from "@/types/transactionAction";
 import { transactionService } from "./TransactionService";
 import { PayloadSendMailType } from "@/types/resend";
 import { resendEmailService } from "@/lib/resend";
-import QRCode from "qrcode";
 
 export const checkValidTokenAction = async (token: string) => {
   try {
