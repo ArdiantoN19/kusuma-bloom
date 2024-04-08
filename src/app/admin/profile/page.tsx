@@ -1,5 +1,11 @@
 import CardProfile from "@/components/Profile/CardProfile";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Profile",
+  description: "Profile page management for Kusuma Bloom",
+};
 
 const Page = () => {
   return (

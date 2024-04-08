@@ -7,7 +7,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Rocket } from "@phosphor-icons/react/dist/ssr";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Report",
+  description: "Report page management for Kusuma Bloom",
+};
 
 const Page = () => {
   return (

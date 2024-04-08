@@ -10,6 +10,12 @@ import {
   TransactionForAdminDashboardAction,
 } from "@/lib/actions/dashboardAction";
 import ListOverview from "@/components/Admin/Dashboard/Overview/ListOverview";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Dashboard page management for Kusuma Bloom",
+};
 
 const Page = async () => {
   const session = await getAuthServerSession();

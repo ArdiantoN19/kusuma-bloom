@@ -1,8 +1,14 @@
 import CardPaymentStatus from "@/components/User/Ticket/CardPaymentStatus";
 import { getTransactionByIdAction } from "@/lib/actions/transactionAction";
 import { getAuthServerSession } from "@/lib/auth";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Status Pembayaran",
+  description: "Payment status page management for Kusuma Bloom",
+};
 
 interface PageProps {
   searchParams: {

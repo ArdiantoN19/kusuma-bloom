@@ -2,12 +2,24 @@ import DetailActivity from "@/components/User/Activity/DetailActivity";
 import { getTransactionByIdAction } from "@/lib/actions/transactionAction";
 import { getAuthServerSession } from "@/lib/auth";
 import { ResponseTransactionWithDiscount } from "@/types/transactionAction";
+import { Metadata, ResolvingMetadata } from "next";
 import { redirect } from "next/navigation";
 import React from "react";
 
 interface PageProps {
   params: {
     id: string;
+  };
+}
+
+export async function generateMetadata(
+  { params }: PageProps,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const id = params.id;
+  return {
+    title: `activitas-${id}`,
+    description: "Activity detail page for Kusuma Bloom",
   };
 }
 
