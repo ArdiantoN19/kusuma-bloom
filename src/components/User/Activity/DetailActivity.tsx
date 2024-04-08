@@ -234,9 +234,10 @@ const DetailActivity: React.FC<DetailActivityProps> = ({ transaction }) => {
           {transaction.status === TRANSACTION_STATUS.SUCCESS && (
             <Link
               href={`/user/qr-code/${transaction.id}`}
-              className="absolute top-5 right-5 text-primary hover:bg-slate-100"
+              className="absolute top-5 right-5 text-primary flex items-center gap-x-1"
               title="QR Code"
             >
+              <strong className="text-xs">E-ticket</strong>
               <QrCode size={22} />
             </Link>
           )}
