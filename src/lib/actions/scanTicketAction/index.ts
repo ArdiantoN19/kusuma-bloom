@@ -15,10 +15,7 @@ export const getScanTicketByTransactionIdAction = async (
       throw new Error("Tiket sudah pernah dipakai");
     }
 
-    if (
-      new Date(scanTicket.transaction.expired).getDate() !==
-      new Date().getDate()
-    ) {
+    if (new Date(scanTicket.transaction.expired) !== new Date()) {
       throw new Error("Tiket sudah kedaluwarsa atau belum dapat diaktifkan");
     }
     let transaction: ResponseTransactionWithDiscount =

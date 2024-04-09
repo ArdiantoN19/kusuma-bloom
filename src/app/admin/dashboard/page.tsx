@@ -1,4 +1,3 @@
-import { getAuthServerSession } from "@/lib/auth";
 import React from "react";
 import { DownloadSimple } from "@phosphor-icons/react/dist/ssr";
 import CardTransaction from "@/components/Admin/Dashboard/CardTransaction";
@@ -18,8 +17,6 @@ export const metadata: Metadata = {
 };
 
 const Page = async () => {
-  const session = await getAuthServerSession();
-
   const dataTransactions = await TransactionForAdminDashboardAction({
     limit: 5,
     orderBy: ORDERBY.desc,

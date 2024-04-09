@@ -155,6 +155,11 @@ class TransactionService implements ITransactionService {
             image: true,
           },
         },
+        scanTickets: {
+          select: {
+            status: true,
+          },
+        },
       },
     });
 

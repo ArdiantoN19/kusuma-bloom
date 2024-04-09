@@ -41,6 +41,9 @@ export type ResponseTransaction = {
     email: string;
     image?: string;
   };
+  scanTickets: {
+    status: boolean;
+  } | null;
   created_at: Date;
   updated_at: Date;
 };

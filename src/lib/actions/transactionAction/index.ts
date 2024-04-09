@@ -64,3 +64,25 @@ export const sendMailByTransactionIdAction = async (
   };
   await resendEmailService.sendMail(payload);
 };
+
+export const getTransactionsAction = async () => {
+  try {
+    const transactions = await transactionService.getTransactions({});
+    return {
+      status: "success",
+      message: "Transaksi berhasil didapatkan",
+      data: transactions,
+    };
+  } catch (error: any) {
+    if ("code" in error) {
+      return {
+        status: "fail",
+        message: "Terjadi kesalahan, transaksi gagal didapatkan",
+      };
+    }
+    return {
+      status: "fail",
+      message: error.message,
+    };
+  }
+};

@@ -1,3 +1,4 @@
+import TransactionTable from "@/components/Admin/Transaction/Table";
 import { Metadata } from "next";
 import React from "react";
 
@@ -19,7 +20,7 @@ const Page = () => {
           </p>
         </div>
       </div>
-      {/* <UserTable /> */}
+      <TransactionTable />
     </div>
   );
 };
