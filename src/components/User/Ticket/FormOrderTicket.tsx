@@ -135,7 +135,7 @@ const FormOrderTicket: React.FC<FormOrderTicketProps> = ({
       ]);
       router.push(queryString);
       router.refresh();
-      setIsLoading(true);
+      setIsLoading(false);
     },
     [
       activeTicket?.id,

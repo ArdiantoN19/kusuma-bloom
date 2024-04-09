@@ -11,13 +11,32 @@ export const getScanTicketByTransactionIdAction = async (
     const scanTicket = await scanTicketService.getScanTicketByTransactionId(
       transactionId
     );
+
+    const expired = new Date(scanTicket.transaction.expired);
+    const now = new Date();
+
     if (scanTicket.status) {
       throw new Error("Tiket sudah pernah dipakai");
     }
 
-    if (new Date(scanTicket.transaction.expired) !== new Date()) {
-      throw new Error("Tiket sudah kedaluwarsa atau belum dapat diaktifkan");
+    if (
+      now > expired &&
+      new Date(
+        expired.getFullYear(),
+        expired.getMonth(),
+        expired.getDate() + 1
+      ) < now
+    ) {
+      throw new Error("Tiket sudah kedaluwarsa");
     }
+
+    if (
+      new Date(now.getFullYear(), now.getMonth(), now.getDate()) <
+      new Date(expired.getFullYear(), expired.getMonth(), expired.getDate())
+    ) {
+      throw new Error("Tiket belum dapat diaktifkan");
+    }
+
     let transaction: ResponseTransactionWithDiscount =
       await transactionService.getTransactionById(scanTicket.transactionId);
     const total = transaction.quantity * transaction.price;

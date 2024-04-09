@@ -14,9 +14,11 @@ import { ResponseTransactionWithDiscount } from "@/types/transactionAction";
 import DetailScan from "./DetailScan";
 import { Check, Scan } from "@phosphor-icons/react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const ScanQRCode = () => {
   const { data: session } = useSession();
+  const router = useRouter();
 
   const scanElement = useRef<HTMLDivElement>(null);
   const [isShowScan, setIsShowScan] = useState<boolean>(false);
@@ -40,6 +42,7 @@ const ScanQRCode = () => {
           } else {
             setScanValue({ id: value, data: response.data! });
             toast.success(response.message);
+            router.refresh();
           }
         }
       });
