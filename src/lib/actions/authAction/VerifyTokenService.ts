@@ -3,14 +3,10 @@ import { PrismaClient } from "@prisma/client";
 
 interface IVerifyTokenService {
   addVerifyToken(data: { identifier: string; token: string }): Promise<void>;
-  checkValidToken(data: {
-    identifier: string;
-    token: string;
-  }): Promise<{ email: string; token: string }>;
   verifyToken(data: {
     identifier: string;
     token: string;
-  }): Promise<{ email: string; token: string }>;
+  }): Promise<{ email: string; token: string; expires: Date }>;
   updateToken(data: {
     identifier: string;
     oldToken: string;
@@ -40,32 +36,10 @@ class VerifyTokenService implements IVerifyTokenService {
     });
   }
 
-  async checkValidToken(data: {
-    identifier: string;
-    token: string;
-  }): Promise<{ email: string; token: string }> {
-    const validToken = await this.prismaVerifyToken.findUnique({
-      where: {
-        identifier_token: {
-          identifier: data.identifier,
-          token: data.token,
-        },
-      },
-    });
-    if (!validToken) {
-      throw new Error("Token tidak valid");
-    }
-    if (validToken.expires < new Date()) {
-      throw new Error("Token expired, klik kirim ulang otp");
-    }
-
-    return { email: validToken.identifier, token: validToken.token };
-  }
-
   async verifyToken(data: {
     identifier: string;
     token: string;
-  }): Promise<{ email: string; token: string }> {
+  }): Promise<{ email: string; token: string; expires: Date }> {
     const validToken = await this.prismaVerifyToken.findUnique({
       where: {
         identifier_token: {
@@ -78,7 +52,11 @@ class VerifyTokenService implements IVerifyTokenService {
       throw new Error("Token tidak valid");
     }
 
-    return { email: validToken.identifier, token: validToken.token };
+    return {
+      email: validToken.identifier,
+      token: validToken.token,
+      expires: validToken.expires,
+    };
   }
 
   async updateToken(data: {

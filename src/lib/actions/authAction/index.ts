@@ -70,7 +70,10 @@ export const verifyUserTokenAction = async (data: {
   token: string;
 }) => {
   try {
-    const { email } = await verifyTokenService.checkValidToken(data);
+    const { email, expires } = await verifyTokenService.verifyToken(data);
+    if (expires < new Date()) {
+      throw new Error("Token expired, klik kirim ulang otp");
+    }
     await authService.updateEmailVerified(email);
     await verifyTokenService.deleteToken(data);
   } catch (error: any) {
