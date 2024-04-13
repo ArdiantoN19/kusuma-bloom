@@ -139,7 +139,9 @@ const ActivityUser: React.FC<ActivityUserProps> = ({ transactions }) => {
                   >
                     {data.status}
                   </p>
-                  <p className="text-muted">{dateFormatter(data.created_at)}</p>
+                  <p className="text-muted">
+                    {dateFormatter(data.created_at.toISOString())}
+                  </p>
                 </div>
                 <p className="text-xs font-bold">Pemesanan Tiket</p>
                 <p className="text-[.7em] text-muted">

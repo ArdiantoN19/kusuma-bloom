@@ -1,18 +1,9 @@
 import { rupiahFormatter } from "@/utils";
-import { socials } from "@/utils/data";
-import {
-  FacebookLogo,
-  InstagramLogo,
-  MapPin,
-  Ticket,
-  TiktokLogo,
-  Watch,
-  WhatsappLogo,
-  YoutubeLogo,
-} from "@phosphor-icons/react/dist/ssr";
+import { MapPin, Ticket, Watch } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { socials } from "../MainFooter";
 
 const Footer = () => {
   return (

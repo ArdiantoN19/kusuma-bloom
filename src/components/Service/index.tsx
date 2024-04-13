@@ -1,5 +1,4 @@
 import {
-  ArrowRight,
   HandCoins,
   SealCheck,
   ShieldChevron,

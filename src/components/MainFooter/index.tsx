@@ -1,7 +1,42 @@
-import { socials } from "@/utils/data";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+
+import {
+  FacebookLogo,
+  InstagramLogo,
+  TiktokLogo,
+  WhatsappLogo,
+  YoutubeLogo,
+} from "@phosphor-icons/react/dist/ssr";
+
+export const socials: Record<string, any>[] = [
+  {
+    name: "Instagram",
+    url: "https://www.instagram.com/telagakusuma/",
+    icon: InstagramLogo,
+  },
+  {
+    name: "Tiktok",
+    url: "https://www.tiktok.com/@telagakusuma",
+    icon: TiktokLogo,
+  },
+  {
+    name: "Youtube",
+    url: "https://www.youtube.com/channel/UC8Qmz-PB_DeqsCJw6bXfNxA",
+    icon: YoutubeLogo,
+  },
+  {
+    name: "Facebook",
+    url: "https://www.facebook.com/profile.php?id=100087398000356",
+    icon: FacebookLogo,
+  },
+  {
+    name: "Whatsapp",
+    url: "https://wa.me/message/YVK2R3IRWEMPD1",
+    icon: WhatsappLogo,
+  },
+];
 
 const MainFooter = () => {
   return (
@@ -26,7 +61,7 @@ const MainFooter = () => {
             </div>
           </div>
           <div className="flex gap-2 items-center p-0.5 text-muted-foreground">
-            {socials.map((social) => (
+            {/* {socials.map((social) => (
               <Link
                 key={social.name}
                 href={social.url}
@@ -37,7 +72,7 @@ const MainFooter = () => {
               >
                 {<social.icon size={26} />}
               </Link>
-            ))}
+            ))} */}
           </div>
         </div>
         <div className="text-sm text-center md:text-end">

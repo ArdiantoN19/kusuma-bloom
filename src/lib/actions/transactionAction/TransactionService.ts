@@ -160,6 +160,16 @@ class TransactionService implements ITransactionService {
             status: true,
           },
         },
+        voucher: {
+          select: {
+            discount: true,
+          },
+        },
+        memberUser: {
+          select: {
+            discount: true,
+          },
+        },
       },
     });
 

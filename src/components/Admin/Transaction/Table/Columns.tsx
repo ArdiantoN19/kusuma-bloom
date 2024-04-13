@@ -104,6 +104,7 @@ export const columns: ColumnDef<z.infer<typeof TransactionSchema>>[] = [
       const discountVoucher = row.original.voucher
         ? total * row.original.voucher.discount
         : 0;
+
       return (
         <div className="min-w-24">
           {discountVoucher ? rupiahFormatter(discountVoucher) : "-"}

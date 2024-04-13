@@ -1,5 +1,3 @@
-"use client";
-
 import { DataTableFacetedFilter } from "@/components/DataTable/DataTableFacetedFilter";
 import { TRANSACTION_STATUS } from "@/types/transactionAction";
 import { ArrowsHorizontal, Check, X } from "@phosphor-icons/react";
