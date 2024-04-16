@@ -27,6 +27,9 @@ class VoucherService implements IVoucherService {
 
   async getVouchers(): Promise<ResponseVoucher[]> {
     const vouchers = await this.prismaVoucher.findMany({
+      where: {
+        status: true,
+      },
       include: {
         user: {
           select: {
@@ -66,7 +69,10 @@ class VoucherService implements IVoucherService {
     return voucher as ResponseVoucher;
   }
 
-  async updateVoucherById(id: string, data: PayloadBodyVoucher): Promise<void> {
+  async updateVoucherById(
+    id: string,
+    data: Partial<PayloadBodyVoucher>
+  ): Promise<void> {
     await this.prismaVoucher.update({
       where: {
         id,

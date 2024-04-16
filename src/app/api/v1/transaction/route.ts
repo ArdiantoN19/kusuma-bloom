@@ -50,6 +50,11 @@ export async function POST(req: Request) {
 
   if (bodyPayload.voucher) {
     const total = bodyPayload.voucher.total - 1;
+    if (total === 0) {
+      await voucherService.updateVoucherById(bodyPayload.voucher.id, {
+        status: false,
+      });
+    }
     await voucherService.updateTotalVoucherById(bodyPayload.voucher.id, total);
   }
 
