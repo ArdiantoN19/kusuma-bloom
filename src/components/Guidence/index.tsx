@@ -18,9 +18,9 @@ const GuidenceSection: FunctionComponent = () => {
         <div className="mb-8 text-justify">
           <p className="mb-3">
             Anda tidak perlu risau menggunakan website Kusuma Bloom. Kini
-            panduan penggunaan website telah hadir dalam bentuk video berdurasi
-            3 menit yang dapat menjelaskan secara jelas bagaimana cara
-            menggunakan website Kusuma Bloom.
+            panduan penggunaan website telah hadir dalam bentuk gambar yang
+            dapat menjelaskan secara jelas bagaimana cara menggunakan website
+            Kusuma Bloom
           </p>
           <p>
             Panduan ini akan menjelaskan dari mulai cara mendaftar akun hingga

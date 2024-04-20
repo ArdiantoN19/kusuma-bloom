@@ -7,6 +7,7 @@ import { QrCode } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { generateQRCode } from "@/utils/qrcode";
 import { toPng } from "html-to-image";
+import useQRCode from "@/hooks/useQrCode";
 
 interface QRCodeProps {
   id: string;
@@ -14,13 +15,7 @@ interface QRCodeProps {
 
 const QRCode: React.FC<QRCodeProps> = ({ id }) => {
   const qrCodeElement = useRef<HTMLImageElement>(null);
-  const [qrCodeUrl, setQrCodeUrl] = useState<string>(
-    "/images/logo-telaga-kusuma.png"
-  );
-  useEffect(() => {
-    const url = generateQRCode(id);
-    setQrCodeUrl(url);
-  }, [id]);
+  const [qrCodeUrl] = useQRCode(id);
 
   const onDownloadQrCodeHandler = useCallback(async () => {
     if (!qrCodeElement.current) return;
