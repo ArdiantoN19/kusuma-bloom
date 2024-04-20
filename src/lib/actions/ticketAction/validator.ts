@@ -15,7 +15,7 @@ export const FormTicketSchema = z.object({
     .string({
       required_error: "Harga harus diisi",
     })
-    .min(1, { message: "Kuantiti harus lebih dari 1" }),
+    .min(1, { message: "Harga harus lebih dari 1" }),
   status: z.boolean({
     required_error: "Status harus diisi",
   }),
