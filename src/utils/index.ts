@@ -40,7 +40,7 @@ export const calculateDaysLeft = (targetDate: string) => {
 };
 
 export const printColor = () => {
-  const random = Math.floor(Math.random() * 10) + 1; // akan menghasilkan random angka antara 1 sampai 15
+  const random = Math.floor(Math.random() * 10) + 1; // akan menghasilkan random angka antara 1 sampai 10
   return `bg-[${dataColors[random]}]`;
 };
 

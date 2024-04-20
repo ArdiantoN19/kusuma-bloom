@@ -61,7 +61,7 @@ const MainFooter = () => {
             </div>
           </div>
           <div className="flex gap-2 items-center p-0.5 text-muted-foreground">
-            {/* {socials.map((social) => (
+            {socials.map((social) => (
               <Link
                 key={social.name}
                 href={social.url}
@@ -72,7 +72,7 @@ const MainFooter = () => {
               >
                 {<social.icon size={26} />}
               </Link>
-            ))} */}
+            ))}
           </div>
         </div>
         <div className="text-sm text-center md:text-end">

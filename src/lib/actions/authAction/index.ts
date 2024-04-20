@@ -133,7 +133,7 @@ export const generateRandomTokenOTP = (): string => {
   return String(token);
 };
 
-const generateTemplateHTML = (token: string) => {
+const generateTemplateHTML = (token: string, email: string) => {
   return `
   <div style="padding: 2em; text-align: left;background: #f5f5f5">
   <div class="our-class" style="display:flex; align-items:center; margin-bottom: 3em; gap: 30px">
@@ -147,6 +147,11 @@ const generateTemplateHTML = (token: string) => {
     </div>
   </div>
   <h2 style="margin-bottom: 1em">${token}</h2>
+  <a href="${
+    process.env.NEXT_PUBLIC_BASE_URL
+  }/verify/email/send?email=${email}&verification_send=1&token=${hashedTokenOTP(
+    token
+  )}${token}" target="_blank" rel="noopener noreferrer" style="display:block; width: 170px; padding: 15px; margin: 0 auto; background-color: #00bd71; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 1rem;">Verify Now</a>
   <div style="margin-bottom:2em">Jika kamu butuh bantuan harap hubungi pihak kami
     <a href="https://mail.google.com/mail/?view=cm&fs=1&to=kusumabloomofficial@example.com&su=verification-email&body=ineedhelp&bcc=kusumabloomofficial.else@example.com">disini</a>
   </div>
@@ -158,7 +163,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   const payload: PayloadSendMailType = {
     to: email,
     subject: "Verify your email from KUSUMA BLOOM",
-    html: generateTemplateHTML(token),
+    html: generateTemplateHTML(token, email),
   };
   await resendEmailService.sendMail(payload);
 };
