@@ -2,11 +2,11 @@
 
 import React, { useCallback, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { QrCode } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { toPng } from "html-to-image";
 import useQRCode from "@/hooks/useQrCode";
+import { useRouter } from "next/navigation";
 
 interface QRCodeProps {
   id: string;
@@ -15,6 +15,7 @@ interface QRCodeProps {
 const QRCode: React.FC<QRCodeProps> = ({ id }) => {
   const qrCodeElement = useRef<HTMLImageElement>(null);
   const [qrCodeUrl] = useQRCode(id);
+  const router = useRouter();
 
   const onDownloadQrCodeHandler = useCallback(async () => {
     if (!qrCodeElement.current) return;
@@ -63,8 +64,12 @@ const QRCode: React.FC<QRCodeProps> = ({ id }) => {
             Download Qr Code
             <QrCode size={20} />
           </Button>
-          <Button variant={"primary"} className="w-full" asChild>
-            <Link href={"/user/dashboard"}>Kembali</Link>
+          <Button
+            variant={"primary"}
+            className="w-full"
+            onClick={() => router.back()}
+          >
+            Kembali
           </Button>
         </div>
       </div>
