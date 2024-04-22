@@ -3,7 +3,7 @@
 import { ResponseTransactionWithDiscount } from "@/types/transactionAction";
 import { transactionService } from "./TransactionService";
 import { PayloadSendMailType } from "@/types/resend";
-import { resendEmailService } from "@/lib/resend";
+import { nodemailerEmailService } from "@/lib/nodemailer";
 
 export const checkValidTokenAction = async (token: string) => {
   try {
@@ -62,7 +62,7 @@ export const sendMailByTransactionIdAction = async (
     subject: "Konfirmasi Pemesanan Tiket KUSUMA BLOOM",
     html: template,
   };
-  await resendEmailService.sendMail(payload);
+  nodemailerEmailService.sendMail(payload);
 };
 
 export const getTransactionsAction = async () => {

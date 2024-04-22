@@ -6,10 +6,9 @@ import { authService } from "./AuthService";
 import { AuthValidator } from "./validator";
 import { PayloadRegisterType } from "@/types/authAction";
 import { redirect } from "next/navigation";
-import { Resend } from "resend";
 import { verifyTokenService } from "./VerifyTokenService";
-import { resendEmailService } from "@/lib/resend";
 import { PayloadSendMailType } from "@/types/resend";
+import { nodemailerEmailService } from "@/lib/nodemailer";
 
 export const userRegisterAction = async (
   prevState: any,
@@ -151,7 +150,7 @@ const generateTemplateHTML = (token: string, email: string) => {
     process.env.NEXT_PUBLIC_BASE_URL
   }/verify/email/send?email=${email}&verification_send=1&token=${hashedTokenOTP(
     token
-  )}${token}" target="_blank" rel="noopener noreferrer" style="display:block; width: 170px; padding: 15px; margin: 0 auto; background-color: #00bd71; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 1rem;">Verify Now</a>
+  )}${token}" target="_blank" rel="noopener noreferrer" style="display:block; text-align:center; width: 170px; padding: 15px; margin: 0 auto; background-color: #00bd71; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 1rem;">Verify Now</a>
   <div style="margin-bottom:2em">Jika kamu butuh bantuan harap hubungi pihak kami
     <a href="https://mail.google.com/mail/?view=cm&fs=1&to=kusumabloomofficial@example.com&su=verification-email&body=ineedhelp&bcc=kusumabloomofficial.else@example.com">disini</a>
   </div>
@@ -165,7 +164,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
     subject: "Verify your email from KUSUMA BLOOM",
     html: generateTemplateHTML(token, email),
   };
-  await resendEmailService.sendMail(payload);
+  nodemailerEmailService.sendMail(payload);
 };
 
 export const hashedTokenOTP = (token: string) => {
