@@ -62,7 +62,7 @@ const PayOrderTicket = () => {
         },
       });
     }
-  }, [isValidToken, params, session?.user, snapEmbed]);
+  }, [isValidToken, params, session?.user, snapEmbed, router]);
 
   useEffect(() => {
     const button = document.createElement("button");
