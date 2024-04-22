@@ -15,7 +15,7 @@ export const templateTransactionTicket = (
           <p style="font-weight: bold; color: #00bd71; margin-bottom: 1rem;">Pembelian tiket Anda telah kami terima</p>
           <a href="${process.env.NEXT_PUBLIC_BASE_URL}/user/qr-code/${
     data.id
-  }" target="_blank" rel="noopener noreferrer" style="display:block; width: 170px; padding: 15px; margin: 0 auto; background-color: #00bd71; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 1rem;">Get QR Code</a>
+  }?from_email=1" target="_blank" rel="noopener noreferrer" style="display:block; width: 170px; padding: 15px; margin: 0 auto; background-color: #00bd71; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 1rem;">Get QR Code</a>
           <small style="display:block;color: salmon;">*Klik link diatas untuk mendapatkan QR Code sebagai bukti pembelian tiket dari Kusuma
               Bloom</small>
           <p>Terima kasih telah membeli tiket dari Kusuma Bloom, kami berharap Anda puas</p>

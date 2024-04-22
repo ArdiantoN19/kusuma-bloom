@@ -12,8 +12,9 @@ import {
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { createQueryString } from "@/utils";
 
 const PayOrderTicket = () => {
   const { data: session } = useSession();
@@ -21,6 +22,7 @@ const PayOrderTicket = () => {
   const [isValidToken, setIsValidToken] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const snapContainer = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const { snapEmbed } = useSnap();
 
@@ -45,6 +47,12 @@ const PayOrderTicket = () => {
         onPending: (result: ResponseTypeMidtrans) => {
           (async () => {
             await snapPendingStatus(result);
+            const url = createQueryString("/user/ticket/paymentStatus", [
+              { key: "order_id", value: result.order_id },
+              { key: "status_code", value: result.status_code },
+              { key: "transaction_status", value: result.transaction_status },
+            ]);
+            router.push(url);
           })();
         },
         onError: (result: any) => {
