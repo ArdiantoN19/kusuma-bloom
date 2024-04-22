@@ -14,7 +14,7 @@ const FormRegister = () => {
   return (
     <>
       {state?.message && <Alert type={AlertType.ERROR}>{state.message}</Alert>}
-      <form action={formAction}>
+      <form action={formAction} autoComplete="off">
         <div className="mb-3">
           <div className=" w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary bg-white">
             <div className="relative w-8 h-full">

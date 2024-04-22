@@ -1,6 +1,7 @@
 "use client";
 
 import { ResponseTypeMidtrans } from "@/lib/midtrans";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 declare global {
@@ -13,6 +14,7 @@ const CLIENT_KEY = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY;
 
 const useSnap = () => {
   const [snap, setSnap] = useState<any>("");
+  const router = useRouter();
 
   useEffect(() => {
     // const snapSrcUrl = "https://app.stg.midtrans.com/snap/snap.js";
@@ -62,7 +64,7 @@ const useSnap = () => {
           //     'https://kuy-anime.vercel.app/finish?order_id=trx-1711770730247&status_code=200&transaction_status=settlement'
           // }
 
-          console.log("success", result);
+          // console.log("success", result);
         },
         onPending: (result: ResponseTypeMidtrans) => {
           action.onPending(result);
@@ -93,12 +95,13 @@ const useSnap = () => {
           // finish_redirect_url:
           //   'https://kuy-anime.vercel.app/error?order_id=trx-1711755592296'
           // }
-          console.log("error transaction", result);
+          // console.log("error transaction", result);
         },
         onClose: () => {
           console.log(
             "customer close the popup window without the finishing the payment"
           );
+          router.push("/user/dashboard");
         },
       });
     }

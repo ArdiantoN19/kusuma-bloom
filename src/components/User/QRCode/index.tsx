@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { QrCode } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
-import { generateQRCode } from "@/utils/qrcode";
 import { toPng } from "html-to-image";
 import useQRCode from "@/hooks/useQrCode";
 

@@ -109,7 +109,7 @@ const FormLogin = () => {
           </div>
         </Alert>
       )}
-      <form onSubmit={onSubmitHandler}>
+      <form onSubmit={onSubmitHandler} autoComplete="off">
         <div className="mb-3">
           <div className="w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary bg-white">
             <div className="relative w-8 h-full">
