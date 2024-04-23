@@ -12,8 +12,8 @@ const SearchFacility = () => {
   const searchRef = useRef<ElementRef<"input">>(null);
 
   useEffect(() => {
-    if (searchParams.get("search")) {
-      searchRef.current?.setAttribute("value", searchParams.get("search")!);
+    if (searchParams.get("s")) {
+      searchRef.current?.setAttribute("value", searchParams.get("s")!);
     }
   }, [searchParams]);
 
