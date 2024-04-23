@@ -150,7 +150,7 @@ const generateTemplateHTML = (token: string, email: string) => {
     process.env.NEXT_PUBLIC_BASE_URL
   }/verify/email/send?email=${email}&verification_send=1&token=${hashedTokenOTP(
     token
-  )}${token}" target="_blank" rel="noopener noreferrer" style="display:block; text-align:center; width: 170px; padding: 15px; margin: 0 auto; background-color: #00bd71; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 1rem;">Verify Now</a>
+  )}${token}" target="_blank" rel="noopener noreferrer" style="display:block; text-align:center; width: 170px; padding: 15px; background-color: #00bd71; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 1rem;">Verify Now</a>
   <div style="margin-bottom:2em">Jika kamu butuh bantuan harap hubungi pihak kami
     <a href="https://mail.google.com/mail/?view=cm&fs=1&to=kusumabloomofficial@example.com&su=verification-email&body=ineedhelp&bcc=kusumabloomofficial.else@example.com">disini</a>
   </div>

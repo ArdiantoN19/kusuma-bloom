@@ -57,7 +57,7 @@ const HeroInfoSkeleton = () => {
 };
 
 interface HeroInfoProps {
-  latestDateTransaction: Date;
+  latestDateTransaction: Date | null;
   successCountTransaction: number;
   failureCountTransaction: number;
 }
@@ -107,14 +107,20 @@ const HeroInfo: React.FC<HeroInfoProps> = ({
               <div className="text-xs col-span-2">
                 <p className="mb-1">Transaksi Terakhir</p>
                 <div className="font-bold">
-                  <p>{format(latestDateTransaction, "eee, dd LLL y")}</p>
-                  <p className="text-primary">
-                    {
-                      dateFormatter(latestDateTransaction.toISOString()).split(
-                        ", "
-                      )[1]
-                    }
-                  </p>
+                  {latestDateTransaction ? (
+                    <>
+                      <p>{format(latestDateTransaction, "eee, dd LLL y")}</p>
+                      <p className="text-primary">
+                        {
+                          dateFormatter(
+                            latestDateTransaction.toISOString()
+                          ).split(", ")[1]
+                        }
+                      </p>
+                    </>
+                  ) : (
+                    <p>-</p>
+                  )}
                 </div>
               </div>
               <div className="pl-3">

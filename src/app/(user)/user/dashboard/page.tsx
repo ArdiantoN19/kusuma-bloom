@@ -26,7 +26,7 @@ const Page = async () => {
   return (
     <div>
       <HeroInfo
-        latestDateTransaction={transaction.created_at}
+        latestDateTransaction={transaction?.created_at}
         successCountTransaction={successCountTransaction}
         failureCountTransaction={failureCountTransaction}
       />
