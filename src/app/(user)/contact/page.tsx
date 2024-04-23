@@ -51,7 +51,7 @@ const Page = () => {
               />
               <div>
                 <h2 className="font-bold text-primary mb-1">Email</h2>
-                <p className="text-sm">KusumaBloom@gmail.com</p>
+                <p className="text-sm">kusumabloomofficial@gmail.com</p>
               </div>
             </div>
             <div className="flex items-center gap-5">
