@@ -14,22 +14,20 @@ const RedirectOTP: React.FC = () => {
   }, [params]);
 
   useEffect(() => {
-    const url = new URL("/login", process.env.NEXT_PUBLIC_BASE_URL);
-    url.searchParams.set("callbackUrl", encodeURI("/user/dashboard"));
-
-    const interval = setInterval(() => {
-      router.push(url.toString());
-    }, 5000);
-
-    const secondInterval = setInterval(() => {
+    const time = setInterval(() => {
       setSeconds((prev) => prev - 1);
     }, 1000);
 
     return () => {
-      clearInterval(interval);
-      clearInterval(secondInterval);
+      clearInterval(time);
     };
   }, [searchParams.status, router]);
+
+  if (seconds === 0) {
+    const url = new URL("/login", process.env.NEXT_PUBLIC_BASE_URL);
+    url.searchParams.set("callbackUrl", encodeURI("/user/dashboard"));
+    router.push(url.toString());
+  }
 
   return (
     <div className="min-h-screen w-full container flex justify-center items-center">

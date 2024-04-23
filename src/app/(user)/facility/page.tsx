@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "facility page of kusuma bloom",
 };
 
+export const dynamic = "force-dynamic";
+
 interface FacilityPageProps {
   searchParams: Record<string, string>;
 }

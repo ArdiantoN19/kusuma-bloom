@@ -14,6 +14,8 @@ export const metadata: Metadata = {
   description: "Admin page of kusuma bloom",
 };
 
+export const dynamic = "force-dynamic";
+
 const AdminLayout: FunctionComponent<AdminLayoutProps> = ({
   children,
   modal,
