@@ -1,15 +1,29 @@
 "use client";
 
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { rupiahFormatter } from "@/utils";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import { seaweedScript } from "@/utils/font";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
+import { ResponseTicket } from "@/types/ticketAction";
+import { getActiveTicketAction } from "@/lib/actions/ticketAction";
+
+export const dynamic = "force-dynamic";
 
 const HeroSection: FunctionComponent = () => {
   const { data: session } = useSession();
+  const [activeTicket, setActiveTicket] = useState<ResponseTicket | null>(null);
+  useEffect(() => {
+    (async () => {
+      const response = await getActiveTicketAction();
+      if (response.status === "success" && response.data) {
+        setActiveTicket(response.data);
+      }
+    })();
+  }, []);
+
   return (
     <section className="container md:min-h-screen lg:min-h-[80dvh] mt-5 md:mt-10 pb-10">
       <div className="w-full flex items-center flex-col-reverse lg:flex-row md:gap-y-3 lg:gap-y-0">
@@ -29,27 +43,33 @@ const HeroSection: FunctionComponent = () => {
 
           <div className="text-justify mb-8 lg:mb-14 w-full xl:w-5/6">
             <p className="text-sm md:text-base">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. At
-              voluptas, fugiat repellendus molestiae consectetur aperiam quis
-              odit beatae recusandae magnam quidem fugit asperiores quo magni,
-              sapiente libero consequatur id soluta!
+              Kusuma Bloom menyediakan solusi atas permasalahan pemesanan tiket
+              yang terbatas. Pengunjung juga dapat memperoleh informasi yang
+              lengkap dan jelas tentang tempat wisata Telaga Kusuma. Kusuma
+              Bloom berfokus pada kemudahan, kenyamanan, dan aksesibilitas
+              pengunjung.
             </p>
           </div>
-          <button className="bg-gradient-primary btn-shadow flex items-center px-10 py-2.5 text-white shadow rounded-full border-2 border-black gap-x-3">
-            Ayo Pesan Sekarang{" "}
-            <ArrowRight
-              size={24}
-              weight="bold"
-              className="animate-slide-right w-8 h-8 p-2 rounded-full bg-white text-primary"
-            />
-          </button>
+          <div className="flex">
+            <Link
+              href={"/user/ticket"}
+              className="bg-gradient-primary btn-shadow flex items-center px-10 py-2.5 text-white shadow rounded-full border-2 border-black gap-x-3"
+            >
+              Ayo Pesan Sekarang{" "}
+              <ArrowRight
+                size={24}
+                weight="bold"
+                className="animate-slide-right w-8 h-8 p-2 rounded-full bg-white text-primary"
+              />
+            </Link>
+          </div>
         </div>
         <div className="w-full lg:w-1/2 xl:w-2/5 relative">
           <Image
             src={"/images/woman-take-picture.png"}
             typeof="image/png"
             alt="two people take a picture"
-            className="w-full h-[23rem] lg:h-auto object-cover"
+            className="w-full h-[23rem] lg:h-auto md:object-cover"
             width={300}
             height={300}
             priority
@@ -57,7 +77,11 @@ const HeroSection: FunctionComponent = () => {
           <div className="p-3 min-w-40 bg-white border rounded-lg absolute top-0 lg:top-5 left-0 flex items-center gap-x-3">
             <div>
               <p className="text-xs text-muted">Harga hari ini:</p>
-              <h3 className="text-black">{rupiahFormatter(15000)}</h3>
+              <h3 className="text-black">
+                {!activeTicket
+                  ? rupiahFormatter(15000)
+                  : rupiahFormatter(activeTicket.price)}
+              </h3>
             </div>
             {session?.user ? (
               <Link
