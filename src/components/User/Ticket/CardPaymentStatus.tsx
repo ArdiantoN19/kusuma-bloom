@@ -115,7 +115,7 @@ const CardPaymentStatus: React.FC<CardPaymentStatusProps> = ({
           </Card>
         </div>
       )}
-      <Button className="w-full" variant={"primary"} asChild>
+      <Button className="w-full h-[45px]" variant={"primary"} asChild>
         <Link href={"/user/dashboard"}>Kembali</Link>
       </Button>
     </div>
