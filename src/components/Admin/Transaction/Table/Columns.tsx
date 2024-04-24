@@ -168,15 +168,26 @@ export const columns: ColumnDef<z.infer<typeof TransactionSchema>>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Tanggal Berlaku" />
     ),
-    cell: ({ row }) => (
-      <div className="min-w-20">
-        {new Date() > new Date(row.original.expired) ? (
-          <Badge className="bg-red-400 hover:bg-red-400">Expired</Badge>
-        ) : (
-          dateFormatter(row.original.expired.toDateString()).slice(0, -7)
-        )}
-      </div>
-    ),
+    cell: ({ row }) => {
+      const now = new Date();
+      const expiredAt = new Date(row.original.expired);
+      const isExpired =
+        now > expiredAt &&
+        new Date(
+          expiredAt.getFullYear(),
+          expiredAt.getMonth(),
+          expiredAt.getDate() + 1
+        ) < now;
+      return (
+        <div className="min-w-20">
+          {isExpired ? (
+            <Badge className="bg-red-400 hover:bg-red-400">Expired</Badge>
+          ) : (
+            dateFormatter(row.original.expired.toDateString()).slice(0, -7)
+          )}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "scanTickets",
