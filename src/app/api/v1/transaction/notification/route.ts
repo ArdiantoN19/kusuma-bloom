@@ -19,7 +19,7 @@ export async function POST(req: Request) {
   const signatureKey = crypto
     .createHash("sha512")
     .update(
-      `${orderId}${statusCode}${grossAmount}${process.env.MIDTRANS_SERVER_KEY}aa`
+      `${orderId}${statusCode}${grossAmount}${process.env.MIDTRANS_SERVER_KEY}`
     )
     .digest("hex");
   const isValidSignatureKey = payload.signature_key === signatureKey;
