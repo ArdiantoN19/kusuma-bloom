@@ -56,6 +56,9 @@ const FacilityDetail: React.FC<FacilityDetailProps> = ({ facility }) => {
         height={300}
         alt={facility.name}
         className="w-full aspect-video object-cover rounded border shadow-sm mb-10"
+        quality={100}
+        priority
+        sizes="100vw"
       />
       <ReactMardown className="mb-10">{facility.description}</ReactMardown>
     </div>

@@ -1,11 +1,22 @@
 import Image from "next/image";
 import React, { FunctionComponent } from "react";
+import imagePanduan from "../../../public/images/Panduan Kusuma Bloom.png";
 
 const GuidenceSection: FunctionComponent = () => {
   return (
     <section className="pt-14 pb-10 container flex items-center flex-col md:flex-row gap-2 md:gap-x-8">
       <div className="w-full md:w-1/2">
-        <div className="aspect-video w-3/4 rounded border border-black h-32"></div>
+        <Image
+          className="aspect-video w-full rounded border bg-white"
+          src={imagePanduan}
+          alt="Panduan Kusuma Bloom"
+          width={300}
+          height={300}
+          priority
+          quality={100}
+          placeholder="blur"
+          sizes="100vw"
+        />
       </div>
       <div className="w-full md:w-1/2">
         <p className="tracking-wider text-lg md:text-xl text-myOrange mb-2">
@@ -23,8 +34,9 @@ const GuidenceSection: FunctionComponent = () => {
             Kusuma Bloom
           </p>
           <p>
-            Panduan ini akan menjelaskan dari mulai cara mendaftar akun hingga
-            pada cara pemesanan tiket. Semua akan dibahas pada panduan tersebut.
+            Panduan ini akan menjelaskan cara melakukan transaksi tiket dari
+            awal hingga akhir. Untuk mempermudah pengguna dalam memahami proses
+            transaksi tiket yang terjadi
           </p>
         </div>
       </div>

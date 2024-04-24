@@ -9,6 +9,7 @@ import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { ResponseTicket } from "@/types/ticketAction";
 import { getActiveTicketAction } from "@/lib/actions/ticketAction";
+import imageHero from "../../../public/images/woman-take-picture.png";
 
 export const dynamic = "force-dynamic";
 
@@ -66,13 +67,16 @@ const HeroSection: FunctionComponent = () => {
         </div>
         <div className="w-full lg:w-1/2 xl:w-2/5 relative">
           <Image
-            src={"/images/woman-take-picture.png"}
+            src={imageHero}
             typeof="image/png"
             alt="two people take a picture"
             className="w-full h-[23rem] lg:h-auto md:object-cover"
             width={300}
             height={300}
             priority
+            quality={100}
+            placeholder="blur"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div className="p-3 min-w-40 bg-white border rounded-lg absolute top-0 lg:top-5 left-0 flex items-center gap-x-3">
             <div>

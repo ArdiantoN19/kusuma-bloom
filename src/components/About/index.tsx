@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import imageSakura from "../../../public/images/about/1.jpeg";
+import imageSwimmingPool from "../../../public/images/about/2.jpg";
 
 const AboutSection = () => {
   const pathname = usePathname();
@@ -69,18 +71,23 @@ const AboutSection = () => {
       <div className="w-full md:w-1/2 flex flex-col md:flex-row lg:pr-10 justify-end xl:pr-36">
         <div className="w-full md:w-80 h-[27rem] relative mb-10 md:mb-0">
           <Image
-            src={"/images/about/1.jpeg"}
+            src={imageSakura}
             alt="sakura-portrait"
             width={100}
             height={100}
             className="object-cover w-full h-full rounded shadow-sm"
+            placeholder="blur"
+            quality={100}
+            sizes="( max-width: 768px ) 100vw, ( max-width: 1200px ) 50vw, 33vw"
           />
           <Image
-            src={"/images/about/2.jpg"}
-            alt="sakura-portrait"
+            src={imageSwimmingPool}
+            alt="swimmingpool-portrait"
             width={100}
             height={100}
             className="absolute -bottom-5 -left-3 lg:-left-10 object-cover w-48 rounded shadow"
+            quality={100}
+            sizes="( max-width: 768px ) 100vw, ( max-width: 1200px ) 30vw, 33vw"
           />
         </div>
         <div className="md:hidden">

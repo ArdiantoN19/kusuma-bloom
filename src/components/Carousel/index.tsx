@@ -38,13 +38,13 @@ const Carousel: FunctionComponent<CarouselProps> = ({ children }) => {
       {components[currentIndex]}
       <button
         onClick={onPrevHandler}
-        className="block absolute top-1/2 -translate-y-1/2 left-2 p-2 w-8 h-8 border rounded-full text-white z-[2] hover:bg-black/50 disabled:cursor-default disabled:bg-transparent"
+        className="block absolute top-1/2 -translate-y-1/2 left-2 p-2 w-8 h-8 border rounded-full text-white z-[2] hover:bg-black/50 disabled:cursor-default disabled:bg-transparent bg-slate-50/30"
       >
         <ArrowLeft size={16} weight="bold" />
       </button>
       <button
         onClick={onNextHandler}
-        className="block absolute top-1/2 -translate-y-1/2 right-2 p-2 w-8 h-8 border rounded-full text-white z-[2] hover:bg-black/50 disabled:cursor-default disabled:bg-transparent"
+        className="block absolute top-1/2 -translate-y-1/2 right-2 p-2 w-8 h-8 border rounded-full text-white z-[2] hover:bg-black/50 disabled:cursor-default disabled:bg-transparent bg-slate-50/30"
       >
         <ArrowRight size={16} weight="bold" />
       </button>

@@ -2,6 +2,7 @@ import { At, MapPin, Phone } from "@phosphor-icons/react/dist/ssr";
 import { Metadata } from "next";
 import Image from "next/image";
 import React from "react";
+import imageContact from "../../../../public/images/woman-take-picture.png";
 
 export const metadata: Metadata = {
   title: "Kontak Kami",
@@ -69,11 +70,15 @@ const Page = () => {
         </div>
         <div className="w-full lg:w-1/2">
           <Image
-            src={"/images/woman-take-picture.png"}
+            src={imageContact}
             alt="person telphone"
             width={300}
             height={300}
             className="w-full h-auto lg:size-[32rem] float-end"
+            priority
+            quality={100}
+            placeholder="blur"
+            sizes="(100vw - 100px) 100px, 100vw"
           />
         </div>
       </div>

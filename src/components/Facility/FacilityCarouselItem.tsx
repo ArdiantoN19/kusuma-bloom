@@ -18,6 +18,8 @@ const FacilityCarouselItem: FunctionComponent<FacilityCarouselItemProps> = (
         width={300}
         height={300}
         className="h-[350px] w-full animate-fade-in object-cover"
+        quality={100}
+        sizes="50vw"
       />
       <div className="w-full h-full absolute z-[1]  hover:bg-gradient-to-t from-black/70 transition-all group/facility hover:backdrop-blur-sm top-0 flex items-end">
         <div className="p-4 hidden group-hover/facility:block">
