@@ -4,26 +4,24 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 
 const RedirectOTP: React.FC = () => {
-  const params = useSearchParams();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const [seconds, setSeconds] = useState<number>(5);
-  const searchParams = useMemo(() => {
+  const params = useMemo(() => {
     return {
-      status: Boolean(params.get("status")),
+      status: Boolean(Number(searchParams.get("status"))),
     };
-  }, [params]);
+  }, [searchParams]);
 
   useEffect(() => {
     const time = setInterval(() => {
       setSeconds((prev) => prev - 1);
     }, 1000);
 
-    return () => {
-      clearInterval(time);
-    };
-  }, [searchParams.status, router]);
+    return () => clearInterval(time);
+  }, []);
 
-  if (seconds === 0) {
+  if (seconds === 0 && params.status) {
     const url = new URL("/login", process.env.NEXT_PUBLIC_BASE_URL);
     url.searchParams.set("callbackUrl", encodeURI("/user/dashboard"));
     router.push(url.toString());

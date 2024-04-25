@@ -6,7 +6,7 @@ class EmailService implements IEmailService {
 
   createTransporter(): any {
     return this.nodemailer.createTransport({
-      service: "Gmail",
+      service: "gmail",
       host: process.env.SMTP_HOST,
       port: process.env.SMTP_PORT,
       auth: {
@@ -21,16 +21,22 @@ class EmailService implements IEmailService {
       from: process.env.SMTP_USERNAME,
       ...payload,
     };
-    this.createTransporter().sendMail(
-      mailOptions,
-      function (error: any, info: any) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log("Email sent: " + info.response);
-        }
+    const transporter = this.nodemailer.createTransport({
+      service: "gmail",
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      auth: {
+        user: process.env.SMTP_USERNAME,
+        pass: process.env.SMTP_PASSWORD,
+      },
+    });
+    transporter.sendMail(mailOptions, function (error: any, info: any) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
       }
-    );
+    });
   }
 }
 
