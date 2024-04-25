@@ -104,9 +104,10 @@ const CardPaymentStatus: React.FC<CardPaymentStatusProps> = ({
 
                   <h3 className="font-bold text-sm">
                     {rupiahFormatter(transaction.gross_amount)}{" "}
-                    {transaction.status === "PENDING" ? (
+                    {transactionStatus === "pending" ? (
                       <span className="uppercase text-myOrange">(pending)</span>
-                    ) : transaction.status === "SUCCESS" ? (
+                    ) : transactionStatus === "capture" ||
+                      transactionStatus === "settlement" ? (
                       <span className="uppercase text-primary">(sukses)</span>
                     ) : (
                       <span className="uppercase text-red-400">(gagal)</span>
