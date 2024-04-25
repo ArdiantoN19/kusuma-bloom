@@ -77,7 +77,7 @@ export const snapErrorStatus = async (
   response: ResponseErrorTypeMidtrans | any
 ) => {
   try {
-    const transactionId = response.finish_redirect_url.split("order_id=")[1];
+    const transactionId = response.order_id;
     const data: Record<string, any> = {
       status: TRANSACTION_STATUS.FAILURE,
     };

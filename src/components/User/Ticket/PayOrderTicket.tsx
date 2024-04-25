@@ -3,21 +3,14 @@
 import { Button } from "@/components/ui/button";
 import useSnap from "@/hooks/useSnap";
 import { checkValidTokenAction } from "@/lib/actions/transactionAction";
-import {
-  ResponseTypeMidtrans,
-  snapErrorStatus,
-  snapPendingStatus,
-  snapSuccessStatus,
-} from "@/lib/midtrans";
+import { ResponseTypeMidtrans } from "@/lib/midtrans";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { createQueryString } from "@/utils";
 
 const PayOrderTicket = () => {
-  const { data: session } = useSession();
   const params = useSearchParams();
   const [isValidToken, setIsValidToken] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -36,33 +29,33 @@ const PayOrderTicket = () => {
     }
   }, [params]);
 
+  const generateRedirectURL = useCallback(
+    (result: ResponseTypeMidtrans) => {
+      const url = createQueryString("/user/ticket/paymentStatus", [
+        { key: "order_id", value: result.order_id },
+        { key: "status_code", value: result.status_code },
+        { key: "transaction_status", value: result.transaction_status },
+      ]);
+      router.push(url);
+    },
+    [router]
+  );
+
   const onShowPayment = useCallback(() => {
     if (isValidToken && snapContainer.current) {
       snapEmbed(params.get("token")!, snapContainer.current.id, {
         onSuccess: (result: ResponseTypeMidtrans) => {
-          (async () => {
-            await snapSuccessStatus(result, session?.user);
-          })();
+          generateRedirectURL(result);
         },
         onPending: (result: ResponseTypeMidtrans) => {
-          (async () => {
-            await snapPendingStatus(result);
-            const url = createQueryString("/user/ticket/paymentStatus", [
-              { key: "order_id", value: result.order_id },
-              { key: "status_code", value: result.status_code },
-              { key: "transaction_status", value: result.transaction_status },
-            ]);
-            router.push(url);
-          })();
+          generateRedirectURL(result);
         },
         onError: (result: any) => {
-          (async () => {
-            await snapErrorStatus(result);
-          })();
+          generateRedirectURL(result);
         },
       });
     }
-  }, [isValidToken, params, session?.user, snapEmbed, router]);
+  }, [isValidToken, snapEmbed, params, generateRedirectURL]);
 
   useEffect(() => {
     const button = document.createElement("button");
