@@ -314,7 +314,9 @@ const FormOrderTicket: React.FC<FormOrderTicketProps> = ({
             <div className="flex flex-wrap justify-between items-center mb-3">
               <div className="text-sm flex gap-x-1">
                 Total:{" "}
-                {session?.user.memberUser && voucher ? (
+                {session?.user.memberUser &&
+                session.user.statusMember === "success" &&
+                voucher ? (
                   <div className="space-x-2 flex items-center">
                     <p className="line-through">{rupiahFormatter(total)}</p>
                     <p className="text-primary">
@@ -330,7 +332,8 @@ const FormOrderTicket: React.FC<FormOrderTicketProps> = ({
                       {rupiahFormatter(total - discountVoucher)}
                     </p>
                   </div>
-                ) : session?.user.memberUser ? (
+                ) : session?.user.memberUser &&
+                  session.user.statusMember === "success" ? (
                   <div className="space-x-2 flex items-center">
                     <p className="line-through">{rupiahFormatter(total)}</p>
                     <p className="text-primary">
