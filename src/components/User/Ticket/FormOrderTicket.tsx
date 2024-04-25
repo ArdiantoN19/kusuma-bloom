@@ -91,7 +91,9 @@ const FormOrderTicket: React.FC<FormOrderTicketProps> = ({
   const total = activeTicket?.price! * Number(form.watch("quantity")) || 0;
   const discountVoucher = voucher ? total * voucher.discount : 0;
   const discountMember =
-    session?.user.memberUser && session?.user.memberUser.discount
+    session?.user.memberUser &&
+    session?.user.memberUser.discount &&
+    session?.user.statusMember === "success"
       ? total * session?.user.memberUser.discount
       : 0;
 

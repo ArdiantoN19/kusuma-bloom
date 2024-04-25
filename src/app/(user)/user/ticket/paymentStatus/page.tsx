@@ -30,7 +30,12 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     searchParams.order_id
   );
 
-  return <CardPaymentStatus transaction={transaction.data!} />;
+  return (
+    <CardPaymentStatus
+      transaction={transaction.data!}
+      transactionStatus={searchParams.transaction_status}
+    />
+  );
 };
 
 export default Page;

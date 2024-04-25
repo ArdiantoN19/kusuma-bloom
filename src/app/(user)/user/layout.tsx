@@ -1,6 +1,8 @@
 import React, { ReactNode } from "react";
 import FlyingNav from "@/components/FlyingNav";
 
+export const dynamic = "force-dynamic";
+
 interface UserLayoutProps {
   children: Readonly<ReactNode>;
 }

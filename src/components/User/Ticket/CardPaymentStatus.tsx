@@ -10,6 +10,7 @@ import React from "react";
 
 interface CardPaymentStatusProps {
   transaction: ResponseTransaction;
+  transactionStatus: string;
 }
 
 const CardPaymentStatusSuccess: React.FC = () => {
@@ -70,6 +71,7 @@ const CardPaymentErrorStatus: React.FC = () => {
 
 const CardPaymentStatus: React.FC<CardPaymentStatusProps> = ({
   transaction,
+  transactionStatus,
 }) => {
   return (
     <div className="container w-full h-[90dvh] flex flex-col items-center justify-between pt-10">
@@ -80,9 +82,10 @@ const CardPaymentStatus: React.FC<CardPaymentStatusProps> = ({
         </div>
       ) : (
         <div>
-          {transaction.status === "PENDING" ? (
+          {transactionStatus === "pending" ? (
             <CardPaymentPendingStatus />
-          ) : transaction.status === "SUCCESS" ? (
+          ) : transactionStatus === "capture" ||
+            transactionStatus === "settlement" ? (
             <CardPaymentStatusSuccess />
           ) : (
             <CardPaymentErrorStatus />
