@@ -58,6 +58,7 @@ model User {
   memberUsers   MemberUser?
   transactions  Transaction[]
   scanTickets   ScanTicket[]
+  Report        Report[]
 
 
   @@map("users")
@@ -173,6 +174,18 @@ model ScanTicket {
   updated_at      DateTime      @updatedAt
 
   @@map("scanTickets")
+}
+
+model Report {
+  id          String      @id @default(cuid())
+  name        String
+  month       Int
+  filename    String
+  size        Float
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
 }
 
 enum ROLE {

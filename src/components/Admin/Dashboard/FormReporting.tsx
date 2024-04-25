@@ -19,6 +19,8 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "@phosphor-icons/react";
 import { Calendar } from "../../ui/calendar";
+import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 
 const FormSchema = z.object({
   date: z
@@ -39,6 +41,8 @@ const FormSchema = z.object({
 });
 
 const FormReporting = () => {
+  const { data: session } = useSession();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -49,8 +53,31 @@ const FormReporting = () => {
     },
   });
 
-  const onSubmitHandler = (data: z.infer<typeof FormSchema>) => {
-    alert(JSON.stringify(data));
+  const onSubmitHandler = async (data: z.infer<typeof FormSchema>) => {
+    const response = await fetch("/api/v1/report", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...data.date,
+        userId: session?.user.userId,
+      }),
+    });
+
+    if (!response.ok) {
+      const responseJson = await response.json();
+      toast.error(responseJson.message);
+    } else {
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "report.xlsx");
+      link.click();
+      URL.revokeObjectURL(url);
+      toast.success("Laporan berhasil diunduh");
+    }
   };
 
   return (
@@ -96,7 +123,9 @@ const FormReporting = () => {
                     selected={{ from: field.value.from!, to: field.value.to }}
                     onSelect={field.onChange}
                     numberOfMonths={1}
-                    disabled={(date) => date < new Date()}
+                    disabled={(date) =>
+                      date < new Date("2024-01-01") || date > new Date()
+                    }
                   />
                 </PopoverContent>
               </Popover>
