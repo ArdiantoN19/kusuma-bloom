@@ -257,7 +257,10 @@ const FormOrderTicket: React.FC<FormOrderTicketProps> = ({
                         selected={field.value}
                         onSelect={field.onChange}
                         numberOfMonths={1}
-                        disabled={(date) => date < new Date()}
+                        disabled={(date) =>
+                          date <
+                          new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
+                        }
                       />
                     </PopoverContent>
                   </Popover>
