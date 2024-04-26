@@ -7,16 +7,14 @@ import { ResponseTypeMidtrans } from "@/lib/midtrans";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
-import { createQueryString } from "@/utils";
+import useQueryString from "@/hooks/useQueryString";
 
 const PayOrderTicket = () => {
   const params = useSearchParams();
   const [isValidToken, setIsValidToken] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const snapContainer = useRef<HTMLDivElement>(null);
-  const router = useRouter();
-
+  const [redirectURL]: any = useQueryString();
   const { snapEmbed } = useSnap();
 
   useEffect(() => {
@@ -31,14 +29,15 @@ const PayOrderTicket = () => {
 
   const generateRedirectURL = useCallback(
     (result: ResponseTypeMidtrans) => {
-      const url = createQueryString("/user/ticket/paymentStatus", [
+      const params = [
         { key: "order_id", value: result.order_id },
         { key: "status_code", value: result.status_code },
         { key: "transaction_status", value: result.transaction_status },
-      ]);
-      router.push(url);
+      ];
+      const path = "/user/ticket/paymentStatus";
+      redirectURL({ path, params });
     },
-    [router]
+    [redirectURL]
   );
 
   const onShowPayment = useCallback(() => {

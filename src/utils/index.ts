@@ -135,6 +135,19 @@ export const transformMonthFromIndex: Record<number, string> = {
   11: "Dec",
 };
 
+export const generateExpiredTime = (second: number): number => {
+  const now = new Date();
+  now.setSeconds(now.getSeconds() + second);
+  return now.getTime();
+};
+
+export const calculateTimeInSecondsLeft = (targetDate: number) => {
+  const now = new Date().getTime();
+  const target = new Date(targetDate).getTime();
+  const timeDifference = target - now;
+  return Math.ceil(timeDifference / 1000);
+};
+
 // Example usage
 // const targetDate = '2023-12-31';
 // console.log(calculateDaysLeft(targetDate));

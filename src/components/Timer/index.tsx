@@ -1,15 +1,27 @@
 "use client";
 
-import { createQueryString } from "@/utils";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useState, useEffect, useCallback } from "react";
+import useQueryString from "@/hooks/useQueryString";
+import { calculateTimeInSecondsLeft } from "@/utils";
+import { useSearchParams } from "next/navigation";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 
 const Timer = (Element: React.FC<any>) => {
   return function TimerWrapper(props: any) {
-    const [time, setTime] = useState<number>(props.defaultValue ?? 120); // 2 minutes in seconds
-    const router = useRouter();
-    const pathname = usePathname();
     const searchParams = useSearchParams();
+    const [, replaceURL]: any = useQueryString();
+
+    const data = useMemo(
+      () => ({
+        timeInSecondsLeft:
+          calculateTimeInSecondsLeft(Number(searchParams.get("expired"))) || 0,
+      }),
+      [searchParams]
+    );
+    const [time, setTime] = useState<number>(120);
+
+    useEffect(() => {
+      setTime(data.timeInSecondsLeft);
+    }, [data.timeInSecondsLeft]);
 
     useEffect(() => {
       const interval = setInterval(() => {
@@ -22,20 +34,12 @@ const Timer = (Element: React.FC<any>) => {
       }, 1000);
 
       if (time === 0) {
-        const url = createQueryString(pathname, [
-          { key: "email", value: searchParams.get("email")! },
-          {
-            key: "verification_send",
-            value: searchParams.get("verification_send")!,
-          },
-          { key: "token", value: searchParams.get("token")! },
-          { key: "isFinished", value: "1" },
-        ]);
-        router.replace(url);
+        const params = [{ key: "isFinished", value: "1" }];
+        replaceURL(params);
       }
 
       return () => clearInterval(interval);
-    }, [time, pathname, router, searchParams]);
+    }, [replaceURL, time]);
 
     const formatTime = useCallback((time: number) => {
       const minutes = Math.floor(time / 60)
@@ -45,7 +49,7 @@ const Timer = (Element: React.FC<any>) => {
       return `${minutes}:${seconds}`;
     }, []);
 
-    if (searchParams.get("isFinished") === "1" || time === 0) {
+    if (time < 1 || searchParams.get("isFinished") === "1") {
       return <Element {...props} />;
     }
 

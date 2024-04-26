@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 import { verifyTokenService } from "./VerifyTokenService";
 import { PayloadSendMailType } from "@/types/resend";
 import { nodemailerEmailService } from "@/lib/nodemailer";
-import { createQueryString } from "@/utils";
+import { createQueryString, generateExpiredTime } from "@/utils";
 
 export const userRegisterAction = async (
   prevState: any,
@@ -52,6 +52,7 @@ export const userRegisterAction = async (
     "token",
     `${hashedTokenOTP(payloadVerifyToken.token)}${payloadVerifyToken.token}`
   );
+  url.searchParams.set("expired", generateExpiredTime(120).toString());
 
   redirect(url.toString());
 };
@@ -124,13 +125,14 @@ export const resendVerificationTokenAction = async (data: {
   url.searchParams.set("email", data.identifier);
   url.searchParams.set("verification_send", "1");
   url.searchParams.set("token", `${hashedTokenOTP(newToken)}${newToken}`);
+  url.searchParams.set("expired", generateExpiredTime(120).toString());
 
   redirect(url.toString());
 };
 
 export const generateRandomTokenOTP = (): string => {
-  const token = Math.floor(Math.random() * 999999 - 100000 + 1) + 100000;
-  return String(token);
+  const token = Math.floor(Math.random() * 900000 + 100000);
+  return String(token).padStart(6, "0");
 };
 
 const generateTemplateHTML = (token: string, email: string) => {

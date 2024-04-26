@@ -8,6 +8,8 @@ import { signIn } from "next-auth/react";
 import Alert, { AlertType } from "@/components/Alert";
 import Link from "next/link";
 import { hashedTokenOTP } from "@/lib/actions/authAction";
+import useQueryString from "@/hooks/useQueryString";
+import { generateExpiredTime } from "@/utils";
 
 interface CustomFormEvent extends FormEvent<HTMLFormElement> {
   currentTarget: HTMLFormElement & {
@@ -24,11 +26,12 @@ const FormLogin = () => {
     Error: {},
   });
   const [isLoading, setisLoading] = useState<boolean>(false);
-  const params = useSearchParams();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const [dataVerifyEmail, setDataVerifyEmail] = useState<Record<string, any>>(
     {}
   );
+  const [redirectURL]: any = useQueryString();
 
   const onSubmitHandler = useCallback(
     async (e: CustomFormEvent) => {
@@ -51,7 +54,7 @@ const FormLogin = () => {
         const res = await signIn("credentials", {
           email,
           password,
-          callbackUrl: params.get("callbackUrl") as string,
+          callbackUrl: searchParams.get("callbackUrl") as string,
           redirect: false,
         });
         if (!res?.ok) {
@@ -64,32 +67,43 @@ const FormLogin = () => {
           setError({ message: error?.[0], Error: {} });
           return;
         }
-        if (params.get("callbackUrl")?.includes("register")) {
+        if (searchParams.get("callbackUrl")?.includes("register")) {
           router.push("/user/dashboard");
           return;
         }
-        router.push(params.get("callbackUrl") as string);
+        router.push(searchParams.get("callbackUrl") as string);
       } catch (error: any) {
         console.log(error);
       } finally {
         setisLoading(false);
       }
     },
-    [params, router]
+    [searchParams, router]
   );
 
   const onClickVerifyEmail = useCallback(async () => {
-    const url = new URL("/verify/email/send", process.env.NEXT_PUBLIC_BASE_URL);
-    url.searchParams.set("email", dataVerifyEmail.email as string);
-    url.searchParams.set("verification_send", "1");
-    url.searchParams.set(
-      "token",
-      `${await hashedTokenOTP(dataVerifyEmail.token as string)}${
-        dataVerifyEmail.token
-      }`
-    );
-    router.push(url.toString());
-  }, [dataVerifyEmail.email, dataVerifyEmail.token, router]);
+    const params = [
+      {
+        key: "email",
+        value: dataVerifyEmail.email as string,
+      },
+      {
+        key: "verification_send",
+        value: "1",
+      },
+      {
+        key: "token",
+        value: `${await hashedTokenOTP(dataVerifyEmail.token as string)}${
+          dataVerifyEmail.token
+        }`,
+      },
+      {
+        key: "expired",
+        value: generateExpiredTime(120).toString(),
+      },
+    ];
+    redirectURL({ path: "/verify/email/send", params });
+  }, [dataVerifyEmail.email, dataVerifyEmail.token, redirectURL]);
 
   return (
     <>
