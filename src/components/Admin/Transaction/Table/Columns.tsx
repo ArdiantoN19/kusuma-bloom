@@ -5,7 +5,7 @@ import { TransactionSchema } from "../Schema";
 import { z } from "zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "@/components/DataTable/DataTableColumnHeader";
-import { dateFormatter, rupiahFormatter } from "@/utils";
+import { calculateDaysLeft, dateFormatter, rupiahFormatter } from "@/utils";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ArrowsHorizontal, Check, X } from "@phosphor-icons/react";
@@ -169,18 +169,11 @@ export const columns: ColumnDef<z.infer<typeof TransactionSchema>>[] = [
       <DataTableColumnHeader column={column} title="Tanggal Berlaku" />
     ),
     cell: ({ row }) => {
-      const now = new Date();
-      const expiredAt = new Date(row.original.expired);
-      const isExpired =
-        now > expiredAt &&
-        new Date(
-          expiredAt.getFullYear(),
-          expiredAt.getMonth(),
-          expiredAt.getDate() + 1
-        ) < now;
+      const dayLeft = calculateDaysLeft(row.original.expired.toString());
+
       return (
         <div className="min-w-20">
-          {isExpired ? (
+          {dayLeft < 0 ? (
             <Badge className="bg-red-400 hover:bg-red-400">Expired</Badge>
           ) : (
             dateFormatter(row.original.expired.toDateString()).slice(0, -7)

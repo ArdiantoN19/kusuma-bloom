@@ -18,7 +18,7 @@ const HeroInfoSkeleton = () => {
             <div className="w-20 h-5 rounded-sm bg-muted animate-pulse"></div>
           </div>
           <Link
-            href={"https://wa.me/082123202938"}
+            href={"https://wa.me/6282123202938"}
             target="_blank"
             rel="noopener noreferrer"
             title="Bantuan"
