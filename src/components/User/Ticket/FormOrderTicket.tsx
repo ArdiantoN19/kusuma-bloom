@@ -88,7 +88,11 @@ const FormOrderTicket: React.FC<FormOrderTicketProps> = ({
     }
   }, [activeTicket, form]);
 
-  const total = activeTicket?.price! * Number(form.watch("quantity")) || 0;
+  const total =
+    activeTicket?.price! *
+    (Number(form.watch("quantity")) > activeTicket?.quantity!
+      ? activeTicket?.quantity!
+      : Number(form.watch("quantity")));
   const discountVoucher = voucher ? total * voucher.discount : 0;
   const discountMember =
     session?.user.memberUser &&
@@ -126,6 +130,7 @@ const FormOrderTicket: React.FC<FormOrderTicketProps> = ({
           body: JSON.stringify(payload),
         }
       );
+      setIsLoading(false);
       const responseJson = await response.json();
       if (!response.ok) {
         toast.error(responseJson.message);
@@ -137,7 +142,6 @@ const FormOrderTicket: React.FC<FormOrderTicketProps> = ({
       ]);
       router.push(queryString);
       router.refresh();
-      setIsLoading(false);
     },
     [
       activeTicket?.id,
@@ -162,13 +166,17 @@ const FormOrderTicket: React.FC<FormOrderTicketProps> = ({
       },
       discountMember,
       discountVoucher,
-      quantity: Number(form.watch("quantity")),
+      quantity:
+        Number(form.watch("quantity")) > activeTicket?.quantity!
+          ? activeTicket?.quantity!
+          : Number(form.watch("quantity")),
       price: activeTicket?.price as number,
       date: form.watch("date"),
       total,
     }),
     [
       activeTicket?.price,
+      activeTicket?.quantity,
       discountMember,
       discountVoucher,
       form,
@@ -199,7 +207,15 @@ const FormOrderTicket: React.FC<FormOrderTicketProps> = ({
                 <FormItem>
                   <FormLabel>Jumlah Tiket</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input
+                      {...field}
+                      value={
+                        Number(field.value) > activeTicket?.quantity!
+                          ? activeTicket?.quantity!
+                          : Number(field.value)
+                      }
+                      type="number"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -260,8 +276,10 @@ const FormOrderTicket: React.FC<FormOrderTicketProps> = ({
                         onSelect={field.onChange}
                         numberOfMonths={1}
                         disabled={(date) =>
+                          date >
+                            new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) ||
                           date <
-                          new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
+                            new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
                         }
                       />
                     </PopoverContent>
