@@ -1,4 +1,5 @@
 import FormLogin from "@/components/Auth/FormLogin";
+import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,6 +14,10 @@ const Page = () => {
     <div className="h-screen w-full bg-[url(/images/wave.svg)] bg-top bg-no-repeat grid place-items-center md:px-6 lg:px-20">
       <div className="max-w-screen-lg mx-auto md:border rounded-xl md:shadow-xl p-6 md:p-8 flex items-center md:bg-white gap-10">
         <div className="w-1/2 hidden md:block">
+          <Link href={"/"} className="flex items-center text-myGreen2">
+            <ChevronLeftIcon className="size-5 font-bold" />{" "}
+            <p className="text-sm">Home</p>
+          </Link>
           <Image
             src="/images/travel selfie-bro.svg"
             alt="travel selfie-bro"
