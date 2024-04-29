@@ -40,22 +40,18 @@ export async function POST(req: Request) {
     const responseJson = await response.json();
 
     if (!response.ok) {
-      return Response.json(
-        {
-          status: "fail",
-          message: responseJson.error_messages,
-        },
-        { status: response.status, statusText: response.statusText }
-      );
+      throw new Error(responseJson.error_messages);
     }
 
     const quantityTicket = (
       await ticketService.getTicketById(bodyPayload.ticketId)
     ).quantity;
     const remainingTicket = quantityTicket - Number(bodyPayload.quantity);
+
     if (quantityTicket < 1) {
       throw new Error("Tiket sudah habis");
     }
+
     await ticketService.updateTicketQuantityById(
       bodyPayload.ticketId,
       remainingTicket

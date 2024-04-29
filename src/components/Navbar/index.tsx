@@ -101,7 +101,7 @@ const Navbar: FunctionComponent = () => {
               <>
                 <Button
                   onClick={() => signIn("credentials")}
-                  className="bg-transparent text-base border border-primary rounded-full shadow-sm text-primary"
+                  className="bg-transparent text-base border border-primary rounded-full shadow-sm text-primary hover:bg-green-100/70"
                 >
                   Login{" "}
                   <Heart

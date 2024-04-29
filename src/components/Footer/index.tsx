@@ -16,8 +16,9 @@ const Footer = () => {
               <div>
                 <h5 className="font-bold">Lokasi</h5>
                 <p className="text-sm text-muted">
-                  Tawun, Tunggulrejo, Jumantono, Karanganyar (57782)
+                  Tawun, Tunggulrejo, Jumantono,
                 </p>
+                <p className="text-sm text-muted">Karanganyar (57782)</p>
               </div>
             </div>
             <div className="flex items-center md:justify-center gap-x-2">
@@ -53,13 +54,13 @@ const Footer = () => {
               Home
             </Link>
             <Link href={"/about"} className="text-white hover:text-myOrange">
-              Layanan
+              Tentang Kami
             </Link>
             <Link href={"/about"} className="text-white hover:text-myOrange">
               Fasilitas
             </Link>
-            <Link href={"/about"} className="text-white hover:text-myOrange">
-              Tentang Kami
+            <Link href={"/contact"} className="text-white hover:text-myOrange">
+              Kontak Kami
             </Link>
           </div>
           <div className="flex items-center gap-x-4 md:justify-center">

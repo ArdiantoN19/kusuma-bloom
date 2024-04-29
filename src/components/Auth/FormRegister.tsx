@@ -1,16 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import Alert, { AlertType } from "@/components/Alert";
 import { userRegisterAction } from "@/lib/actions/authAction";
 import { At, Password, User } from "@phosphor-icons/react/dist/ssr";
 import { signIn } from "next-auth/react";
-import { Circle } from "@phosphor-icons/react";
+import { Circle, Eye, EyeClosed } from "@phosphor-icons/react";
 
 const FormRegister = () => {
   const [state, formAction] = useFormState(userRegisterAction, null);
   const { pending } = useFormStatus();
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+
   return (
     <>
       {state?.message && <Alert type={AlertType.ERROR}>{state.message}</Alert>}
@@ -52,7 +54,7 @@ const FormRegister = () => {
           <span className="text-red-400 text-xs">{state?.Error?.email}</span>
         </div>
         <div className="mb-8">
-          <div className="w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary bg-white">
+          <div className="w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary bg-white relative">
             <div className="relative w-8 h-full">
               <Password
                 size={24}
@@ -61,11 +63,22 @@ const FormRegister = () => {
               />
             </div>
             <input
-              type="password"
+              type={isPasswordVisible ? "text" : "password"}
               placeholder="Password"
               name="password"
               className="w-full px-3 py-4 outline-none border-0 block "
             />
+            <button
+              className="absolute top-3 right-1 bg-white size-8 flex justify-center items-center"
+              onClick={() => setIsPasswordVisible((prev) => !prev)}
+              type="button"
+            >
+              {!isPasswordVisible ? (
+                <EyeClosed size={20} className="text-primary block" />
+              ) : (
+                <Eye size={20} className="text-primary block" />
+              )}
+            </button>
           </div>
           <span className="text-red-400 text-xs">{state?.Error?.password}</span>
         </div>

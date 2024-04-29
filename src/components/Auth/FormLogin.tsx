@@ -1,7 +1,7 @@
 "use client";
 
 import React, { FormEvent, useCallback, useState } from "react";
-import { Circle, At, Password } from "@phosphor-icons/react";
+import { Circle, At, Password, EyeClosed, Eye } from "@phosphor-icons/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AuthValidator } from "@/lib/actions/authAction/validator";
 import { signIn } from "next-auth/react";
@@ -32,6 +32,7 @@ const FormLogin = () => {
     {}
   );
   const [redirectURL]: any = useQueryString();
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const onSubmitHandler = useCallback(
     async (e: CustomFormEvent) => {
@@ -143,7 +144,7 @@ const FormLogin = () => {
           <span className="text-red-400 text-xs">{error?.Error?.email}</span>
         </div>
         <div className="mb-8">
-          <div className="w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary bg-white">
+          <div className="w-full border border-muted rounded overflow-hidden flex items-center has-[:focus]:border-primary bg-white relative">
             <div className="relative w-8 h-full">
               <Password
                 size={24}
@@ -152,11 +153,22 @@ const FormLogin = () => {
               />
             </div>
             <input
-              type="password"
+              type={isPasswordVisible ? "text" : "password"}
               placeholder="Password"
               name="password"
               className="w-full px-3 py-4 outline-none border-0 block "
             />
+            <button
+              className="absolute top-3 right-1 bg-white size-8 flex justify-center items-center"
+              onClick={() => setIsPasswordVisible((prev) => !prev)}
+              type="button"
+            >
+              {!isPasswordVisible ? (
+                <EyeClosed size={20} className="text-primary block" />
+              ) : (
+                <Eye size={20} className="text-primary block" />
+              )}
+            </button>
           </div>
           <span className="text-red-400 text-xs">{error?.Error?.password}</span>
         </div>
