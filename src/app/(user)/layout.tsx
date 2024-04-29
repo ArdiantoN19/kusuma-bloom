@@ -8,15 +8,20 @@ import Footer from "@/components/Footer";
 
 interface UserLayoutProps {
   children: Readonly<ReactNode>;
+  modal: ReactNode;
 }
 
-const UserLayout: FunctionComponent<UserLayoutProps> = ({ children }) => {
+const UserLayout: FunctionComponent<UserLayoutProps> = ({
+  children,
+  modal,
+}) => {
   const pathname = usePathname();
 
   return (
     <>
       {!startWithRequirePath(["/user/**"], pathname) && <Navbar />}
       {children}
+      {modal}
       {!startWithRequirePath(["/user/**"], pathname) && <Footer />}
     </>
   );

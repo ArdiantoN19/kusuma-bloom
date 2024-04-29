@@ -1,22 +1,25 @@
 import Image from "next/image";
 import React, { FunctionComponent } from "react";
 import imagePanduan from "../../../public/images/Panduan Kusuma Bloom.png";
+import Link from "next/link";
 
 const GuidenceSection: FunctionComponent = () => {
   return (
     <section className="pt-14 pb-10 container flex items-center flex-col md:flex-row gap-2 md:gap-x-8">
       <div className="w-full md:w-1/2">
-        <Image
-          className="aspect-video w-full rounded border bg-white"
-          src={imagePanduan}
-          alt="Panduan Kusuma Bloom"
-          width={300}
-          height={300}
-          priority
-          quality={100}
-          placeholder="blur"
-          sizes="100vw"
-        />
+        <Link href={"/photo/Panduan Kusuma Bloom.png"}>
+          <Image
+            className="aspect-video w-full rounded border bg-white"
+            src={imagePanduan}
+            alt="Panduan Kusuma Bloom"
+            width={300}
+            height={300}
+            priority
+            quality={100}
+            placeholder="blur"
+            sizes="100vw"
+          />
+        </Link>
       </div>
       <div className="w-full md:w-1/2">
         <p className="tracking-wider text-lg md:text-xl text-myOrange mb-2">
