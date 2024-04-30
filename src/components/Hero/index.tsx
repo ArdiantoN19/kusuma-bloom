@@ -26,7 +26,7 @@ const HeroSection: FunctionComponent = () => {
   }, []);
 
   return (
-    <section className="container md:min-h-screen lg:min-h-[80dvh] mt-5 md:mt-10 pb-10">
+    <section className="container lg:min-h-[65dvh] xl:min-h-[50dvh] mt-5 md:mt-10 pb-10">
       <div className="w-full flex items-center flex-col-reverse lg:flex-row md:gap-y-3 lg:gap-y-0">
         <div className="w-full lg:w-1/2 xl:w-3/5">
           <div className="mb-5 lg:mb-10">
